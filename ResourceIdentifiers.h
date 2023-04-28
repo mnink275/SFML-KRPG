@@ -10,6 +10,7 @@ namespace Textures {
 		Eagle,
 		Raptor,
 		Desert,
+		Lava,
 	};
 }
 

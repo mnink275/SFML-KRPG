@@ -86,5 +86,5 @@ void Game::updateStatistics(sf::Time elapsedTime) {
 
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
-
+	mWorld.handlePlayerInput(key, isPressed);
 }
