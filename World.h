@@ -4,16 +4,19 @@
 #include "ResourceHolder.h"
 #include "SpriteNode.h"
 #include <array>
+#include <iostream>
 
 class World : private sf::NonCopyable {
 public:
 	explicit World(sf::RenderWindow& window);
 	void update(sf::Time dt);
 	void draw();
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 private:
 	void loadTextures();
 	void buildScene();
+	void createNewArea();
 
 	enum Layer {
 		Background,
