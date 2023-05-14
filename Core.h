@@ -4,8 +4,7 @@
 #include "World.h"
 
 
-class Game : private sf::NonCopyable
-{
+class Game : private sf::NonCopyable {
 public:
 	Game();
 	void run();

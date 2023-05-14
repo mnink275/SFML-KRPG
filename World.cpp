@@ -1,17 +1,20 @@
 #include "World.h"
 
-World::World(sf::RenderWindow& window) : mWindow(window)
-, mWorldView(window.getDefaultView())
-, mScrollSpeed(0.f)
-, mWorldBounds(
+World::World(sf::RenderWindow& window)
+	: mWindow(window),
+	mWorldView(window.getDefaultView()),
+	mScrollSpeed(0.f),
+	mWorldBounds(
 	0.f, // left X position
 	0.f, // top Y position
 	mWorldView.getSize().x, // width
-	mWorldView.getSize().y) // height
-, mSpawnPosition(
+	mWorldView.getSize().y // height
+	),
+	mSpawnPosition(
 		mWorldView.getSize().x / 2.f, // X
-		mWorldBounds.height - mWorldView.getSize().y / 2.f) // Y
-, mPlayerAircraft(nullptr) {
+		mWorldBounds.height - mWorldView.getSize().y / 2.f // Y
+	),
+	mPlayerAircraft(nullptr) {
 	loadTextures();
 	buildScene();
 	mWorldView.setCenter(mSpawnPosition);
@@ -21,7 +24,7 @@ World::World(sf::RenderWindow& window) : mWindow(window)
 void World::update(sf::Time dt) {
 	//mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
 	sf::Vector2f position = mPlayerAircraft->getPosition();
-	std::cout << position.y << "\n";
+	std::cout << position.x << " " << position.y << "\n";
 	if (position.y < 0) {
 		createNewArea();
 	}
@@ -36,17 +39,14 @@ void World::update(sf::Time dt) {
 }
 
 
-
 void World::createNewArea() {
-	auto layer = std::make_unique<SceneNode>();
-	mSceneLayers[Background] = layer.get();
-	mSceneGraph.attachChild(std::move(layer));
 	// Prepare the tiled background
 	sf::Texture& texture = mTextures.get(Textures::Lava);
 	sf::IntRect textureRect(mWorldBounds);
 	texture.setRepeated(true);
 
 	// Add the background sprite to the scene
+	mSceneLayers[Background]->detachChild();
 	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));

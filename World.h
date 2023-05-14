@@ -6,7 +6,7 @@
 #include <array>
 #include <iostream>
 
-class World : private sf::NonCopyable {
+class World final : private sf::NonCopyable {
 public:
 	explicit World(sf::RenderWindow& window);
 	void update(sf::Time dt);
