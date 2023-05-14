@@ -16,7 +16,7 @@ public:
 private:
 	void loadTextures();
 	void buildScene();
-	void createNewArea();
+	void changeRoom();
 
 	enum Layer {
 		Background,
@@ -31,6 +31,7 @@ private:
 	std::array<SceneNode*, LayerCount> mSceneLayers;
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
-	float mScrollSpeed;
+
 	Aircraft* mPlayerAircraft;
+	SpriteNode* curr_texture;
 };

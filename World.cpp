@@ -3,7 +3,6 @@
 World::World(sf::RenderWindow& window)
 	: mWindow(window),
 	mWorldView(window.getDefaultView()),
-	mScrollSpeed(0.f),
 	mWorldBounds(
 	0.f, // left X position
 	0.f, // top Y position
@@ -26,7 +25,7 @@ void World::update(sf::Time dt) {
 	sf::Vector2f position = mPlayerAircraft->getPosition();
 	std::cout << position.x << " " << position.y << "\n";
 	if (position.y < 0) {
-		createNewArea();
+		changeRoom();
 	}
 
 	/*sf::Vector2f velocity = mPlayerAircraft->getVelocity();
@@ -39,20 +38,21 @@ void World::update(sf::Time dt) {
 }
 
 
-void World::createNewArea() {
+void World::changeRoom() {
 	// Prepare the tiled background
 	sf::Texture& texture = mTextures.get(Textures::Lava);
 	sf::IntRect textureRect(mWorldBounds);
 	texture.setRepeated(true);
 
 	// Add the background sprite to the scene
-	mSceneLayers[Background]->detachChild();
+	mSceneLayers[Background]->detachChild(*curr_texture);
 	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
 	auto player_position = mPlayerAircraft->getPosition();
-	mPlayerAircraft->setPosition(mSpawnPosition);
+	player_position.y = mWorldBounds.height;
+	mPlayerAircraft->setPosition(player_position);
 }
 
 
@@ -108,13 +108,14 @@ void World::buildScene() {
 	// Add the background sprite to the scene
 	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
+	curr_texture = backgroundSprite.get();
 	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
 	// Add player's aircraft
 	auto leader = std::make_unique<Aircraft>(Aircraft::Eagle, mTextures);
 	mPlayerAircraft = leader.get();
 	mPlayerAircraft->setPosition(mSpawnPosition);
-	mPlayerAircraft->setVelocity(0.f, mScrollSpeed);
+	mPlayerAircraft->setVelocity(0.f, 0.f);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 
 	//// Add two escorting aircrafts, placed relatively to the main plane

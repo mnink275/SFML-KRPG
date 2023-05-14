@@ -31,8 +31,7 @@ void SceneNode::draw(sf::RenderTarget& target,
 					 sf::RenderStates states) const {
 	states.transform *= getTransform();
 	drawCurrent(target, states);
-	for (const Ptr& child : mChildren)
-	{
+	for (const Ptr& child : mChildren) {
 		child->draw(target, states);
 	}
 }
