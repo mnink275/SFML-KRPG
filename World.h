@@ -9,6 +9,7 @@
 #include "RoomNode.h"
 
 class World final : private sf::NonCopyable {
+	using Ptr = SceneNode::Ptr;
 public:
 	explicit World(sf::RenderWindow& window);
 	void update(sf::Time dt);
@@ -26,13 +27,12 @@ private:
 	void buildScene();
 	void changeRoom(Rooms prev_type, Rooms new_type);
 
-
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
 	TextureHolder mTextures;
 	SceneNode mSceneGraph;
 	std::array<RoomNode*, RoomCount> mRoomNodes;
-	std::array<std::unique_ptr<SceneNode>, RoomCount> room_storage;
+	std::array<Ptr, RoomCount> room_storage;
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
 
