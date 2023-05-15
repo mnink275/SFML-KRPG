@@ -21,39 +21,32 @@ World::World(sf::RenderWindow& window)
 
 
 void World::update(sf::Time dt) {
-	//mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
 	sf::Vector2f position = mPlayerAircraft->getPosition();
 	std::cout << position.x << " " << position.y << "\n";
 	if (position.y < 0) {
 		changeRoom();
 	}
 
-	/*sf::Vector2f velocity = mPlayerAircraft->getVelocity();
-	if (position.x <= mWorldBounds.left + 150
-		|| position.x >= mWorldBounds.left + mWorldBounds.width - 150) {
-		velocity.x = -velocity.x;
-		mPlayerAircraft->setVelocity(velocity);
-	}*/
 	mSceneGraph.update(dt);
 }
 
-
-void World::changeRoom() {
-	// Prepare the tiled background
-	sf::Texture& texture = mTextures.get(Textures::Lava);
-	sf::IntRect textureRect(mWorldBounds);
-	texture.setRepeated(true);
-
-	// Add the background sprite to the scene
-	mSceneLayers[Background]->detachChild(*curr_texture);
-	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
-	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
-
-	auto player_position = mPlayerAircraft->getPosition();
-	player_position.y = mWorldBounds.height;
-	mPlayerAircraft->setPosition(player_position);
-}
+//
+//void World::changeRoom() {
+//	// Prepare the tiled background
+//	sf::Texture& texture = mTextures.get(Textures::Lava);
+//	sf::IntRect textureRect(mWorldBounds, mWorldBounds);
+//	texture.setRepeated(true);
+//
+//	// Add the background sprite to the scene
+//	mSceneLayers[Background]->detachChild(*curr_texture);
+//	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
+//	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
+//	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
+//
+//	auto player_position = mPlayerAircraft->getPosition();
+//	player_position.y = mWorldBounds.height;
+//	mPlayerAircraft->setPosition(player_position);
+//}
 
 
 void World::draw() {
@@ -95,35 +88,21 @@ void World::loadTextures() {
 
 
 void World::buildScene() {
-	for (std::size_t i = 0; i < LayerCount; ++i) {
-		auto layer = std::make_unique<SceneNode>();
-		mSceneLayers[i] = layer.get();
-		mSceneGraph.attachChild(std::move(layer));
-	}
-	// Prepare the tiled background
-	sf::Texture& texture = mTextures.get(Textures::Desert);
-	sf::IntRect textureRect(mWorldBounds);
-	texture.setRepeated(true);
+	// creating rooms
+	auto desert_room = std::make_unique<RoomNode>();
+	desert_room->buildRoom(mTextures.get(Textures::Desert), mWorldBounds);
+	mRoomNodes[DesertRoom] = desert_room.get();
+	mSceneGraph.attachChild(std::move(desert_room));
 
-	// Add the background sprite to the scene
-	auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
-	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-	curr_texture = backgroundSprite.get();
-	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
+	auto lava_room = std::make_unique<RoomNode>();
+	lava_room->buildRoom(mTextures.get(Textures::Lava), mWorldBounds);
+	mRoomNodes[DesertRoom] = lava_room.get();
 
 	// Add player's aircraft
 	auto leader = std::make_unique<Aircraft>(Aircraft::Eagle, mTextures);
 	mPlayerAircraft = leader.get();
 	mPlayerAircraft->setPosition(mSpawnPosition);
 	mPlayerAircraft->setVelocity(0.f, 0.f);
-	mSceneLayers[Air]->attachChild(std::move(leader));
-
-	//// Add two escorting aircrafts, placed relatively to the main plane
-	//auto leftEscort = std::make_unique<Aircraft>(Aircraft::Raptor, mTextures);
-	//leftEscort->setPosition(-80.f, 50.f);
-	//mPlayerAircraft->attachChild(std::move(leftEscort));
-
-	//auto rightEscort = std::make_unique<Aircraft>(Aircraft::Raptor, mTextures);
-	//rightEscort->setPosition(80.f, 50.f);
-	//mPlayerAircraft->attachChild(std::move(rightEscort));
+	mRoomNodes[Rooms::DesertRoom]->setPlayer(std::move(leader));
+	//mRoomNodes[DesertRoom]->attachChild(std::move(leader));
 }

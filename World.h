@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Aircraft.h"
-#include "ResourceHolder.h"
-#include "SpriteNode.h"
 #include <array>
 #include <iostream>
+
+#include "Aircraft.h"
+#include "ResourceHolder.h"
+#include "ResourceIdentifiers.h"
+#include "RoomNode.h"
 
 class World final : private sf::NonCopyable {
 public:
@@ -18,20 +20,19 @@ private:
 	void buildScene();
 	void changeRoom();
 
-	enum Layer {
-		Background,
-		Air,
-		LayerCount
+	enum Rooms {
+		DesertRoom,
+		LavaRoom,
+		RoomCount
 	};
 
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
 	TextureHolder mTextures;
 	SceneNode mSceneGraph;
-	std::array<SceneNode*, LayerCount> mSceneLayers;
+	std::array<RoomNode*, RoomCount> mRoomNodes;
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
 
 	Aircraft* mPlayerAircraft;
-	SpriteNode* curr_texture;
 };
