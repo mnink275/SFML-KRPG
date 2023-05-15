@@ -16,21 +16,23 @@ public:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 private:
-	void loadTextures();
-	void buildScene();
-	void changeRoom();
-
 	enum Rooms {
 		DesertRoom,
 		LavaRoom,
 		RoomCount
 	};
 
+	void loadTextures();
+	void buildScene();
+	void changeRoom(Rooms prev_type, Rooms new_type);
+
+
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
 	TextureHolder mTextures;
 	SceneNode mSceneGraph;
 	std::array<RoomNode*, RoomCount> mRoomNodes;
+	std::array<std::unique_ptr<SceneNode>, RoomCount> room_storage;
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
 

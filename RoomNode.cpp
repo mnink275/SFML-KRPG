@@ -1,18 +1,12 @@
 #include "RoomNode.h"
 
+
 RoomNode::RoomNode() {
 
 }
 
-void RoomNode::buildRoom(sf::Texture& texture, sf::FloatRect bounds) {
-	/*for (std::size_t i = 0; i < LayerCount; ++i) {
-		auto layer = std::make_unique<SpriteNode>();
-		mRoomLayers[i] = layer.get();
-		layer->buildRoom(mTextures, mWorldBounds);
-		mSceneGraph.attachChild(std::move(layer));
-	}*/
 
-	std::cout << "Texture init:\n";
+void RoomNode::buildRoom(sf::Texture& texture, sf::FloatRect bounds) {
 	// Prepare the tiled background
 	sf::IntRect textureRect(bounds);
 	texture.setRepeated(true);
@@ -33,8 +27,13 @@ void RoomNode::buildRoom(sf::Texture& texture, sf::FloatRect bounds) {
 	//attachChild(std::move(backgroundSprite2));
 }
 
-void RoomNode::setPlayer(std::unique_ptr<SceneNode>&& player) {
-	std::cout << "Aircraft init:\n";
+
+void RoomNode::setPlayer(Ptr player) {
 	mRoomLayers[Air] = player.get();
 	mRoomLayers[Background]->attachChild(std::move(player));
+}
+
+
+SceneNode::Ptr RoomNode::getPlayer() {
+	return mRoomLayers[Background]->detachChild(*mRoomLayers[Air]);
 }

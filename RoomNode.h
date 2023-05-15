@@ -13,7 +13,8 @@ public:
 	RoomNode();
 
 	void buildRoom(sf::Texture& texture, sf::FloatRect bounds);
-	void setPlayer(std::unique_ptr<SceneNode>&& player);
+	void setPlayer(Ptr player);
+	Ptr getPlayer();
 
 private:
 	enum Layer {
