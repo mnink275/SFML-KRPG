@@ -13,7 +13,7 @@ class World final : private sf::NonCopyable {
 public:
 	explicit World(sf::RenderWindow& window);
 	void update(sf::Time dt);
-	void draw();
+	void draw() const;
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 private:
@@ -35,6 +35,7 @@ private:
 	std::array<Ptr, RoomCount> room_storage;
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
+	bool interact_with{ false };
 
 	Aircraft* mPlayerAircraft;
 };

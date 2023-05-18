@@ -20,13 +20,15 @@ World::World(sf::RenderWindow& window)
 }
 
 
-void World::update(sf::Time dt) {
-	sf::Vector2f position = mPlayerAircraft->getPosition();
+void World::update(const sf::Time dt) {
+	const sf::Vector2f position = mPlayerAircraft->getPosition();
 	std::cout << position.x << " " << position.y << "\n";
-	if (position.y < 0) {
+	if (position.y < 0 && interact_with) {
+		interact_with = false;
 		changeRoom(DesertRoom, LavaRoom);
 	}
-	else if (position.y > mWorldBounds.height) {
+	else if (position.y > mWorldBounds.height && interact_with) {
+		interact_with = false;
 		changeRoom(LavaRoom, DesertRoom);
 	}
 
@@ -34,7 +36,7 @@ void World::update(sf::Time dt) {
 }
 
 
-void World::changeRoom(Rooms prev_type, Rooms new_type) {
+void World::changeRoom(const Rooms prev_type, const Rooms new_type) {
 	// re-set the player
 	auto player = mRoomNodes[prev_type]->getPlayer();
 	mRoomNodes[new_type]->setPlayer(std::move(player));
@@ -45,13 +47,13 @@ void World::changeRoom(Rooms prev_type, Rooms new_type) {
 	auto new_room = std::move(room_storage[new_type]);
 	mSceneGraph.attachChild(std::move(new_room));
 
-	//auto player_position = mPlayerAircraft->getPosition();
-	//player_position.y = mWorldBounds.height - 1;
-	mPlayerAircraft->setPosition(mSpawnPosition);
+	auto player_position = mPlayerAircraft->getPosition();
+	player_position.y = mWorldBounds.height;
+	mPlayerAircraft->setPosition(player_position);
 }
 
 
-void World::draw() {
+void World::draw() const {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
 }
@@ -76,6 +78,9 @@ void World::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 		break;
 	case sf::Keyboard::Key::S:
 		mPlayerAircraft->setVelocity(0.f, player_velocity_shift);
+		break;
+	case sf::Keyboard::Key::E:
+		interact_with = true;
 		break;
 	}
 }
