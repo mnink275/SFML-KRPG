@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(KRPG CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 
 include(FetchContent)
 FetchContent_Declare(SFML
@@ -14,25 +14,14 @@ if(CMAKE_GENERATOR MATCHES "Visual Studio 17 2022")
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 endif()
 
-# common sources
-file(GLOB SOURCES
-    "${PROJECT_SOURCE_DIR}/src/*.cpp"
-    "${PROJECT_SOURCE_DIR}/include/*.h"
-)
-add_library(${PROJECT_NAME}_objs OBJECT
-    ${SOURCES}
-)
-target_link_libraries(${PROJECT_NAME}_objs PRIVATE sfml-graphics sfml-audio)
-include_directories(
-    "${PROJECT_SOURCE_DIR}/src"
-)
+add_subdirectory(src)
 
 # main.cpp file
 add_executable(${PROJECT_NAME} main.cpp)
 
 #target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/srs)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_objs sfml-graphics sfml-audio)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_objs sfml-graphics)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

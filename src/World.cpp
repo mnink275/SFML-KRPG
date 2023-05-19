@@ -87,10 +87,10 @@ void World::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 
 
 void World::loadTextures() {
-	mTextures.load(Textures::Eagle, "../resource/texture/Eagle.png");
-	mTextures.load(Textures::Raptor, "../resource/texture/Raptor.png");
-	mTextures.load(Textures::Desert, "../resource/texture/Desert.png");
-	mTextures.load(Textures::Lava, "../resource/texture/Lava.png");
+	mTextures.load(Textures::Eagle, "resource/texture/Eagle.png");
+	mTextures.load(Textures::Raptor, "resource/texture/Raptor.png");
+	mTextures.load(Textures::Desert, "resource/texture/Desert.png");
+	mTextures.load(Textures::Lava, "resource/texture/Lava.png");
 }
 
 
