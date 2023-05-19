@@ -3,10 +3,10 @@
 #include <array>
 #include <iostream>
 
-#include "Aircraft.h"
-#include "ResourceHolder.h"
-#include "ResourceIdentifiers.h"
-#include "RoomNode.h"
+#include "Aircraft.hpp"
+#include "ResourceHolder.hpp"
+#include "ResourceIdentifiers.hpp"
+#include "RoomNode.hpp"
 
 class World final : private sf::NonCopyable {
 	using Ptr = SceneNode::Ptr;

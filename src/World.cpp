@@ -1,4 +1,4 @@
-#include "World.h"
+#include "World.hpp"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window),
@@ -87,10 +87,10 @@ void World::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
 
 
 void World::loadTextures() {
-	mTextures.load(Textures::Eagle, "Media/Textures/Eagle.png");
-	mTextures.load(Textures::Raptor, "Media/Textures/Raptor.png");
-	mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
-	mTextures.load(Textures::Lava, "Media/Textures/Lava.png");
+	mTextures.load(Textures::Eagle, "../resource/texture/Eagle.png");
+	mTextures.load(Textures::Raptor, "../resource/texture/Raptor.png");
+	mTextures.load(Textures::Desert, "../resource/texture/Desert.png");
+	mTextures.load(Textures::Lava, "../resource/texture/Lava.png");
 }
 
 

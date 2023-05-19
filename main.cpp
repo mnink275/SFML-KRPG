@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Core.h"
+#include "Core.hpp"
 
 int main() {
 	try {

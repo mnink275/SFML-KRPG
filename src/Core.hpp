@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "World.h"
+#include "World.hpp"
 
 
 class Game : private sf::NonCopyable {

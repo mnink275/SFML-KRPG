@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entity.h"
-#include "ResourceIdentifiers.h"
-#include "ResourceHolder.h"
+#include "Entity.hpp"
+#include "ResourceIdentifiers.hpp"
+#include "ResourceHolder.hpp"
 
 
 class Aircraft final : public Entity {

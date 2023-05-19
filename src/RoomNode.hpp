@@ -3,10 +3,10 @@
 #include <array>
 #include <iostream>
 
-#include "SceneNode.h"
-#include "SpriteNode.h"
-#include "ResourceHolder.h"
-#include "ResourceIdentifiers.h"
+#include "SceneNode.hpp"
+#include "SpriteNode.hpp"
+#include "ResourceHolder.hpp"
+#include "ResourceIdentifiers.hpp"
 
 class RoomNode final : public SceneNode {
 public:

@@ -1,4 +1,4 @@
-#include "Core.h"
+#include "Core.hpp"
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -10,7 +10,7 @@ Game::Game()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0) {
-	mFont.loadFromFile("Media/arial.ttf");
+	mFont.loadFromFile("../resource/font/arial.ttf");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setFillColor(sf::Color::Red);
