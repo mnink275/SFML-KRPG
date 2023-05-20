@@ -10,7 +10,7 @@ Game::Game()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0) {
-	mFont.loadFromFile("../resource/font/arial.ttf");
+	mFont.loadFromFile(std::string(RESOURCE_FOLDER) + "/font/arial.ttf");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setFillColor(sf::Color::Red);

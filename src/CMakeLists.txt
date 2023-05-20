@@ -18,3 +18,5 @@ target_include_directories(${PROJECT_NAME}_objs
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
 )
+
+target_compile_definitions(${PROJECT_NAME}_objs PRIVATE RESOURCE_FOLDER="${RESOURCE_FOLDER}")

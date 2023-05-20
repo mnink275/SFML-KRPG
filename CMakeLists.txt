@@ -3,6 +3,7 @@ project(KRPG CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+set(RESOURCE_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/resource")
 
 include(FetchContent)
 FetchContent_Declare(SFML
