@@ -18,8 +18,7 @@
   ```shell
   git clone https://github.com/mnink275/SFML-KRPG
   cd SFML-KRPG/
-  cmake -S . -B build
-  cmake --build build
+  make build-debug
   ./build/SFML-KRPG
   ```
 
