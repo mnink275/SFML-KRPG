@@ -15,18 +15,18 @@ class SceneNode : public sf::Transformable,
 
   void attachChild(Ptr child);
   Ptr detachChild(const SceneNode& node);
-  void update(sf::Time dt);
+  void update(const sf::Time dt);
 
  private:
   void draw(sf::RenderTarget& target,
             sf::RenderStates states) const override final;
   virtual void drawCurrent(sf::RenderTarget& target,
-                           sf::RenderStates states) const;
+                           const sf::RenderStates states) const;
   virtual void updateCurrent(sf::Time dt);
-  void updateChildren(sf::Time dt);
+  void updateChildren(sf::Time dt) const;
   sf::Transform getWorldTransform() const;
   sf::Vector2f getWorldPosition() const;
 
-  std::vector<Ptr> mChildren;
-  SceneNode* mParent{nullptr};
+  std::vector<Ptr> children_;
+  SceneNode* parent_{nullptr};
 };

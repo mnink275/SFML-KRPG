@@ -1,42 +1,41 @@
 #include "Core.hpp"
 
-const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+const sf::Time Game::kTimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : mWindow(sf::VideoMode(640, 480), "World", sf::Style::Close)
-      //: mWindow(sf::VideoMode(1920, 1080), "World", sf::Style::Close)
-      ,
-      mWorld(mWindow),
-      mFont(),
-      mStatisticsText(),
-      mStatisticsUpdateTime(),
-      mStatisticsNumFrames(0) {
-  mFont.loadFromFile(std::string(RESOURCE_FOLDER) + "/font/arial.ttf");
-  mStatisticsText.setFont(mFont);
-  mStatisticsText.setPosition(5.f, 5.f);
-  mStatisticsText.setFillColor(sf::Color::Red);
-  mStatisticsText.setCharacterSize(15);
+    : window_(sf::VideoMode(640, 480), "World", sf::Style::Close),
+      //: window_(sf::VideoMode(1920, 1080), "World", sf::Style::Close)
+      world_(window_),
+      font_(),
+      statistics_text_(),
+      statistics_update_time_(),
+      statistics_num_frames_(0) {
+  font_.loadFromFile(std::string(RESOURCE_FOLDER) + "/font/arial.ttf");
+  statistics_text_.setFont(font_);
+  statistics_text_.setPosition(5.f, 5.f);
+  statistics_text_.setFillColor(sf::Color::Red);
+  statistics_text_.setCharacterSize(15);
 }
 
 void Game::run() {
   sf::Clock clock;
-  sf::Time timeSinceLastUpdate = sf::Time::Zero;
-  while (mWindow.isOpen()) {
+  sf::Time time_since_last_update = sf::Time::Zero;
+  while (window_.isOpen()) {
     processEvents();
-    timeSinceLastUpdate += clock.restart();
-    updateStatistics(timeSinceLastUpdate);
-    while (timeSinceLastUpdate > TimePerFrame) {
-      timeSinceLastUpdate -= TimePerFrame;
+    time_since_last_update += clock.restart();
+    updateStatistics(time_since_last_update);
+    while (time_since_last_update > kTimePerFrame) {
+      time_since_last_update -= kTimePerFrame;
       processEvents();
-      update(TimePerFrame);
+      update(kTimePerFrame);
       render();
     }
   }
 }
 
 void Game::processEvents() {
-  sf::Event event;
-  while (mWindow.pollEvent(event)) {
+  sf::Event event{};
+  while (window_.pollEvent(event)) {
     switch (event.type) {
       case sf::Event::KeyPressed:
         handlePlayerInput(event.key.code, true);
@@ -45,40 +44,41 @@ void Game::processEvents() {
         handlePlayerInput(event.key.code, false);
         break;
       case sf::Event::Closed:
-        mWindow.close();
+        window_.close();
         break;
     }
   }
 }
 
-void Game::update(sf::Time elapsedTime) { mWorld.update(elapsedTime); }
+void Game::update(const sf::Time elapsed_time) { world_.update(elapsed_time); }
 
 void Game::render() {
-  mWindow.clear();
-  mWorld.draw();
+  window_.clear();
+  world_.draw();
 
-  mWindow.setView(mWindow.getDefaultView());
-  mWindow.draw(mStatisticsText);
-  mWindow.display();
+  window_.setView(window_.getDefaultView());
+  window_.draw(statistics_text_);
+  window_.display();
 }
 
-void Game::updateStatistics(sf::Time elapsedTime) {
-  mStatisticsUpdateTime += elapsedTime;
-  mStatisticsNumFrames += 1;
+void Game::updateStatistics(const sf::Time elapsed_time) {
+  statistics_update_time_ += elapsed_time;
+  statistics_num_frames_ += 1;
 
-  if (mStatisticsUpdateTime >= sf::seconds(1.0f)) {
-    mStatisticsText.setString(
-        "Frames / Second = " + std::to_string(mStatisticsNumFrames) + "\n" +
+  if (statistics_update_time_ >= sf::seconds(1.0f)) {
+    statistics_text_.setString(
+        "Frames / Second = " + std::to_string(statistics_num_frames_) + "\n" +
         "Time / Update = " +
-        std::to_string(mStatisticsUpdateTime.asMicroseconds() /
-                       mStatisticsNumFrames) +
+        std::to_string(statistics_update_time_.asMicroseconds() /
+                       statistics_num_frames_) +
         "us");
 
-    mStatisticsUpdateTime -= sf::seconds(1.0f);
-    mStatisticsNumFrames = 0;
+    statistics_update_time_ -= sf::seconds(1.0f);
+    statistics_num_frames_ = 0;
   }
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
-  mWorld.handlePlayerInput(key, isPressed);
+void Game::handlePlayerInput(const sf::Keyboard::Key key,
+                             const bool is_pressed) {
+  world_.handlePlayerInput(key, is_pressed);
 }

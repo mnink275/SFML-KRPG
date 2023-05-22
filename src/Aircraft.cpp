@@ -1,6 +1,6 @@
 #include "Aircraft.hpp"
 
-Textures::ID toTextureID(Aircraft::Type type) {
+Textures::ID toTextureID(const Aircraft::Type type) {
   switch (type) {
     case Aircraft::Eagle:
       return Textures::Eagle;
@@ -10,13 +10,13 @@ Textures::ID toTextureID(Aircraft::Type type) {
   return Textures::Eagle;
 }
 
-Aircraft::Aircraft(Type type, const TextureHolder& textures)
-    : mType(type), mSprite(textures.get(toTextureID(type))) {
-  sf::FloatRect bounds = mSprite.getLocalBounds();
-  mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+Aircraft::Aircraft(const Type type, const TextureHolder& textures)
+    : type_(type), sprite_(textures.get(toTextureID(type))) {
+  const sf::FloatRect bounds = sprite_.getLocalBounds();
+  sprite_.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 void Aircraft::drawCurrent(sf::RenderTarget& target,
-                           sf::RenderStates states) const {
-  target.draw(mSprite, states);
+                           const sf::RenderStates states) const {
+  target.draw(sprite_, states);
 }

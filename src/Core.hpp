@@ -10,19 +10,19 @@ class Game : private sf::NonCopyable {
 
  private:
   void processEvents();
-  void update(sf::Time elapsedTime);
+  void update(sf::Time elapsed_time);
   void render();
 
-  void updateStatistics(sf::Time elapsedTime);
-  void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+  void updateStatistics(sf::Time elapsed_time);
+  void handlePlayerInput(const sf::Keyboard::Key key, bool is_pressed);
 
-  static const sf::Time TimePerFrame;
+  static const sf::Time kTimePerFrame;
 
-  sf::RenderWindow mWindow;
-  World mWorld;
+  sf::RenderWindow window_;
+  World world_;
 
-  sf::Font mFont;
-  sf::Text mStatisticsText;
-  sf::Time mStatisticsUpdateTime;
-  std::size_t mStatisticsNumFrames;
+  sf::Font font_;
+  sf::Text statistics_text_;
+  sf::Time statistics_update_time_;
+  std::size_t statistics_num_frames_;
 };

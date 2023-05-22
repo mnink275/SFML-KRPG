@@ -16,6 +16,6 @@ class Aircraft final : public Entity {
                    sf::RenderStates states) const override;
 
  private:
-  Type mType;
-  sf::Sprite mSprite;
+  Type type_;
+  sf::Sprite sprite_;
 };

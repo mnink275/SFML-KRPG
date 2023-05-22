@@ -15,7 +15,7 @@ class World final : private sf::NonCopyable {
   explicit World(sf::RenderWindow& window);
   void update(sf::Time dt);
   void draw() const;
-  void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+  void handlePlayerInput(sf::Keyboard::Key key, bool is_pressed);
 
  private:
   enum Rooms { DesertRoom, LavaRoom, RoomCount };
@@ -24,15 +24,15 @@ class World final : private sf::NonCopyable {
   void buildScene();
   void changeRoom(Rooms prev_type, Rooms new_type);
 
-  sf::RenderWindow& mWindow;
-  sf::View mWorldView;
-  TextureHolder mTextures;
-  SceneNode mSceneGraph;
-  std::array<RoomNode*, RoomCount> mRoomNodes;
-  std::array<Ptr, RoomCount> room_storage;
-  sf::FloatRect mWorldBounds;
-  sf::Vector2f mSpawnPosition;
-  bool interact_with{false};
+  sf::RenderWindow& window_;
+  sf::View world_view_;
+  TextureHolder textures_;
+  SceneNode scene_graph_;
+  std::array<RoomNode*, RoomCount> room_nodes_{nullptr};
+  std::array<Ptr, RoomCount> room_storage_;
+  sf::FloatRect world_bounds_;
+  sf::Vector2f spawn_position_;
+  bool interact_with_{false};
 
-  Aircraft* mPlayerAircraft;
+  Aircraft* player_aircraft_;
 };

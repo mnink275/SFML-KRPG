@@ -10,14 +10,14 @@
 
 class RoomNode final : public SceneNode {
  public:
-  RoomNode();
+  RoomNode() = default;
 
   void buildRoom(sf::Texture& texture, sf::FloatRect bounds);
   void setPlayer(Ptr player);
-  Ptr getPlayer();
+  Ptr getPlayer() const;
 
  private:
   enum Layer { Background, Air, LayerCount };
 
-  std::array<SceneNode*, LayerCount> mRoomLayers;
+  std::array<SceneNode*, LayerCount> room_layers_{nullptr};
 };

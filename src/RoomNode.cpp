@@ -1,17 +1,15 @@
 #include "RoomNode.hpp"
 
-RoomNode::RoomNode() {}
-
-void RoomNode::buildRoom(sf::Texture& texture, sf::FloatRect bounds) {
+void RoomNode::buildRoom(sf::Texture& texture, const sf::FloatRect bounds) {
   // Prepare the tiled background
-  sf::IntRect textureRect(bounds);
+  sf::IntRect texture_rect(bounds);
   texture.setRepeated(true);
 
   // Add the background sprite to the scene
-  auto backgroundSprite = std::make_unique<SpriteNode>(texture, textureRect);
-  backgroundSprite->setPosition(bounds.left, bounds.top);
-  mRoomLayers[Background] = backgroundSprite.get();
-  attachChild(std::move(backgroundSprite));
+  auto background_sprite = std::make_unique<SpriteNode>(texture, texture_rect);
+  background_sprite->setPosition(bounds.left, bounds.top);
+  room_layers_[Background] = background_sprite.get();
+  attachChild(std::move(background_sprite));
 
   // sf::Texture& texture2 = textures.get(Textures::Lava);
   // sf::IntRect textureRect2(bounds);
@@ -24,10 +22,10 @@ void RoomNode::buildRoom(sf::Texture& texture, sf::FloatRect bounds) {
 }
 
 void RoomNode::setPlayer(Ptr player) {
-  mRoomLayers[Air] = player.get();
-  mRoomLayers[Background]->attachChild(std::move(player));
+  room_layers_[Air] = player.get();
+  room_layers_[Background]->attachChild(std::move(player));
 }
 
-SceneNode::Ptr RoomNode::getPlayer() {
-  return mRoomLayers[Background]->detachChild(*mRoomLayers[Air]);
+SceneNode::Ptr RoomNode::getPlayer() const {
+  return room_layers_[Background]->detachChild(*room_layers_[Air]);
 }

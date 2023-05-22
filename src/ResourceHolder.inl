@@ -7,7 +7,7 @@ void ResourceHolder<Resource, Identifier>::load(Identifier id,
 	if (!resource->loadFromFile(filename))
 		throw std::runtime_error("TextureHolder::load - Failed to load "
 			+ filename);
-	auto inserted = mResourceMap.insert(
+	auto inserted = resource_map_.insert(
 		std::make_pair(id, std::move(resource))
 	);
 	assert(inserted.second);
@@ -22,7 +22,7 @@ void ResourceHolder<Resource, Identifier>::load(Identifier id,
 	if (!resource->loadFromFile(filename, secondParam))
 		throw std::runtime_error("TextureHolder::load - Failed to load "
 			+ filename);
-	auto inserted = mResourceMap.insert(
+	auto inserted = resource_map_.insert(
 		std::make_pair(id, std::move(resource))
 	);
 	assert(inserted.second);
@@ -32,8 +32,8 @@ void ResourceHolder<Resource, Identifier>::load(Identifier id,
 template <typename Resource, typename Identifier>
 Resource& ResourceHolder<Resource, Identifier>::get(Identifier id)
 {
-	auto found = mResourceMap.find(id);
-	assert(found != mResourceMap.end());
+	auto found = resource_map_.find(id);
+	assert(found != resource_map_.end());
 	return *found->second;
 }
 
@@ -42,7 +42,7 @@ template <typename Resource, typename Identifier>
 const Resource& ResourceHolder<Resource, Identifier>::get(
 	Identifier id) const
 {
-	auto found = mResourceMap.find(id);
-	assert(found != mResourceMap.end());
+	auto found = resource_map_.find(id);
+	assert(found != resource_map_.end());
 	return *found->second;
 }

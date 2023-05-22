@@ -1,21 +1,22 @@
 #include "SceneNode.hpp"
 
 void SceneNode::attachChild(Ptr child) {
-  child->mParent = this;
-  mChildren.push_back(std::move(child));
+  child->parent_ = this;
+  children_.push_back(std::move(child));
 }
 
 SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
-  auto found = std::find_if(mChildren.begin(), mChildren.end(),
-                            [&](Ptr& p) -> bool { return p.get() == &node; });
-  assert(found != mChildren.end());
+  const auto found =
+      std::find_if(children_.begin(), children_.end(),
+                   [&](const Ptr& p) -> bool { return p.get() == &node; });
+  assert(found != children_.end());
   Ptr result = std::move(*found);
-  result->mParent = nullptr;
-  mChildren.erase(found);
+  result->parent_ = nullptr;
+  children_.erase(found);
   return result;
 }
 
-void SceneNode::update(sf::Time dt) {
+void SceneNode::update(const sf::Time dt) {
   updateCurrent(dt);
   updateChildren(dt);
 }
@@ -23,25 +24,25 @@ void SceneNode::update(sf::Time dt) {
 void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   states.transform *= getTransform();
   drawCurrent(target, states);
-  for (const Ptr& child : mChildren) {
+  for (const Ptr& child : children_) {
     child->draw(target, states);
   }
 }
 
 void SceneNode::drawCurrent(sf::RenderTarget& target,
-                            sf::RenderStates states) const {}
+                            const sf::RenderStates states) const {}
 
 void SceneNode::updateCurrent(sf::Time) {}
 
-void SceneNode::updateChildren(sf::Time dt) {
-  for (Ptr& child : mChildren) {
+void SceneNode::updateChildren(const sf::Time dt) const {
+  for (auto&& child : children_) {
     child->update(dt);
   }
 }
 
 sf::Transform SceneNode::getWorldTransform() const {
   sf::Transform transform = sf::Transform::Identity;
-  for (const SceneNode* node = this; node != nullptr; node = node->mParent) {
+  for (auto node = this; node != nullptr; node = node->parent_) {
     transform = node->getTransform() * transform;
   }
 

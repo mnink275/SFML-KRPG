@@ -9,7 +9,7 @@ class SpriteNode final : public SceneNode {
 
  private:
   void drawCurrent(sf::RenderTarget& target,
-                   sf::RenderStates states) const override;
+                   const sf::RenderStates states) const override;
 
-  sf::Sprite mSprite;
+  sf::Sprite sprite_;
 };
