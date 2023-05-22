@@ -3,26 +3,21 @@
 #include <array>
 #include <iostream>
 
-#include "SceneNode.hpp"
-#include "SpriteNode.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "SceneNode.hpp"
+#include "SpriteNode.hpp"
 
 class RoomNode final : public SceneNode {
-public:
-	RoomNode();
+ public:
+  RoomNode();
 
-	void buildRoom(sf::Texture& texture, sf::FloatRect bounds);
-	void setPlayer(Ptr player);
-	Ptr getPlayer();
+  void buildRoom(sf::Texture& texture, sf::FloatRect bounds);
+  void setPlayer(Ptr player);
+  Ptr getPlayer();
 
-private:
-	enum Layer {
-		Background,
-		Air,
-		LayerCount
-	};
+ private:
+  enum Layer { Background, Air, LayerCount };
 
-	std::array<SceneNode*, LayerCount> mRoomLayers;
+  std::array<SceneNode*, LayerCount> mRoomLayers;
 };
-

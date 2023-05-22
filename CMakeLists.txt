@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(KRPG CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=undefined")
 set(RESOURCE_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/resource")
 
 include(FetchContent)
@@ -19,7 +19,8 @@ add_subdirectory(src)
 
 # main.cpp file
 add_executable(${PROJECT_NAME} main.cpp)
-
+#target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=undefined)
+#target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=undefined)
 #target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/srs)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_objs sfml-graphics)
