@@ -23,6 +23,7 @@ class World final : private sf::NonCopyable {
   void loadTextures();
   void buildScene();
   void changeRoom(Rooms prev_type, Rooms new_type);
+  void boundChecking();
 
   sf::RenderWindow& window_;
   sf::View world_view_;

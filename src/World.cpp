@@ -19,11 +19,12 @@ World::World(sf::RenderWindow& window)
 
 void World::update(const sf::Time dt) {
   const sf::Vector2f position = player_aircraft_->getPosition();
+  boundChecking();
   // std::cout << position.x << " " << position.y << "\n";
-  if (position.y < 0 && interact_with_) {
+  if (position.y <= 0 && interact_with_) {
     interact_with_ = false;
     changeRoom(DesertRoom, LavaRoom);
-  } else if (position.y > world_bounds_.height && interact_with_) {
+  } else if (position.y >= world_bounds_.height && interact_with_) {
     interact_with_ = false;
     changeRoom(LavaRoom, DesertRoom);
   }
@@ -55,26 +56,37 @@ void World::draw() const {
 void World::handlePlayerInput(const sf::Keyboard::Key key,
                               const bool is_pressed) {
   constexpr float kPlayerVelocityShift = 200.f;
-  if (!is_pressed) {
-    player_aircraft_->setVelocity(0.f, 0.f);
-    return;
-  }
 
   switch (key) {
     case sf::Keyboard::Key::A:
-      player_aircraft_->setVelocity(-kPlayerVelocityShift, 0.f);
+      if (is_pressed)
+        player_aircraft_->setVelocityX(-kPlayerVelocityShift);
+      else
+        player_aircraft_->setVelocityX(0.f);
       break;
     case sf::Keyboard::Key::D:
-      player_aircraft_->setVelocity(kPlayerVelocityShift, 0.f);
+      if (is_pressed)
+        player_aircraft_->setVelocityX(kPlayerVelocityShift);
+      else
+        player_aircraft_->setVelocityX(0.f);
       break;
     case sf::Keyboard::Key::W:
-      player_aircraft_->setVelocity(0.f, -kPlayerVelocityShift);
+      if (is_pressed)
+        player_aircraft_->setVelocityY(-kPlayerVelocityShift);
+      else
+        player_aircraft_->setVelocityY(0.f);
       break;
     case sf::Keyboard::Key::S:
-      player_aircraft_->setVelocity(0.f, kPlayerVelocityShift);
+      if (is_pressed)
+        player_aircraft_->setVelocityY(kPlayerVelocityShift);
+      else
+        player_aircraft_->setVelocityY(0.f);
       break;
     case sf::Keyboard::Key::E:
-      interact_with_ = true;
+      if (is_pressed)
+        interact_with_ = true;
+      else
+        interact_with_ = false;
       break;
     default:
       std::cout << "The key isn't implemented!\n";
@@ -105,10 +117,21 @@ void World::buildScene() {
   auto leader = std::make_unique<Aircraft>(Aircraft::Eagle, textures_);
   player_aircraft_ = leader.get();
   player_aircraft_->setPosition(spawn_position_);
-  player_aircraft_->setVelocity(0.f, 0.f);
 
   // connect entities to the Graph
   room_nodes_[DesertRoom]->setPlayer(std::move(leader));
   scene_graph_.attachChild(std::move(room_storage_[DesertRoom]));
   // room_nodes_[DesertRoom]->attachChild(std::move(leader));
+}
+
+void World::boundChecking() {
+  const auto& position = player_aircraft_->getPosition();
+  if (position.x < 0)
+    player_aircraft_->setPosition(0, position.y);
+  else if (position.x > world_bounds_.width)
+    player_aircraft_->setPosition(world_bounds_.width, position.y);
+  if (position.y < 0)
+    player_aircraft_->setPosition(position.x, 0);
+  else if (position.y > world_bounds_.height)
+    player_aircraft_->setPosition(position.x, world_bounds_.height);
 }
