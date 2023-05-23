@@ -14,7 +14,7 @@ class RoomNode final : public SceneNode {
 
   void buildRoom(sf::Texture& texture, sf::FloatRect bounds);
   void setPlayer(Ptr player);
-  Ptr getPlayer() const;
+  Ptr popPlayer() const;
 
  private:
   enum Layer { Background, Air, LayerCount };

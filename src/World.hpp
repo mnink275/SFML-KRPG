@@ -3,7 +3,7 @@
 #include <array>
 #include <iostream>
 
-#include "Aircraft.hpp"
+#include "Player.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "RoomNode.hpp"
@@ -23,7 +23,7 @@ class World final : private sf::NonCopyable {
   void loadTextures();
   void buildScene();
   void changeRoom(Rooms prev_type, Rooms new_type);
-  void boundChecking();
+  void boundChecking() const;
 
   sf::RenderWindow& window_;
   sf::View world_view_;
@@ -35,5 +35,5 @@ class World final : private sf::NonCopyable {
   sf::Vector2f spawn_position_;
   bool interact_with_{false};
 
-  Aircraft* player_aircraft_;
+  Player* player_;
 };

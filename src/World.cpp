@@ -11,16 +11,15 @@ World::World(sf::RenderWindow& window)
       spawn_position_(world_view_.getSize().x / 2.f,                        // X
                       world_bounds_.height - world_view_.getSize().y / 2.f  // Y
                       ),
-      player_aircraft_(nullptr) {
+      player_(nullptr) {
   loadTextures();
   buildScene();
   world_view_.setCenter(spawn_position_);
 }
 
 void World::update(const sf::Time dt) {
-  const sf::Vector2f position = player_aircraft_->getPosition();
+  const sf::Vector2f position = player_->getPosition();
   boundChecking();
-  // std::cout << position.x << " " << position.y << "\n";
   if (position.y <= 0 && interact_with_) {
     interact_with_ = false;
     changeRoom(DesertRoom, LavaRoom);
@@ -34,7 +33,7 @@ void World::update(const sf::Time dt) {
 
 void World::changeRoom(const Rooms prev_type, const Rooms new_type) {
   // re-set the player
-  auto player = room_nodes_[prev_type]->getPlayer();
+  auto player = room_nodes_[prev_type]->popPlayer();
   room_nodes_[new_type]->setPlayer(std::move(player));
   // detach a previous room
   auto prev_room = scene_graph_.detachChild(*room_nodes_[prev_type]);
@@ -43,9 +42,9 @@ void World::changeRoom(const Rooms prev_type, const Rooms new_type) {
   auto new_room = std::move(room_storage_[new_type]);
   scene_graph_.attachChild(std::move(new_room));
 
-  auto player_position = player_aircraft_->getPosition();
+  auto player_position = player_->getPosition();
   player_position.y = world_bounds_.height;
-  player_aircraft_->setPosition(player_position);
+  player_->setPosition(player_position);
 }
 
 void World::draw() const {
@@ -60,27 +59,27 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
   switch (key) {
     case sf::Keyboard::Key::A:
       if (is_pressed)
-        player_aircraft_->setVelocityX(-kPlayerVelocityShift);
+        player_->setVelocityX(-kPlayerVelocityShift);
       else
-        player_aircraft_->setVelocityX(0.f);
+        player_->setVelocityX(0.f);
       break;
     case sf::Keyboard::Key::D:
       if (is_pressed)
-        player_aircraft_->setVelocityX(kPlayerVelocityShift);
+        player_->setVelocityX(kPlayerVelocityShift);
       else
-        player_aircraft_->setVelocityX(0.f);
+        player_->setVelocityX(0.f);
       break;
     case sf::Keyboard::Key::W:
       if (is_pressed)
-        player_aircraft_->setVelocityY(-kPlayerVelocityShift);
+        player_->setVelocityY(-kPlayerVelocityShift);
       else
-        player_aircraft_->setVelocityY(0.f);
+        player_->setVelocityY(0.f);
       break;
     case sf::Keyboard::Key::S:
       if (is_pressed)
-        player_aircraft_->setVelocityY(kPlayerVelocityShift);
+        player_->setVelocityY(kPlayerVelocityShift);
       else
-        player_aircraft_->setVelocityY(0.f);
+        player_->setVelocityY(0.f);
       break;
     case sf::Keyboard::Key::E:
       if (is_pressed)
@@ -113,25 +112,24 @@ void World::buildScene() {
   room_nodes_[LavaRoom] = lava_room.get();
   room_storage_[LavaRoom] = std::move(lava_room);
 
-  // Add player's aircraft
-  auto leader = std::make_unique<Aircraft>(Aircraft::Eagle, textures_);
-  player_aircraft_ = leader.get();
-  player_aircraft_->setPosition(spawn_position_);
+  // add the player
+  auto leader = std::make_unique<Player>(Player::Eagle, textures_);
+  player_ = leader.get();
+  player_->setPosition(spawn_position_);
 
   // connect entities to the Graph
   room_nodes_[DesertRoom]->setPlayer(std::move(leader));
   scene_graph_.attachChild(std::move(room_storage_[DesertRoom]));
-  // room_nodes_[DesertRoom]->attachChild(std::move(leader));
 }
 
-void World::boundChecking() {
-  const auto& position = player_aircraft_->getPosition();
+void World::boundChecking() const {
+  const auto& position = player_->getPosition();
   if (position.x < 0)
-    player_aircraft_->setPosition(0, position.y);
+    player_->setPosition(0, position.y);
   else if (position.x > world_bounds_.width)
-    player_aircraft_->setPosition(world_bounds_.width, position.y);
+    player_->setPosition(world_bounds_.width, position.y);
   if (position.y < 0)
-    player_aircraft_->setPosition(position.x, 0);
+    player_->setPosition(position.x, 0);
   else if (position.y > world_bounds_.height)
-    player_aircraft_->setPosition(position.x, world_bounds_.height);
+    player_->setPosition(position.x, world_bounds_.height);
 }
