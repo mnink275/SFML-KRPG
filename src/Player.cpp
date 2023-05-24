@@ -2,12 +2,10 @@
 
 Textures::ID toTextureID(const Player::Type type) {
   switch (type) {
-    case Player::Eagle:
-      return Textures::Eagle;
-    case Player::Raptor:
-      return Textures::Raptor;
+    case Player::Peepo:
+      return Textures::Peepo;
   }
-  return Textures::Eagle;
+  return Textures::Peepo;
 }
 
 Player::Player(const Type type, const TextureHolder& textures)

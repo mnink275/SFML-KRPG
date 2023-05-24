@@ -7,10 +7,9 @@ class Texture;
 
 namespace Textures {
 enum ID {
-  Eagle,
-  Raptor,
+  Peepo,
+  Stone,
   Desert,
-  Lava,
 };
 }  // Texture namespace
 

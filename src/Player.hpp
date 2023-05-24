@@ -7,8 +7,7 @@
 class Player final : public Entity {
  public:
   enum Type {
-    Eagle,
-    Raptor,
+    Peepo,
   };
 
   Player(Type type, const TextureHolder& textures);

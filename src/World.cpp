@@ -94,10 +94,9 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
 
 void World::loadTextures() {
   const auto kTexturePath = std::string(RESOURCE_FOLDER);
-  textures_.load(Textures::Eagle, kTexturePath + "/texture/Eagle.png");
-  textures_.load(Textures::Raptor, kTexturePath + "/texture/Raptor.png");
-  textures_.load(Textures::Desert, kTexturePath + "/texture/Desert.png");
-  textures_.load(Textures::Lava, kTexturePath + "/texture/Lava.png");
+  textures_.load(Textures::Peepo, kTexturePath + "/texture/StaregeGun64x64.png");
+  textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
+  textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
 }
 
 void World::buildScene() {
@@ -108,12 +107,12 @@ void World::buildScene() {
   room_storage_[DesertRoom] = std::move(desert_room);
 
   auto lava_room = std::make_unique<RoomNode>();
-  lava_room->buildRoom(textures_.get(Textures::Lava), world_bounds_);
+  lava_room->buildRoom(textures_.get(Textures::Stone), world_bounds_);
   room_nodes_[LavaRoom] = lava_room.get();
   room_storage_[LavaRoom] = std::move(lava_room);
 
   // add the player
-  auto leader = std::make_unique<Player>(Player::Eagle, textures_);
+  auto leader = std::make_unique<Player>(Player::Peepo, textures_);
   player_ = leader.get();
   player_->setPosition(spawn_position_);
 

@@ -3,7 +3,7 @@
 const sf::Time Game::kTimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : window_(sf::VideoMode(640, 480), "World", sf::Style::Close),
+    : window_(sf::VideoMode(1280, 720), "World", sf::Style::Close),
       world_(window_),
       font_(),
       statistics_text_(),
