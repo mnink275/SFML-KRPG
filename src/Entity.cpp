@@ -1,5 +1,7 @@
 #include "Entity.hpp"
 
+#include <cmath>
+
 void Entity::setVelocity(const sf::Vector2f velocity) { velocity_ = velocity; }
 
 void Entity::setVelocityX(const float vx) {
