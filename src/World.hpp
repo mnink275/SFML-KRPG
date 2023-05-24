@@ -18,7 +18,7 @@ class World final : private sf::NonCopyable {
   void handlePlayerInput(sf::Keyboard::Key key, bool is_pressed);
 
  private:
-  enum Rooms { DesertRoom, LavaRoom, RoomCount };
+  enum Rooms { DesertRoom, StoneRoom, RoomCount };
 
   void loadTextures();
   void buildScene();

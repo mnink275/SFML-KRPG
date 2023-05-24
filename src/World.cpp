@@ -22,10 +22,10 @@ void World::update(const sf::Time dt) {
   boundChecking();
   if (position.y <= 0 && interact_with_) {
     interact_with_ = false;
-    changeRoom(DesertRoom, LavaRoom);
+    changeRoom(DesertRoom, StoneRoom);
   } else if (position.y >= world_bounds_.height && interact_with_) {
     interact_with_ = false;
-    changeRoom(LavaRoom, DesertRoom);
+    changeRoom(StoneRoom, DesertRoom);
   }
 
   scene_graph_.update(dt);
@@ -106,10 +106,10 @@ void World::buildScene() {
   room_nodes_[DesertRoom] = desert_room.get();
   room_storage_[DesertRoom] = std::move(desert_room);
 
-  auto lava_room = std::make_unique<RoomNode>();
-  lava_room->buildRoom(textures_.get(Textures::Stone), world_bounds_);
-  room_nodes_[LavaRoom] = lava_room.get();
-  room_storage_[LavaRoom] = std::move(lava_room);
+  auto stone_room = std::make_unique<RoomNode>();
+  stone_room->buildRoom(textures_.get(Textures::Stone), world_bounds_);
+  room_nodes_[StoneRoom] = stone_room.get();
+  room_storage_[StoneRoom] = std::move(stone_room);
 
   // add the player
   auto leader = std::make_unique<Player>(Player::Peepo, textures_);

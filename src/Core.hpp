@@ -16,7 +16,7 @@ class Game : private sf::NonCopyable {
   void updateStatistics(sf::Time elapsed_time);
   void handlePlayerInput(const sf::Keyboard::Key key, bool is_pressed);
 
-  static const sf::Time kTimePerFrame;
+  const sf::Time kTimePerFrame{sf::seconds(1.f / 60.f)};
 
   sf::RenderWindow window_;
   World world_;
