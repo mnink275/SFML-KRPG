@@ -1,18 +1,20 @@
 # common sources
 file(GLOB SOURCES
     "*.cpp"
-    #"${PROJECT_SOURCE_DIR}/include/*.h"
 )
-add_library(${PROJECT_NAME}_objs OBJECT
-    ${SOURCES}
+
+add_library(
+    ${PROJECT_NAME}_objs
+    OBJECT ${SOURCES}
 )
-target_link_libraries(${PROJECT_NAME}_objs PRIVATE sfml-graphics sfml-audio)
+
+target_compile_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+target_link_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+
+target_link_libraries(${PROJECT_NAME}_objs PRIVATE sfml-graphics)
 include_directories(
     "${PROJECT_SOURCE_DIR}/src"
 )
-
-# ft2build.h library
-include_directories(/usr/include/freetype2)
 
 target_include_directories(${PROJECT_NAME}_objs
     PUBLIC

@@ -1,20 +1,17 @@
-CMAKE_COMMON_FLAGS ?= -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-CMAKE_DEBUG_FLAGS ?= -DUSERVER_SANITIZE='addr ub'
 NPROCS ?= $(shell nproc)
 CLANG_FORMAT ?= clang-format
 
 # Debug cmake configuration
 build_debug/Makefile:
-	@mkdir -p build
-	@cd build && \
-      cmake -DCMAKE_BUILD_TYPE=Debug $(CMAKE_COMMON_FLAGS) $(CMAKE_DEBUG_FLAGS) $(CMAKE_OPTIONS) ..
+	@mkdir -p build_debug
+	@cd build_debug && \
+      cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 # # Release cmake configuration
 # build_release/Makefile:
-# 	@git submodule update --init
 # 	@mkdir -p build_release
 # 	@cd build_release && \
-#       cmake -DCMAKE_BUILD_TYPE=Release $(CMAKE_COMMON_FLAGS) $(CMAKE_RELEASE_FLAGS) $(CMAKE_OS_FLAGS) $(CMAKE_OPTIONS) ..
+#       cmake -DCMAKE_BUILD_TYPE=Release ..
 
 # Run cmake
 .PHONY: cmake-debug cmake-release
@@ -23,7 +20,7 @@ cmake-debug cmake-release: cmake-%: build_%/Makefile
 # Build using cmake
 .PHONY: build-debug build-release
 build-debug build-release: build-%: cmake-%
-	@cmake --build build -j $(NPROCS)
+	@cmake --build build_debug -j $(NPROCS)
 
 # Cleanup data
 .PHONY: dist-clean
