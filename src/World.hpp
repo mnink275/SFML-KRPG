@@ -2,10 +2,12 @@
 
 #include <array>
 #include <iostream>
+#include <optional>
 
 #include "Player.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "RoomTypes.hpp"
 #include "RoomNode.hpp"
 
 class World final : private sf::NonCopyable {
@@ -18,12 +20,15 @@ class World final : private sf::NonCopyable {
   void handlePlayerInput(sf::Keyboard::Key key, bool is_pressed);
 
  private:
-  enum Rooms { DesertRoom, StoneRoom, RoomCount };
-
+  // initial
   void loadTextures();
   void buildScene();
-  void changeRoom(Rooms prev_type, Rooms new_type);
+  // update
   void boundChecking() const;
+  void checkDoorInteraction();
+  // rooms
+  void createRooms();
+  void changeRoom(Room prev_type, Room new_type);
 
   sf::RenderWindow& window_;
   sf::View world_view_;
@@ -36,4 +41,5 @@ class World final : private sf::NonCopyable {
   bool interact_with_{false};
 
   Player* player_;
+  Room current_room_type_;
 };

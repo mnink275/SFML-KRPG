@@ -11,27 +11,31 @@ World::World(sf::RenderWindow& window)
       spawn_position_(world_view_.getSize().x / 2.f,                        // X
                       world_bounds_.height - world_view_.getSize().y / 2.f  // Y
                       ),
-      player_(nullptr) {
+      player_(nullptr),
+      current_room_type_(DesertRoom) {
   loadTextures();
   buildScene();
   world_view_.setCenter(spawn_position_);
 }
 
 void World::update(const sf::Time dt) {
-  const sf::Vector2f position = player_->getPosition();
   boundChecking();
-  if (position.y <= 0 && interact_with_) {
-    interact_with_ = false;
-    changeRoom(DesertRoom, StoneRoom);
-  } else if (position.y >= world_bounds_.height && interact_with_) {
-    interact_with_ = false;
-    changeRoom(StoneRoom, DesertRoom);
-  }
+  checkDoorInteraction();
 
   scene_graph_.update(dt);
 }
 
-void World::changeRoom(const Rooms prev_type, const Rooms new_type) {
+void World::checkDoorInteraction() {
+  if (interact_with_) {
+    interact_with_ = false;
+    RoomNode* curr_room = room_nodes_[current_room_type_];
+    if (auto next_room_type = curr_room->isDoorInteraction()) {
+      changeRoom(current_room_type_, next_room_type.value());
+    }
+  }
+}
+
+void World::changeRoom(const Room prev_type, const Room new_type) {
   // re-set the player
   auto player = room_nodes_[prev_type]->popPlayer();
   room_nodes_[new_type]->setPlayer(std::move(player));
@@ -42,9 +46,7 @@ void World::changeRoom(const Rooms prev_type, const Rooms new_type) {
   auto new_room = std::move(room_storage_[new_type]);
   scene_graph_.attachChild(std::move(new_room));
 
-  auto player_position = player_->getPosition();
-  player_position.y = world_bounds_.height;
-  player_->setPosition(player_position);
+  current_room_type_ = new_type;
 }
 
 void World::draw() const {
@@ -94,31 +96,42 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
 
 void World::loadTextures() {
   const auto kTexturePath = std::string(RESOURCE_FOLDER);
-  textures_.load(Textures::Peepo, kTexturePath + "/texture/StaregeGun64x64.png");
+  textures_.load(Textures::Peepo,
+                 kTexturePath + "/texture/StaregeGun64x64.png");
   textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
   textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
+  textures_.load(Textures::Door, kTexturePath + "/texture/Door.png");
 }
 
-void World::buildScene() {
-  // creating rooms
-  auto desert_room = std::make_unique<RoomNode>();
-  desert_room->buildRoom(textures_.get(Textures::Desert), world_bounds_);
+void World::createRooms() {
+  // TODO: refactor to factory pattern
+  auto desert_room = std::make_unique<RoomNode>(
+      textures_, textures_.get(Textures::Desert), world_bounds_, StoneRoom);
   room_nodes_[DesertRoom] = desert_room.get();
   room_storage_[DesertRoom] = std::move(desert_room);
 
-  auto stone_room = std::make_unique<RoomNode>();
-  stone_room->buildRoom(textures_.get(Textures::Stone), world_bounds_);
+  auto stone_room = std::make_unique<RoomNode>(
+      textures_, textures_.get(Textures::Stone), world_bounds_, DesertRoom);
   room_nodes_[StoneRoom] = stone_room.get();
   room_storage_[StoneRoom] = std::move(stone_room);
+}
+
+void World::buildScene() {
+  // create the rooms
+  createRooms();
 
   // add the player
-  auto leader = std::make_unique<Player>(Player::Peepo, textures_);
-  player_ = leader.get();
+  auto player = std::make_unique<Player>(Player::Peepo, textures_);
+  player_ = player.get();
   player_->setPosition(spawn_position_);
 
   // connect entities to the Graph
-  room_nodes_[DesertRoom]->setPlayer(std::move(leader));
-  scene_graph_.attachChild(std::move(room_storage_[DesertRoom]));
+  room_nodes_[current_room_type_]->setPlayer(std::move(player));
+
+  room_nodes_[DesertRoom]->createConnection(StoneRoom, Top);
+  room_nodes_[StoneRoom]->createConnection(DesertRoom, Bottom);
+
+  scene_graph_.attachChild(std::move(room_storage_[current_room_type_]));
 }
 
 void World::boundChecking() const {

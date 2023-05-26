@@ -10,6 +10,7 @@ enum ID {
   Peepo,
   Stone,
   Desert,
+  Door,
 };
 }  // Texture namespace
 
