@@ -20,24 +20,42 @@ RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
 }
 
 void RoomNode::doorsInitialize() {
+  // door position constants
   float height = room_bounds_.x;
   float width = room_bounds_.y;
-  sf::IntRect door_texture_rect(0, 0, 100, 20);
-  std::vector<sf::Vector2f> door_positions = {{width / 2, 0.0f},
-                                              {width, height / 2},
-                                              {width / 2, height},
-                                              {0.0f, height / 2}};
+  const float door_width = 100;
+  const float door_height = 20;
+  const sf::IntRect horizontal_door(0, 0, door_width, door_height);
+  const sf::IntRect vertical_door(0, 0, door_height, door_width);
+  const std::vector door_sizes = {
+      horizontal_door,  // Top
+      vertical_door,    // Right
+      horizontal_door,  // Bottom
+      vertical_door};   // Left
+  const std::vector<sf::Vector2f> door_positions = {
+      // left-top corner of the door position
+      {width / 2, 0.0f},    // Top
+      {width, height / 2},  // Right
+      {width / 2, height},  // Bottom
+      {0.0f, height / 2}};  // Left
+  const std::vector<sf::Vector2f> texture_shift = {
+      // shift the texture to the correct position
+      {-door_width / 2, 0.0f},          // Top
+      {-door_height, -door_width / 2},  // Right
+      {-door_width / 2, -door_height},  // Bottom
+      {0.0f, -door_width / 2}};         // Left
   const std::vector transition = {Bottom, Left, Top, Right};
-
+  // doors factory
   for (int i = 0; i < RoomConnectionCount; ++i) {
     const auto direction_type = static_cast<RoomConnectionType>(i);
     const auto transition_type = transition[direction_type];
 
     auto door = std::make_unique<Door>(
-        texture_.get(Textures::Door), door_texture_rect, direction_type,
+        texture_.get(Textures::Door), door_sizes[i], direction_type,
         door_positions[direction_type], door_positions[transition_type]);
     doors_storage_[i] = door.get();
-    doors_storage_[i]->setPosition(door_positions[direction_type]);
+    doors_storage_[i]->setPosition(door_positions[direction_type] +
+                                   texture_shift[direction_type]);
     attachChild(std::move(door));
   }
 }

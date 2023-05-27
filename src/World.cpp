@@ -105,6 +105,7 @@ void World::loadTextures() {
 }
 
 void World::createRooms() {
+  // rooms factory
   for (int i = 0; i < RoomCount; ++i) {
     const auto texture_type = static_cast<Textures::ID>(i);
     const auto room_type = static_cast<Room>(i);
