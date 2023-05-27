@@ -1,12 +1,12 @@
 #include "Door.h"
 
 Door::Door(sf::Texture& texture, sf::IntRect texture_rect,
-           RoomConnectionType door_type, float x, float y, float other_x,
-           float other_y)
-    : SpriteNode(texture, texture_rect), door_type_(door_type) {
-  setPosition(x, y);
-  other_size_position_.x = other_x;
-  other_size_position_.y = other_y;
+           RoomConnectionType door_type, sf::Vector2f coords,
+           sf::Vector2f transition_coords)
+    : SpriteNode(texture, texture_rect),
+      door_type_(door_type),
+      other_size_position_(transition_coords) {
+  setPosition(coords);
 }
 
 bool Door::nearOf(sf::Vector2f player_position) const {

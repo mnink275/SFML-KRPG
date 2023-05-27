@@ -7,8 +7,8 @@
 #include "Player.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
-#include "RoomTypes.hpp"
 #include "RoomNode.hpp"
+#include "RoomTypes.hpp"
 
 class World final : private sf::NonCopyable {
   using Ptr = SceneNode::Ptr;
@@ -29,6 +29,7 @@ class World final : private sf::NonCopyable {
   // rooms
   void createRooms();
   void changeRoom(Room prev_type, Room new_type);
+  void createRoomConnections() const;
 
   sf::RenderWindow& window_;
   sf::View world_view_;

@@ -1,3 +1,3 @@
 #pragma once
 
-enum Room { DesertRoom, StoneRoom, RoomCount };
+enum Room { DesertRoom, StoneRoom, LavaRoom, RoomCount };

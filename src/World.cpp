@@ -96,29 +96,39 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
 
 void World::loadTextures() {
   const auto kTexturePath = std::string(RESOURCE_FOLDER);
+  textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
+  textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
+  textures_.load(Textures::Lava, kTexturePath + "/texture/LavaFloor.png");
   textures_.load(Textures::Peepo,
                  kTexturePath + "/texture/StaregeGun64x64.png");
-  textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
-  textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
   textures_.load(Textures::Door, kTexturePath + "/texture/Door.png");
 }
 
 void World::createRooms() {
-  // TODO: refactor to factory pattern
-  auto desert_room = std::make_unique<RoomNode>(
-      textures_, textures_.get(Textures::Desert), world_bounds_, StoneRoom);
-  room_nodes_[DesertRoom] = desert_room.get();
-  room_storage_[DesertRoom] = std::move(desert_room);
+  for (int i = 0; i < RoomCount; ++i) {
+    const auto texture_type = static_cast<Textures::ID>(i);
+    const auto room_type = static_cast<Room>(i);
 
-  auto stone_room = std::make_unique<RoomNode>(
-      textures_, textures_.get(Textures::Stone), world_bounds_, DesertRoom);
-  room_nodes_[StoneRoom] = stone_room.get();
-  room_storage_[StoneRoom] = std::move(stone_room);
+    auto room = std::make_unique<RoomNode>(
+        textures_, textures_.get(texture_type), world_bounds_, room_type);
+    room_nodes_[room_type] = room.get();
+    room_storage_[room_type] = std::move(room);
+  }
 }
 
+void World::createRoomConnections() const {
+  room_nodes_[DesertRoom]->createConnection(StoneRoom, Top);
+  room_nodes_[StoneRoom]->createConnection(DesertRoom, Bottom);
+
+  room_nodes_[DesertRoom]->createConnection(LavaRoom, Right);
+  room_nodes_[LavaRoom]->createConnection(DesertRoom, Left);
+}
+
+
 void World::buildScene() {
-  // create the rooms
+  // create and connect the rooms
   createRooms();
+  createRoomConnections();
 
   // add the player
   auto player = std::make_unique<Player>(Player::Peepo, textures_);
@@ -127,10 +137,6 @@ void World::buildScene() {
 
   // connect entities to the Graph
   room_nodes_[current_room_type_]->setPlayer(std::move(player));
-
-  room_nodes_[DesertRoom]->createConnection(StoneRoom, Top);
-  room_nodes_[StoneRoom]->createConnection(DesertRoom, Bottom);
-
   scene_graph_.attachChild(std::move(room_storage_[current_room_type_]));
 }
 

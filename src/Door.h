@@ -9,8 +9,8 @@
 class Door final : public SpriteNode {
  public:
   Door(sf::Texture& texture, sf::IntRect texture_rect,
-       RoomConnectionType door_type, float x, float y, float other_x,
-       float other_y);
+       RoomConnectionType door_type, sf::Vector2f coords,
+       sf::Vector2f transition_coords);
 
   bool nearOf(sf::Vector2f player_position) const;
   sf::Vector2f getDoorOtherSidePosition() const;

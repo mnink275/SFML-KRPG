@@ -16,49 +16,40 @@ RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
 
-  // door initialize
-  float height = room_bounds_.x;
-  float width = room_bounds_.y;
-  sf::IntRect door_texture_rect(0, 0, 50, 20);
-  // TODO: create a for-loop
-  auto door1 =
-      std::make_unique<Door>(texture_.get(Textures::Door), door_texture_rect,
-                             Top, width / 2, 0, width / 2, height);
-  doors_storage_[0] = door1.get();
-  doors_storage_[0]->setPosition(width / 2, 0);
-  attachChild(std::move(door1));
-
-  auto door2 =
-      std::make_unique<Door>(texture_.get(Textures::Door), door_texture_rect,
-                             Right, 0, height / 2, width, height / 2);
-  doors_storage_[1] = door2.get();
-  doors_storage_[1]->setPosition(0, height / 2);
-  attachChild(std::move(door2));
-
-  auto door3 =
-      std::make_unique<Door>(texture_.get(Textures::Door), door_texture_rect,
-                             Bottom, width / 2, height, width / 2, 0);
-  doors_storage_[2] = door3.get();
-  doors_storage_[2]->setPosition(width / 2, height);
-  attachChild(std::move(door3));
-
-  auto door4 =
-      std::make_unique<Door>(texture_.get(Textures::Door), door_texture_rect,
-                             Left, width, height / 2, 0, height / 2);
-  doors_storage_[3] = door4.get();
-  doors_storage_[3]->setPosition(width, height / 2);
-  attachChild(std::move(door4));
+  doorsInitialize();
 }
 
-void RoomNode::createConnection(Room neighbor_room_type,
-                                RoomConnectionType direction) {
+void RoomNode::doorsInitialize() {
+  float height = room_bounds_.x;
+  float width = room_bounds_.y;
+  sf::IntRect door_texture_rect(0, 0, 100, 20);
+  std::vector<sf::Vector2f> door_positions = {{width / 2, 0.0f},
+                                              {width, height / 2},
+                                              {width / 2, height},
+                                              {0.0f, height / 2}};
+  const std::vector transition = {Bottom, Left, Top, Right};
+
+  for (int i = 0; i < RoomConnectionCount; ++i) {
+    const auto direction_type = static_cast<RoomConnectionType>(i);
+    const auto transition_type = transition[direction_type];
+
+    auto door = std::make_unique<Door>(
+        texture_.get(Textures::Door), door_texture_rect, direction_type,
+        door_positions[direction_type], door_positions[transition_type]);
+    doors_storage_[i] = door.get();
+    doors_storage_[i]->setPosition(door_positions[direction_type]);
+    attachChild(std::move(door));
+  }
+}
+
+void RoomNode::createConnection(const Room neighbor_room_type,
+                                const RoomConnectionType direction) {
   connected_rooms_[direction] = neighbor_room_type;
   doors_storage_[direction]->activate();
 }
 
 std::optional<Room> RoomNode::isDoorInteraction() {
   const sf::Vector2f& player_coords = room_layers_[Player]->getPosition();
-
   for (int i = 0; i < RoomConnectionCount; ++i) {
     const auto& door = doors_storage_[i];
     if (door->isActive() && door->nearOf(player_coords)) {

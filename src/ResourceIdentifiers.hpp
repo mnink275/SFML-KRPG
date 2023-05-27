@@ -2,16 +2,22 @@
 
 // Forward declaration of SFML classes
 namespace sf {
+
 class Texture;
+
 }  // sf namespace
 
 namespace Textures {
+// WARNING: do not change the order!
 enum ID {
-  Peepo,
-  Stone,
   Desert,
+  Stone,
+  Lava,
+
+  Peepo,
   Door,
 };
+
 }  // Texture namespace
 
 // Forward declaration and a few type definitions

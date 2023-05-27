@@ -8,8 +8,8 @@ add_library(
     OBJECT ${SOURCES}
 )
 
-target_compile_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
-target_link_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+#target_compile_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+#target_link_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
 
 target_link_libraries(${PROJECT_NAME}_objs PRIVATE sfml-graphics)
 include_directories(
