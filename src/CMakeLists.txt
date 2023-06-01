@@ -17,8 +17,8 @@ target_include_directories(${PROJECT_NAME}_objs PUBLIC ../include)
 #    ${CMAKE_CURRENT_LIST_DIR}
 #)
 
-target_compile_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
-target_link_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+#target_compile_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
+#target_link_options(${PROJECT_NAME}_objs PRIVATE -fsanitize=address)
 
 target_link_libraries(${PROJECT_NAME}_objs PRIVATE sfml-graphics)
 
