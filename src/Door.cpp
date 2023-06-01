@@ -1,4 +1,4 @@
-#include "Door.h"
+#include "Door.hpp"
 
 Door::Door(sf::Texture& texture, sf::IntRect texture_rect,
            RoomConnectionType door_type, sf::Vector2f coords,

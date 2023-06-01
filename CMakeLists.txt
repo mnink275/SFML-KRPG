@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
-project(KRPG CXX)
+project(
+    KRPG
+    VERSION 1.0
+    DESCRIPTION "A simple rpg game"
+    LANGUAGES CXX
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(RESOURCE_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/resource")
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(FetchContent)
 FetchContent_Declare(SFML
@@ -19,8 +25,8 @@ add_subdirectory(src)
 # main.cpp file
 add_executable(${PROJECT_NAME} main.cpp)
 
-#target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
-#target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_objs sfml-graphics)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
