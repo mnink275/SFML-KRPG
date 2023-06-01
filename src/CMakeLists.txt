@@ -8,7 +8,7 @@ file(GLOB SOURCES
 )
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(${PROJECT_NAME}_objs ${SOURCES})
+add_library(${PROJECT_NAME}_objs OBJECT ${SOURCES})
 
 # We need this directory, and users of our library will need it too
 target_include_directories(${PROJECT_NAME}_objs PUBLIC ../include)
