@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <utility>
+#include <memory>
 
 class SceneNode : public sf::Transformable,
                   public sf::Drawable,
