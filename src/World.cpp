@@ -1,5 +1,7 @@
 #include "World.hpp"
 
+namespace ink {
+
 World::World(sf::RenderWindow& window)
     : window_(window),
       world_view_(window.getDefaultView()),
@@ -152,3 +154,5 @@ void World::boundChecking() const {
   else if (position.y > world_bounds_.height)
     player_->setPosition(position.x, world_bounds_.height);
 }
+
+}  // namespace ink

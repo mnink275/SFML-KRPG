@@ -1,5 +1,7 @@
 #include "RoomNode.hpp"
 
+namespace ink {
+
 RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
                    sf::FloatRect bounds, Room room_type)
     : room_type_(room_type),
@@ -87,3 +89,5 @@ void RoomNode::setPlayer(Ptr player) {
 SceneNode::Ptr RoomNode::popPlayer() const {
   return room_layers_[Background]->detachChild(*room_layers_[Player]);
 }
+
+}  // namespace ink

@@ -1,5 +1,7 @@
 #include "SpriteNode.hpp"
 
+namespace ink {
+
 SpriteNode::SpriteNode(const sf::Texture& texture) : sprite_(texture) {}
 
 SpriteNode::SpriteNode(const sf::Texture& texture,
@@ -10,3 +12,5 @@ void SpriteNode::drawCurrent(sf::RenderTarget& target,
                              const sf::RenderStates states) const {
   target.draw(sprite_, states);
 }
+
+}  // namespace ink

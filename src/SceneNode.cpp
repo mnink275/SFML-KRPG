@@ -1,5 +1,7 @@
 #include "SceneNode.hpp"
 
+namespace ink {
+
 void SceneNode::attachChild(Ptr child) {
   child->parent_ = this;
   children_.push_back(std::move(child));
@@ -52,3 +54,5 @@ sf::Transform SceneNode::getWorldTransform() const {
 sf::Vector2f SceneNode::getWorldPosition() const {
   return getWorldTransform() * sf::Vector2f();
 }
+
+}  // namespace ink

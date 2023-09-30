@@ -5,6 +5,8 @@
 #include <utility>
 #include <memory>
 
+namespace ink {
+
 class SceneNode : public sf::Transformable,
                   public sf::Drawable,
                   private sf::NonCopyable {
@@ -31,3 +33,5 @@ class SceneNode : public sf::Transformable,
   std::vector<Ptr> children_;
   SceneNode* parent_{nullptr};
 };
+
+}  // namespace ink

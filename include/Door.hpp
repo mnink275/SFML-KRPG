@@ -6,6 +6,8 @@
 #include "RoomTypes.hpp"
 #include "SpriteNode.hpp"
 
+namespace ink {
+
 class Door final : public SpriteNode {
  public:
   Door(sf::Texture& texture, sf::IntRect texture_rect,
@@ -24,3 +26,5 @@ class Door final : public SpriteNode {
   RoomConnectionType door_type_;
   sf::Vector2f other_size_position_;
 };
+
+}  // namespace ink

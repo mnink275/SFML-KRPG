@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+namespace ink {
+
 Textures::ID toTextureID(const Player::Type type) {
   switch (type) {
     case Player::Peepo:
@@ -18,3 +20,5 @@ void Player::drawCurrent(sf::RenderTarget& target,
                          const sf::RenderStates states) const {
   target.draw(sprite_, states);
 }
+
+}  // namespace ink

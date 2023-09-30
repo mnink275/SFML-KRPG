@@ -1,5 +1,7 @@
 #include "Door.hpp"
 
+namespace ink {
+
 Door::Door(sf::Texture& texture, sf::IntRect texture_rect,
            RoomConnectionType door_type, sf::Vector2f coords,
            sf::Vector2f transition_coords)
@@ -27,3 +29,5 @@ void Door::activate() { is_active_ = true; }
 void Door::deactivate() { is_active_ = false; }
 
 bool Door::isActive() const { return is_active_; }
+
+}  // namespace ink

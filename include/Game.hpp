@@ -3,11 +3,21 @@
 #include <SFML/Graphics.hpp>
 #include "World.hpp"
 
-class Game : private sf::NonCopyable {
+namespace ink {
+
+class Game final {
  public:
   Game();
-  void run();
 
+  Game(const Game&) = delete;
+  Game& operator=(const Game&) = delete;
+
+  Game(Game&&) = delete;
+  Game& operator=(Game&&) = delete;
+
+  ~Game() = default;
+
+  void run();
  private:
   void processEvents();
   void update(sf::Time elapsed_time);
@@ -26,3 +36,5 @@ class Game : private sf::NonCopyable {
   sf::Time statistics_update_time_;
   std::size_t statistics_num_frames_;
 };
+
+}  // namespace ink

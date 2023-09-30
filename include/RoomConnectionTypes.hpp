@@ -1,5 +1,7 @@
 #pragma once
 
+namespace ink {
+
 enum RoomConnectionType{
   Top,
   Right,
@@ -7,3 +9,5 @@ enum RoomConnectionType{
   Left,
   RoomConnectionCount
 };
+
+}  // namespace ink

@@ -1,11 +1,10 @@
 #pragma once
 
-// Forward declaration of SFML classes
 namespace sf {
-
 class Texture;
-
 }  // sf namespace
+
+namespace ink {
 
 namespace Textures {
 // WARNING: do not change the order!
@@ -25,3 +24,5 @@ template <typename Resource, typename Identifier>
 class ResourceHolder;
 
 using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
+
+}  // namespace ink

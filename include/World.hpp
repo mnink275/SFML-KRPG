@@ -2,7 +2,6 @@
 
 #include <array>
 #include <iostream>
-#include <optional>
 
 #include "Player.hpp"
 #include "ResourceHolder.hpp"
@@ -10,11 +9,20 @@
 #include "RoomNode.hpp"
 #include "RoomTypes.hpp"
 
+namespace ink {
+
 class World final : private sf::NonCopyable {
   using Ptr = SceneNode::Ptr;
 
  public:
   explicit World(sf::RenderWindow& window);
+
+  World(const World&) = delete;
+  World& operator=(const World&) = delete;
+
+  World(World&&) = delete;
+  World& operator=(World&&) = delete;
+
   void update(sf::Time dt);
   void draw() const;
   void handlePlayerInput(sf::Keyboard::Key key, bool is_pressed);
@@ -44,3 +52,5 @@ class World final : private sf::NonCopyable {
   Player* player_;
   Room current_room_type_;
 };
+
+}  // namespace ink

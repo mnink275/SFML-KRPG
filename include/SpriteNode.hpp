@@ -2,6 +2,8 @@
 
 #include "SceneNode.hpp"
 
+namespace ink {
+
 class SpriteNode : public SceneNode {
  public:
   explicit SpriteNode(const sf::Texture& texture);
@@ -14,3 +16,5 @@ class SpriteNode : public SceneNode {
 
   sf::Sprite sprite_;
 };
+
+}  // namespace ink

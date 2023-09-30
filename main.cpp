@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Core.hpp"
+#include "Game.hpp"
 
 int main() {
   try {
-    Game game;
+    ink::Game game;
     game.run();
   } catch (std::exception& e) {
     std::cout << "\nEXCEPTION: " << e.what() << std::endl;

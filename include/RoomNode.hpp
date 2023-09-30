@@ -11,6 +11,8 @@
 #include "SceneNode.hpp"
 #include "SpriteNode.hpp"
 
+namespace ink {
+
 class RoomNode final : public SceneNode {
   using DoorPtr = std::unique_ptr<Door>;
 
@@ -36,3 +38,5 @@ class RoomNode final : public SceneNode {
   std::array<Door*, RoomConnectionCount> doors_storage_;
   std::array<Room, RoomConnectionCount> connected_rooms_;
 };
+
+}  // namespace ink

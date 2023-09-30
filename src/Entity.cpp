@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+namespace ink {
+
 void Entity::setVelocity(const sf::Vector2f velocity) { velocity_ = velocity; }
 
 void Entity::setVelocityX(const float vx) {
@@ -25,3 +27,5 @@ sf::Vector2f Entity::updatedVelocity() const {
   }
   return velocity_;
 }
+
+}  // namespace ink

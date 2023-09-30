@@ -22,6 +22,11 @@ cmake-debug cmake-release: cmake-%: build_%/Makefile
 build-debug build-release: build-%: cmake-%
 	@cmake --build build_debug -j $(NPROCS)
 
+# Run after build-debug
+.PHONY: run
+run: build-debug
+	./build_debug/KRPG
+
 # Cleanup data
 .PHONY: dist-clean
 dist-clean:
@@ -31,15 +36,6 @@ dist-clean:
 .PHONY: format
 format:
 	@find src -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
-
-# # Install
-# .PHONY: install-debug install-release
-# install-debug install-release: install-%: build-%
-# 	@cd build_$* && \
-# 		cmake --install . -v --component ink
-
-# .PHONY: install
-# install: install-release
 
 # # Test
 # .PHONY: test-debug test-release

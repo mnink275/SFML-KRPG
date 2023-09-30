@@ -2,6 +2,8 @@
 
 #include "SceneNode.hpp"
 
+namespace ink {
+
 class Entity : public SceneNode {
  public:
   Entity() = default;
@@ -13,8 +15,10 @@ class Entity : public SceneNode {
   sf::Vector2f getVelocity() const;
 
  private:
-  virtual void updateCurrent(sf::Time dt);
+  void updateCurrent(sf::Time dt) override;
   sf::Vector2f updatedVelocity() const;
 
   sf::Vector2f velocity_{0, 0};
 };
+
+}  // namespace ink

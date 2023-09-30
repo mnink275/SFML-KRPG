@@ -1,4 +1,6 @@
-#include "Core.hpp"
+#include "Game.hpp"
+
+namespace ink {
 
 Game::Game()
     : window_(sf::VideoMode(1280, 720), "KRPG", sf::Style::Close),
@@ -79,3 +81,5 @@ void Game::handlePlayerInput(const sf::Keyboard::Key key,
                              const bool is_pressed) {
   world_.handlePlayerInput(key, is_pressed);
 }
+
+}  // namespace ink
