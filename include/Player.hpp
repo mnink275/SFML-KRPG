@@ -3,11 +3,17 @@
 #include "Entity.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "PlayerContext.hpp"
 
 namespace ink {
 
 class Player final : public Entity {
  public:
+  enum Type { Peepo, };
+
+ public:
+  Player(Type type, const TextureHolder& textures);
+  
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
 
@@ -16,17 +22,22 @@ class Player final : public Entity {
 
   ~Player() = default;
 
-  enum Type {
-    Peepo,
-  };
-
-  Player(Type type, const TextureHolder& textures);
   void drawCurrent(sf::RenderTarget& target,
                    sf::RenderStates states) const override;
+
+ void setPlayerVelocity(float velocity, Direction direction) noexcept;
+
+ private:
+  void updatePlayerVelocity() noexcept;
 
  private:
   Type type_;
   sf::Sprite sprite_;
+
+  float to_left_vel_{0};
+  float to_right_vel_{0};
+  float to_up_vel_{0};
+  float to_down_vel_{0};
 };
 
 }  // namespace ink

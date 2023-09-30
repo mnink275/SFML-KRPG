@@ -1,4 +1,5 @@
 #include "World.hpp"
+#include "PlayerContext.hpp"
 
 namespace ink {
 
@@ -58,32 +59,25 @@ void World::draw() const {
 
 void World::handlePlayerInput(const sf::Keyboard::Key key,
                               const bool is_pressed) {
-  constexpr float kPlayerVelocityShift = 200.f;
+  static constexpr float kPlayerVelocityShift = 400.f;
 
+  float velocity = 0.f;
   switch (key) {
     case sf::Keyboard::Key::A:
-      if (is_pressed)
-        player_->setVelocityX(-kPlayerVelocityShift);
-      else
-        player_->setVelocityX(0.f);
+      if (is_pressed) velocity = -kPlayerVelocityShift;
+      player_->setPlayerVelocity(velocity, Direction::kToLeft);
       break;
     case sf::Keyboard::Key::D:
-      if (is_pressed)
-        player_->setVelocityX(kPlayerVelocityShift);
-      else
-        player_->setVelocityX(0.f);
+      if (is_pressed) velocity = kPlayerVelocityShift;
+      player_->setPlayerVelocity(velocity, Direction::kToRight);
       break;
     case sf::Keyboard::Key::W:
-      if (is_pressed)
-        player_->setVelocityY(-kPlayerVelocityShift);
-      else
-        player_->setVelocityY(0.f);
+      if (is_pressed) velocity = -kPlayerVelocityShift;
+      player_->setPlayerVelocity(velocity, Direction::kToUp);
       break;
     case sf::Keyboard::Key::S:
-      if (is_pressed)
-        player_->setVelocityY(kPlayerVelocityShift);
-      else
-        player_->setVelocityY(0.f);
+      if (is_pressed) velocity = kPlayerVelocityShift;
+      player_->setPlayerVelocity(velocity, Direction::kToDown);
       break;
     case sf::Keyboard::Key::E:
       if (is_pressed)
