@@ -80,10 +80,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
       player_->setPlayerVelocity(velocity, Direction::kToDown);
       break;
     case sf::Keyboard::Key::E:
-      if (is_pressed)
-        interact_with_ = true;
-      else
-        interact_with_ = false;
+      interact_with_ = is_pressed;
       break;
     default:
       std::cout << "The key isn't implemented!\n";
