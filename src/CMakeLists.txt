@@ -1,11 +1,5 @@
-# Headers
-file(GLOB HEADERS
-CONFIGURE_DEPENDS "${KRPG_SOURCE_DIR}/include/*.hpp")
-
 # Sources
-file(GLOB SOURCES
-    "*.cpp"
-)
+file(GLOB SOURCES "*.cpp")
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(${PROJECT_NAME}_objs OBJECT ${SOURCES})

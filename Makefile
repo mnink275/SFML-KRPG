@@ -5,7 +5,8 @@ CLANG_FORMAT ?= clang-format
 build_debug/Makefile:
 	@mkdir -p build_debug
 	@cd build_debug && \
-      cmake -DCMAKE_BUILD_TYPE=Debug ..
+      cmake --trace-expand -DCMAKE_BUILD_TYPE=Debug ..
+# cmake --trace-expand -DCMAKE_BUILD_TYPE=Debug ..
 
 # # Release cmake configuration
 # build_release/Makefile:

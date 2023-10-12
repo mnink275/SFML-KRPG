@@ -1,5 +1,7 @@
 #include "SceneNode.hpp"
 
+#include <algorithm>
+
 namespace ink {
 
 void SceneNode::attachChild(Ptr child) {
@@ -23,11 +25,12 @@ void SceneNode::update(const sf::Time dt) {
   updateChildren(dt);
 }
 
-void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-  states.transform *= getTransform();
-  drawCurrent(target, states);
+void SceneNode::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+  sf::RenderStates node_states(states);
+  node_states.transform *= getTransform();
+  drawCurrent(target, node_states);
   for (const Ptr& child : children_) {
-    child->draw(target, states);
+    child->draw(target, node_states);
   }
 }
 

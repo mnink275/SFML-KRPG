@@ -12,9 +12,10 @@ set(RESOURCE_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/resource")
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
+FetchContent_Declare(
+    SFML
+    URL https://github.com/SFML/SFML/archive/67c9019edad10bc57e2204f75ebf96a1f1ca743a.zip
+)
 FetchContent_MakeAvailable(SFML)
 
 if(CMAKE_GENERATOR MATCHES "Visual Studio 17 2022")

@@ -11,7 +11,7 @@
 
 namespace ink {
 
-class World final : private sf::NonCopyable {
+class World final {
   using Ptr = SceneNode::Ptr;
 
  public:
@@ -43,8 +43,10 @@ class World final : private sf::NonCopyable {
   sf::View world_view_;
   TextureHolder textures_;
   SceneNode scene_graph_;
-  std::array<RoomNode*, RoomCount> room_nodes_{nullptr};
-  std::array<Ptr, RoomCount> room_storage_;
+  // it needs to detach SceneNode(rooms) by it's address
+  // and work with concrete object.
+  std::array<RoomNode*, RoomCount> room_nodes_{};
+  std::array<Ptr, RoomCount> room_storage_{};
   sf::FloatRect world_bounds_;
   sf::Vector2f spawn_position_;
   bool interact_with_{false};

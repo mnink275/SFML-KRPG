@@ -8,13 +8,18 @@
 namespace ink {
 
 class SceneNode : public sf::Transformable,
-                  public sf::Drawable,
-                  private sf::NonCopyable {
+                  public sf::Drawable {
  public:
   using Ptr = std::unique_ptr<SceneNode>;
 
   SceneNode() = default;
   virtual ~SceneNode() = default;
+
+  SceneNode(const SceneNode&) = delete;
+  SceneNode& operator=(const SceneNode&) = delete;
+
+  SceneNode(SceneNode&&) = delete;
+  SceneNode& operator=(SceneNode&&) = delete;
 
   void attachChild(Ptr child);
   Ptr detachChild(const SceneNode& node);
@@ -22,7 +27,7 @@ class SceneNode : public sf::Transformable,
 
  private:
   void draw(sf::RenderTarget& target,
-            sf::RenderStates states) const override final;
+            const sf::RenderStates& states) const override final;
   virtual void drawCurrent(sf::RenderTarget& target,
                            const sf::RenderStates states) const;
   virtual void updateCurrent(sf::Time dt);

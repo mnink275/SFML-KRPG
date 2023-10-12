@@ -1,17 +1,20 @@
 #include "Game.hpp"
+#include <stdexcept>
 
 namespace ink {
 
 Game::Game()
-    : window_(sf::VideoMode(1280, 720), "KRPG", sf::Style::Close),
+    : window_(sf::VideoMode({1280, 720}), "KRPG", sf::Style::Close),
       world_(window_),
       font_(),
-      statistics_text_(),
+      statistics_text_(font_),
       statistics_update_time_(),
       statistics_num_frames_(0) {
-  font_.loadFromFile(std::string(RESOURCE_FOLDER) + "/font/arial.ttf");
+  if (!font_.loadFromFile(std::string(RESOURCE_FOLDER) + "/font/arial.ttf")) {
+    throw std::runtime_error("Font loading error");
+  }
   statistics_text_.setFont(font_);
-  statistics_text_.setPosition(5.f, 5.f);
+  statistics_text_.setPosition({5.f, 5.f});
   statistics_text_.setFillColor(sf::Color::Red);
   statistics_text_.setCharacterSize(15);
 }

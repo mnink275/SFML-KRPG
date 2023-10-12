@@ -14,7 +14,7 @@ RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
   // add the background sprite to the scene
   auto background_sprite =
       std::make_unique<SpriteNode>(texture, background_texture_rect);
-  background_sprite->setPosition(bounds.left, bounds.top);
+  background_sprite->setPosition({bounds.left, bounds.top});
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
 
@@ -25,10 +25,10 @@ void RoomNode::doorsInitialize() {
   // door position constants
   float height = room_bounds_.x;
   float width = room_bounds_.y;
-  const float door_width = 100;
-  const float door_height = 20;
-  const sf::IntRect horizontal_door(0, 0, door_width, door_height);
-  const sf::IntRect vertical_door(0, 0, door_height, door_width);
+  const int door_width = 100;
+  const int door_height = 20;
+  const sf::IntRect horizontal_door({0, 0}, {door_width, door_height});
+  const sf::IntRect vertical_door({0, 0}, {door_height, door_width});
   const std::vector door_sizes = {
       horizontal_door,  // Top
       vertical_door,    // Right

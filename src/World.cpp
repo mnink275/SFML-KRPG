@@ -6,13 +6,12 @@ namespace ink {
 World::World(sf::RenderWindow& window)
     : window_(window),
       world_view_(window.getDefaultView()),
-      world_bounds_(0.f,                      // left X position
-                    0.f,                      // top Y position
-                    world_view_.getSize().x,  // width
-                    world_view_.getSize().y   // height
+      world_bounds_(
+        {0.f, 0.f}, 
+        {world_view_.getSize().x, world_view_.getSize().y}
                     ),
-      spawn_position_(world_view_.getSize().x / 2.f,                        // X
-                      world_bounds_.height - world_view_.getSize().y / 2.f  // Y
+      spawn_position_(world_view_.getSize().x / 2.f,
+                      world_bounds_.height - world_view_.getSize().y / 2.f
                       ),
       player_(nullptr),
       current_room_type_(DesertRoom) {
@@ -137,13 +136,13 @@ void World::buildScene() {
 void World::boundChecking() const {
   const auto& position = player_->getPosition();
   if (position.x < 0)
-    player_->setPosition(0, position.y);
+    player_->setPosition({0, position.y});
   else if (position.x > world_bounds_.width)
-    player_->setPosition(world_bounds_.width, position.y);
+    player_->setPosition({world_bounds_.width, position.y});
   if (position.y < 0)
-    player_->setPosition(position.x, 0);
+    player_->setPosition({position.x, 0});
   else if (position.y > world_bounds_.height)
-    player_->setPosition(position.x, world_bounds_.height);
+    player_->setPosition({position.x, world_bounds_.height});
 }
 
 }  // namespace ink
