@@ -1,4 +1,5 @@
 #include "RoomNode.hpp"
+#include "SFML/Graphics/Rect.hpp"
 
 namespace ink {
 
@@ -25,10 +26,10 @@ void RoomNode::doorsInitialize() {
   // door position constants
   float height = room_bounds_.x;
   float width = room_bounds_.y;
-  const int door_width = 100;
-  const int door_height = 20;
-  const sf::IntRect horizontal_door({0, 0}, {door_width, door_height});
-  const sf::IntRect vertical_door({0, 0}, {door_height, door_width});
+  const float door_width = 100;
+  const float door_height = 20;
+  const sf::FloatRect horizontal_door({0, 0}, {door_width, door_height});
+  const sf::FloatRect vertical_door({0, 0}, {door_height, door_width});
   const std::vector door_sizes = {
       horizontal_door,  // Top
       vertical_door,    // Right
@@ -46,14 +47,14 @@ void RoomNode::doorsInitialize() {
       {-door_height, -door_width / 2},  // Right
       {-door_width / 2, -door_height},  // Bottom
       {0.0f, -door_width / 2}};         // Left
-  const std::vector transition = {Bottom, Left, Top, Right};
+  static constexpr std::array transition = {Bottom, Left, Top, Right};
   // doors factory
   for (int i = 0; i < RoomConnectionCount; ++i) {
     const auto direction_type = static_cast<RoomConnectionType>(i);
     const auto transition_type = transition[direction_type];
 
     auto door = std::make_unique<Door>(
-        texture_.get(Textures::Door), door_sizes[i], direction_type,
+        texture_.get(Textures::Door), sf::IntRect{door_sizes[i]}, direction_type,
         door_positions[direction_type], door_positions[transition_type]);
     doors_storage_[i] = door.get();
     doors_storage_[i]->setPosition(door_positions[direction_type] +
