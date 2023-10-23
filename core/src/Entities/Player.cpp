@@ -5,7 +5,7 @@
 
 namespace ink {
 
-Textures::ID toTextureID(const Player::Type type) {
+Textures::ID Player::toTextureID(const Player::Type type) const {
   switch (type) {
     case Player::Peepo:
       return Textures::Peepo;

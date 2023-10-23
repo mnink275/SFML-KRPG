@@ -31,6 +31,7 @@ class Player final : public Killable {
 
  private:
   void updatePlayerVelocity() noexcept;
+  Textures::ID toTextureID(const Player::Type type) const;
 
  private:
   Type type_;

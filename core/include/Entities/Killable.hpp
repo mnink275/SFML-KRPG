@@ -8,12 +8,15 @@
 
 namespace ink {
 
-struct HitBox {
-  sf::Vector2f position;
-  sf::Vector2f size;
-};
-
 class Killable : public Entity {
+ private:
+  struct HitBox {
+    bool IsHitted(sf::Vector2f point) const noexcept;
+
+    sf::Vector2f position;
+    sf::Vector2f size;
+  };
+
  public:
   Killable();
 
