@@ -16,7 +16,7 @@ class Entity : public SceneNode {
   void setVelocity(sf::Vector2f velocity) noexcept;
   void setVelocityX(float vx) noexcept;
   void setVelocityY(float vy) noexcept;
-  
+
  private:
   void updateCurrent(sf::Time dt) override;
   sf::Vector2f updatedVelocity() const;

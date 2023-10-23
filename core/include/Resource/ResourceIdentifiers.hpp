@@ -2,7 +2,7 @@
 
 namespace sf {
 class Texture;
-}  // sf namespace
+}  // namespace sf
 
 namespace ink {
 
@@ -17,7 +17,7 @@ enum ID {
   Door,
 };
 
-}  // Texture namespace
+}  // namespace Textures
 
 // Forward declaration and a few type definitions
 template <typename Resource, typename Identifier>

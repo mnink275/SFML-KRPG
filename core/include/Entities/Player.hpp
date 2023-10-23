@@ -1,19 +1,21 @@
 #pragma once
 
 #include <Entities/Killable.hpp>
+#include <Entities/PlayerContext.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
-#include <Entities/PlayerContext.hpp>
 
 namespace ink {
 
 class Player final : public Killable {
  public:
-  enum Type { Peepo, };
+  enum Type {
+    Peepo,
+  };
 
  public:
   Player(Type type, const TextureHolder& textures);
-  
+
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
 
@@ -25,7 +27,7 @@ class Player final : public Killable {
   void drawCurrent(sf::RenderTarget& target,
                    sf::RenderStates states) const override;
 
- void setPlayerVelocity(float velocity, Direction direction) noexcept;
+  void setPlayerVelocity(float velocity, Direction direction) noexcept;
 
  private:
   void updatePlayerVelocity() noexcept;

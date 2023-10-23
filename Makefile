@@ -36,7 +36,7 @@ dist-clean:
 # Format the sources
 .PHONY: format
 format:
-	@find src -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
+	@find core -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
 
 # # Test
 # .PHONY: test-debug test-release

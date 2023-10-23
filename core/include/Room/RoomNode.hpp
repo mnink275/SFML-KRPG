@@ -3,13 +3,13 @@
 #include <array>
 #include <optional>
 
-#include <Room/Door.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
+#include <Resource/SpriteNode.hpp>
+#include <Room/Door.hpp>
 #include <Room/RoomConnectionTypes.hpp>
 #include <Room/RoomTypes.hpp>
 #include <SceneNode.hpp>
-#include <Resource/SpriteNode.hpp>
 
 namespace ink {
 

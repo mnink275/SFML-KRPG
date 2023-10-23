@@ -1,15 +1,14 @@
 #pragma once
 
 #include <cassert>
-#include <utility>
 #include <memory>
+#include <utility>
 
 #include <SFML/Graphics.hpp>
 
 namespace ink {
 
-class SceneNode : public sf::Transformable,
-                  public sf::Drawable {
+class SceneNode : public sf::Transformable, public sf::Drawable {
  public:
   using Ptr = std::unique_ptr<SceneNode>;
 

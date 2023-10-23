@@ -3,11 +3,11 @@
 #include <array>
 #include <iostream>
 
-#include <Room/RoomNode.hpp>
-#include <Room/RoomTypes.hpp>
 #include <Entities/Player.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
+#include <Room/RoomNode.hpp>
+#include <Room/RoomTypes.hpp>
 
 namespace ink {
 

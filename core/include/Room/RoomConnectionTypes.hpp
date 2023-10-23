@@ -2,12 +2,6 @@
 
 namespace ink {
 
-enum RoomConnectionType{
-  Top,
-  Right,
-  Bottom,
-  Left,
-  RoomConnectionCount
-};
+enum RoomConnectionType { Top, Right, Bottom, Left, RoomConnectionCount };
 
 }  // namespace ink

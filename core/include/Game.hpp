@@ -19,6 +19,7 @@ class Game final {
   ~Game() = default;
 
   void run();
+
  private:
   void processEvents();
   void update(sf::Time elapsed_time);
