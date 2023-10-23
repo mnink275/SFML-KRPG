@@ -47,7 +47,9 @@ void RoomNode::doorsInitialize() {
       {-door_height, -door_width / 2},  // Right
       {-door_width / 2, -door_height},  // Bottom
       {0.0f, -door_width / 2}};         // Left
-  static constexpr std::array transition = {ConnectionType::Bottom, ConnectionType::Left, ConnectionType::Top, ConnectionType::Right};
+  static constexpr std::array transition = {
+      ConnectionType::Bottom, ConnectionType::Left, ConnectionType::Top,
+      ConnectionType::Right};
   // doors factory
   for (std::size_t dir_id = 0; dir_id < ConnectionsCount; ++dir_id) {
     const auto direction_type = static_cast<ConnectionType>(dir_id);
@@ -59,14 +61,14 @@ void RoomNode::doorsInitialize() {
         door_positions[static_cast<std::size_t>(transition_type)]);
     doors_storage_[dir_id] = door.get();
     doors_storage_[dir_id]->setPosition(door_positions[dir_id] +
-                                   texture_shift[dir_id]);
+                                        texture_shift[dir_id]);
     attachChild(std::move(door));
   }
 }
 
 void RoomNode::createConnection(const Type neighbor_room_type,
                                 const ConnectionType direction) {
-   auto dir_id = static_cast<std::size_t>(direction);
+  auto dir_id = static_cast<std::size_t>(direction);
   connected_rooms_[dir_id] = neighbor_room_type;
   doors_storage_[dir_id]->activate();
 }

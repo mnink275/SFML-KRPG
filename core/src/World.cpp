@@ -108,12 +108,15 @@ void World::createRooms() {
 }
 
 void World::createRoomConnections() const {
-  room_nodes_[room::DesertRoom]->createConnection(room::StoneRoom, room::ConnectionType::Top);
+  room_nodes_[room::DesertRoom]->createConnection(room::StoneRoom,
+                                                  room::ConnectionType::Top);
   room_nodes_[room::StoneRoom]->createConnection(room::DesertRoom,
                                                  room::ConnectionType::Bottom);
 
-  room_nodes_[room::DesertRoom]->createConnection(room::LavaRoom, room::ConnectionType::Right);
-  room_nodes_[room::LavaRoom]->createConnection(room::DesertRoom, room::ConnectionType::Left);
+  room_nodes_[room::DesertRoom]->createConnection(room::LavaRoom,
+                                                  room::ConnectionType::Right);
+  room_nodes_[room::LavaRoom]->createConnection(room::DesertRoom,
+                                                room::ConnectionType::Left);
 }
 
 void World::buildScene() {
