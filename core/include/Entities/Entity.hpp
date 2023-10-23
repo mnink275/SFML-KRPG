@@ -1,12 +1,12 @@
 #pragma once
 
-#include <SceneNode.hpp>
+#include <Resource/SpriteNode.hpp>
 
 namespace ink {
 
-class Entity : public SceneNode {
+class Entity : public SpriteNode {
  public:
-  Entity() = default;
+  using SpriteNode::SpriteNode;
 
   virtual ~Entity() = default;
 

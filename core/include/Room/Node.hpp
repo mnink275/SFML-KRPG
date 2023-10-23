@@ -5,7 +5,6 @@
 
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
-#include <Resource/SpriteNode.hpp>
 #include <Room/ConnectionTypes.hpp>
 #include <Room/Door.hpp>
 #include <Room/Types.hpp>

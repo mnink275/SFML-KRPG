@@ -2,6 +2,8 @@
 
 #include "SFML/Graphics/Rect.hpp"
 
+#include <Resource/SpriteNode.hpp>
+
 namespace ink::room {
 
 RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
@@ -15,7 +17,7 @@ RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
 
   // add the background sprite to the scene
   auto background_sprite =
-      std::make_unique<SpriteNode>(texture, background_texture_rect);
+      std::make_unique<SpriteNode>(texture, background_texture_rect, false);
   background_sprite->setPosition({bounds.left, bounds.top});
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));

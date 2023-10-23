@@ -2,12 +2,17 @@
 
 namespace ink {
 
-bool Killable::HitBox::IsHitted(sf::Vector2f point) const noexcept {
+HitBox::HitBox(sf::FloatRect float_rect)
+    : position({float_rect.left, float_rect.top}),
+      size({float_rect.width, float_rect.height}) {}
+
+bool HitBox::IsHitted(sf::Vector2f point) const noexcept {
   return point.x >= position.x && point.x <= position.x + size.x &&
          point.y <= position.y + size.y && point.y >= position.y;
 }
 
-Killable::Killable() = default;
+Killable::Killable(std::int32_t init_health, HitBox hitbox)
+    : health_(init_health), hitbox_(std::move(hitbox)) {}
 
 Killable::~Killable() = default;
 

@@ -7,7 +7,7 @@
 
 namespace ink {
 
-class Player final : public Killable {
+class Player final : public Entity, public Killable {
  public:
   enum Type {
     Peepo,
@@ -24,9 +24,6 @@ class Player final : public Killable {
 
   ~Player() = default;
 
-  void drawCurrent(sf::RenderTarget& target,
-                   sf::RenderStates states) const override;
-
   void setPlayerVelocity(float velocity, Direction direction) noexcept;
 
  private:
@@ -35,7 +32,6 @@ class Player final : public Killable {
 
  private:
   Type type_;
-  sf::Sprite sprite_;
 
   float to_left_vel_{0};
   float to_right_vel_{0};

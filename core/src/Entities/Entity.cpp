@@ -15,8 +15,7 @@ void Entity::setVelocityY(const float vy) noexcept { velocity_.y = vy; }
 sf::Vector2f Entity::getVelocity() const { return velocity_; }
 
 void Entity::updateCurrent(const sf::Time dt) {
-  // Transformable::move
-  move(updatedVelocity() * dt.asSeconds());
+  Transformable::move(updatedVelocity() * dt.asSeconds());
 }
 
 sf::Vector2f Entity::updatedVelocity() const {
