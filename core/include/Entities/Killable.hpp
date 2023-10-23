@@ -4,7 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "Entity.hpp"
+#include <Entities/Entity.hpp>
 
 namespace ink {
 

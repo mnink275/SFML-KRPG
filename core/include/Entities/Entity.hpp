@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SceneNode.hpp"
+#include <SceneNode.hpp>
 
 namespace ink {
 

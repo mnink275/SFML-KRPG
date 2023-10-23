@@ -1,4 +1,4 @@
-#include "Player.hpp"
+#include <Entities/Player.hpp>
 
 #include <cassert>
 #include <iostream>

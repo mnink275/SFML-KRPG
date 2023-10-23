@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Killable.hpp"
-#include "ResourceHolder.hpp"
-#include "ResourceIdentifiers.hpp"
-#include "PlayerContext.hpp"
+#include <Entities/Killable.hpp>
+#include <Resource/ResourceHolder.hpp>
+#include <Resource/ResourceIdentifiers.hpp>
+#include <Entities/PlayerContext.hpp>
 
 namespace ink {
 

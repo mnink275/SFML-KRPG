@@ -1,4 +1,5 @@
-#include "Game.hpp"
+#include <Game.hpp>
+
 #include <stdexcept>
 
 namespace ink {

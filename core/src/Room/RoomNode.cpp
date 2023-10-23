@@ -1,4 +1,5 @@
-#include "RoomNode.hpp"
+#include <Room/RoomNode.hpp>
+
 #include "SFML/Graphics/Rect.hpp"
 
 namespace ink {

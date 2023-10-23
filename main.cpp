@@ -1,6 +1,8 @@
-#include <SFML/Graphics.hpp>
+#include <Game.hpp>
+
 #include <iostream>
-#include "Game.hpp"
+
+#include <SFML/Graphics.hpp>
 
 int main() {
   try {

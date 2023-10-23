@@ -1,4 +1,4 @@
-#include "Entity.hpp"
+#include <Entities/Entity.hpp>
 
 #include <cmath>
 

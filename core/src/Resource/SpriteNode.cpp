@@ -1,4 +1,4 @@
-#include "SpriteNode.hpp"
+#include <Resource/SpriteNode.hpp>
 
 namespace ink {
 

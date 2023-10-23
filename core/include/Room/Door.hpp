@@ -2,9 +2,9 @@
 
 #include <cmath>
 
-#include "RoomConnectionTypes.hpp"
-#include "RoomTypes.hpp"
-#include "SpriteNode.hpp"
+#include <Resource/SpriteNode.hpp>
+#include <Room/RoomConnectionTypes.hpp>
+#include <Room/RoomTypes.hpp>
 
 namespace ink {
 

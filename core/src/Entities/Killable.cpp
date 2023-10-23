@@ -1,4 +1,4 @@
-#include "Killable.hpp"
+#include <Entities/Killable.hpp>
 
 namespace ink {
 

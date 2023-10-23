@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "World.hpp"
+
+#include <World.hpp>
 
 namespace ink {
 
