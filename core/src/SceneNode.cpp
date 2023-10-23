@@ -35,8 +35,8 @@ void SceneNode::draw(sf::RenderTarget& target,
   }
 }
 
-void SceneNode::drawCurrent(sf::RenderTarget& target,
-                            const sf::RenderStates states) const {}
+void SceneNode::drawCurrent(sf::RenderTarget& /*target*/,
+                            const sf::RenderStates /*states*/) const {}
 
 void SceneNode::updateCurrent(sf::Time) {}
 
