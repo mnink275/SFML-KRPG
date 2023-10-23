@@ -25,7 +25,8 @@ void SceneNode::update(const sf::Time dt) {
   updateChildren(dt);
 }
 
-void SceneNode::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+void SceneNode::draw(sf::RenderTarget& target,
+                     const sf::RenderStates& states) const {
   sf::RenderStates node_states(states);
   node_states.transform *= getTransform();
   drawCurrent(target, node_states);

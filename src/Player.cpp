@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 namespace ink {
 

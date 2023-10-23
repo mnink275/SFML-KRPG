@@ -18,8 +18,8 @@ class SceneNode : public sf::Transformable,
   SceneNode(const SceneNode&) = delete;
   SceneNode& operator=(const SceneNode&) = delete;
 
-  SceneNode(SceneNode&&) = delete;
-  SceneNode& operator=(SceneNode&&) = delete;
+  SceneNode(SceneNode&&) noexcept = default;
+  SceneNode& operator=(SceneNode&&) noexcept = default;
 
   void attachChild(Ptr child);
   Ptr detachChild(const SceneNode& node);

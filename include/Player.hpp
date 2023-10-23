@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "Killable.hpp"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "PlayerContext.hpp"
 
 namespace ink {
 
-class Player final : public Entity {
+class Player final : public Killable {
  public:
   enum Type { Peepo, };
 

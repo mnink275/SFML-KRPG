@@ -7,6 +7,7 @@ namespace ink {
 class Entity : public SceneNode {
  public:
   Entity() = default;
+
   virtual ~Entity() = default;
 
   sf::Vector2f getVelocity() const;

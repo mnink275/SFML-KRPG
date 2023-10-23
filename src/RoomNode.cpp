@@ -30,11 +30,10 @@ void RoomNode::doorsInitialize() {
   const float door_height = 20;
   const sf::FloatRect horizontal_door({0, 0}, {door_width, door_height});
   const sf::FloatRect vertical_door({0, 0}, {door_height, door_width});
-  const std::vector door_sizes = {
-      horizontal_door,  // Top
-      vertical_door,    // Right
-      horizontal_door,  // Bottom
-      vertical_door};   // Left
+  const std::vector door_sizes = {horizontal_door,  // Top
+                                  vertical_door,    // Right
+                                  horizontal_door,  // Bottom
+                                  vertical_door};   // Left
   const std::vector<sf::Vector2f> door_positions = {
       // left-top corner of the door position
       {width / 2, 0.0f},    // Top
@@ -54,8 +53,9 @@ void RoomNode::doorsInitialize() {
     const auto transition_type = transition[direction_type];
 
     auto door = std::make_unique<Door>(
-        texture_.get(Textures::Door), sf::IntRect{door_sizes[i]}, direction_type,
-        door_positions[direction_type], door_positions[transition_type]);
+        texture_.get(Textures::Door), sf::IntRect{door_sizes[i]},
+        direction_type, door_positions[direction_type],
+        door_positions[transition_type]);
     doors_storage_[i] = door.get();
     doors_storage_[i]->setPosition(door_positions[direction_type] +
                                    texture_shift[direction_type]);

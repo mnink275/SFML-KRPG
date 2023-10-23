@@ -4,15 +4,13 @@
 
 namespace ink {
 
-void Entity::setVelocity(const sf::Vector2f velocity) noexcept { velocity_ = velocity; }
-
-void Entity::setVelocityX(const float vx) noexcept {
-  velocity_.x = vx;
+void Entity::setVelocity(const sf::Vector2f velocity) noexcept {
+  velocity_ = velocity;
 }
 
-void Entity::setVelocityY(const float vy) noexcept {
-  velocity_.y = vy;
-}
+void Entity::setVelocityX(const float vx) noexcept { velocity_.x = vx; }
+
+void Entity::setVelocityY(const float vy) noexcept { velocity_.y = vy; }
 
 sf::Vector2f Entity::getVelocity() const { return velocity_; }
 

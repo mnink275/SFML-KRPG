@@ -6,13 +6,10 @@ namespace ink {
 World::World(sf::RenderWindow& window)
     : window_(window),
       world_view_(window.getDefaultView()),
-      world_bounds_(
-        {0.f, 0.f}, 
-        {world_view_.getSize().x, world_view_.getSize().y}
-                    ),
+      world_bounds_({0.f, 0.f},
+                    {world_view_.getSize().x, world_view_.getSize().y}),
       spawn_position_(world_view_.getSize().x / 2.f,
-                      world_bounds_.height - world_view_.getSize().y / 2.f
-                      ),
+                      world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
       current_room_type_(DesertRoom) {
   loadTextures();
@@ -116,7 +113,6 @@ void World::createRoomConnections() const {
   room_nodes_[DesertRoom]->createConnection(LavaRoom, Right);
   room_nodes_[LavaRoom]->createConnection(DesertRoom, Left);
 }
-
 
 void World::buildScene() {
   // create and connect the rooms
