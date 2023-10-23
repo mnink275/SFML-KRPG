@@ -12,7 +12,7 @@ World::World(sf::RenderWindow& window)
       spawn_position_(world_view_.getSize().x / 2.f,
                       world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
-      current_room_type_(DesertRoom) {
+      current_room_type_(room::DesertRoom) {
   loadTextures();
   buildScene();
   world_view_.setCenter(spawn_position_);
@@ -28,14 +28,14 @@ void World::update(const sf::Time dt) {
 void World::checkDoorInteraction() {
   if (interact_with_) {
     interact_with_ = false;
-    RoomNode* curr_room = room_nodes_[current_room_type_];
+    room::RoomNode* curr_room = room_nodes_[current_room_type_];
     if (auto next_room_type = curr_room->isDoorInteraction()) {
       changeRoom(current_room_type_, next_room_type.value());
     }
   }
 }
 
-void World::changeRoom(const Room prev_type, const Room new_type) {
+void World::changeRoom(const room::Type prev_type, const room::Type new_type) {
   // re-set the player
   auto player = room_nodes_[prev_type]->popPlayer();
   room_nodes_[new_type]->setPlayer(std::move(player));
@@ -96,11 +96,11 @@ void World::loadTextures() {
 
 void World::createRooms() {
   // rooms factory
-  for (int i = 0; i < RoomCount; ++i) {
+  for (int i = 0; i < room::RoomCount; ++i) {
     const auto texture_type = static_cast<Textures::ID>(i);
-    const auto room_type = static_cast<Room>(i);
+    const auto room_type = static_cast<room::Type>(i);
 
-    auto room = std::make_unique<RoomNode>(
+    auto room = std::make_unique<room::RoomNode>(
         textures_, textures_.get(texture_type), world_bounds_, room_type);
     room_nodes_[room_type] = room.get();
     room_storage_[room_type] = std::move(room);
@@ -108,11 +108,12 @@ void World::createRooms() {
 }
 
 void World::createRoomConnections() const {
-  room_nodes_[DesertRoom]->createConnection(StoneRoom, Top);
-  room_nodes_[StoneRoom]->createConnection(DesertRoom, Bottom);
+  room_nodes_[room::DesertRoom]->createConnection(room::StoneRoom, room::ConnectionType::Top);
+  room_nodes_[room::StoneRoom]->createConnection(room::DesertRoom,
+                                                 room::ConnectionType::Bottom);
 
-  room_nodes_[DesertRoom]->createConnection(LavaRoom, Right);
-  room_nodes_[LavaRoom]->createConnection(DesertRoom, Left);
+  room_nodes_[room::DesertRoom]->createConnection(room::LavaRoom, room::ConnectionType::Right);
+  room_nodes_[room::LavaRoom]->createConnection(room::DesertRoom, room::ConnectionType::Left);
 }
 
 void World::buildScene() {

@@ -1,9 +1,9 @@
 #include <Room/Door.hpp>
 
-namespace ink {
+namespace ink::room {
 
 Door::Door(sf::Texture& texture, sf::IntRect texture_rect,
-           RoomConnectionType door_type, sf::Vector2f coords,
+           ConnectionType door_type, sf::Vector2f coords,
            sf::Vector2f transition_coords)
     : SpriteNode(texture, texture_rect),
       door_type_(door_type),
@@ -30,4 +30,4 @@ void Door::deactivate() { is_active_ = false; }
 
 bool Door::isActive() const { return is_active_; }
 
-}  // namespace ink
+}  // namespace ink::room
