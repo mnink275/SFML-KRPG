@@ -1,6 +1,12 @@
 #include <World.hpp>
 
+#include <memory>
+
 #include <Entities/PlayerContext.hpp>
+#include <Entities/GameObject.hpp>
+#include <Components/AntonGraphics.hpp>
+#include <Components/AntonPhysics.hpp>
+#include "SFML/Graphics/Texture.hpp"
 
 namespace ink {
 
@@ -135,6 +141,14 @@ void World::buildScene() {
   // connect entities to the Graph
   player_->setParentRoom(room_nodes_[current_room_type_]);
   room_nodes_[current_room_type_]->setPlayer(std::move(player));
+
+  auto test_obj = std::make_unique<GameObject>(
+    std::make_unique<component::AntonPhysics>(),
+    std::make_unique<component::AntonGraphics>(textures_.get(Textures::Peepo))
+  );
+  test_obj->setPosition(spawn_position_);
+  room_nodes_[current_room_type_]->attachChild(std::move(test_obj));
+
   scene_graph_.attachChild(std::move(room_storage_[current_room_type_]));
 }
 
