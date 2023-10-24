@@ -3,7 +3,7 @@
 #include <array>
 #include <iostream>
 
-#include <Entities/Player2.hpp>
+#include <Entities/Player.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/Node.hpp>
@@ -51,7 +51,7 @@ class World final {
   sf::Vector2f spawn_position_;
   bool interact_with_{false};
 
-  Player2* player_;
+  Player* player_;
   room::Type current_room_type_;
 };
 

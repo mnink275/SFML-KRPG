@@ -3,8 +3,6 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
-// #include <Components/Component.hpp>
-
 namespace ink::component {
 
 class PhysicsComponent {

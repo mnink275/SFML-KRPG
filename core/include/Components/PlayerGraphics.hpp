@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Components/GraphicsComponent.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-#include "SFML/Graphics/Sprite.hpp"
+#include <Components/GraphicsComponent.hpp>
 
 namespace ink::component {
 

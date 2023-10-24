@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
-#include <Resource/ResourceIdentifiers.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace ink::component {
 

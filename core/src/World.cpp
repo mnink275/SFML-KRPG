@@ -136,24 +136,16 @@ void World::buildScene() {
   // add the player
   // auto player = std::make_unique<Player>(Player::Peepo, textures_);
   auto player =
-      std::make_unique<Player2>(std::make_unique<component::PlayerPhysics>(),
-                                std::make_unique<component::PlayerGraphics>(
-                                    textures_.get(Textures::Peepo)),
-                                textures_);
+      std::make_unique<Player>(std::make_unique<component::PlayerPhysics>(),
+                               std::make_unique<component::PlayerGraphics>(
+                                   textures_.get(Textures::Peepo)),
+                               textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 
   // connect entities to the Graph
   player_->setParentRoom(room_nodes_[current_room_type_]);
   room_nodes_[current_room_type_]->setPlayer(std::move(player));
-
-  // auto test_obj =
-  //     std::make_unique<GameObject>(std::make_unique<component::AntonPhysics>(),
-  //                                  std::make_unique<component::AntonGraphics>(
-  //                                      textures_.get(Textures::Peepo)));
-  // test_obj->setPosition(spawn_position_);
-  // room_nodes_[current_room_type_]->attachChild(std::move(test_obj));
-
   scene_graph_.attachChild(std::move(room_storage_[current_room_type_]));
 }
 
