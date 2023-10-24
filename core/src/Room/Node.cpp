@@ -77,7 +77,7 @@ void RoomNode::createConnection(const Type neighbor_room_type,
 
 std::optional<Type> RoomNode::isDoorInteraction() {
   const sf::Vector2f& player_coords = room_layers_[Player]->getPosition();
-  for (int i = 0; i < ConnectionsCount; ++i) {
+  for (std::size_t i = 0; i < ConnectionsCount; ++i) {
     const auto& door = doors_storage_[i];
     if (door->isActive() && door->nearOf(player_coords)) {
       room_layers_[Player]->setPosition(door->getDoorOtherSidePosition());
