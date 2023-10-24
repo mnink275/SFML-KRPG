@@ -11,7 +11,7 @@ class GraphicsComponent {
   virtual ~GraphicsComponent() = default;
 
   virtual void draw(sf::RenderTarget& target,
-                           const sf::RenderStates states) const = 0;
+                    const sf::RenderStates states) const = 0;
 };
 
 }  // namespace ink::component

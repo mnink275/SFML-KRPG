@@ -19,7 +19,8 @@ Textures::ID Player::toTextureID(const Player::Type type) const {
 Player::Player(const Type type, const TextureHolder& textures)
     : Entity(textures.get(toTextureID(type)), true),
       Killable(20, getSpriteGlobalBounds()),
-      type_(type), texture_holder_(textures) {}
+      type_(type),
+      texture_holder_(textures) {}
 
 void Player::setPlayerVelocity(float velocity, Direction direction) noexcept {
   switch (direction) {
@@ -47,12 +48,12 @@ void Player::setParentRoom(room::RoomNode* parent) noexcept {
 }
 
 void Player::OnAttack() {
-  parent_->attachChild(std::make_unique<combat::Projectile>(texture_holder_.get(toTextureID(type_))));
+  parent_->attachChild(std::make_unique<combat::Projectile>(
+      texture_holder_.get(toTextureID(type_))));
 }
 
 void Player::updatePlayerVelocity() noexcept {
-  setVelocityX(to_left_vel_ + to_right_vel_);
-  setVelocityY(to_down_vel_ + to_up_vel_);
+  setVelocity({to_left_vel_ + to_right_vel_, to_down_vel_ + to_up_vel_});
 }
 
 }  // namespace ink
