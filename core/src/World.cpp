@@ -79,6 +79,9 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::E:
       interact_with_ = is_pressed;
       break;
+    case sf::Keyboard::Key::F:
+      player_->OnAttack();
+      break;
     default:
       std::cout << "The key isn't implemented!\n";
   }
@@ -130,6 +133,7 @@ void World::buildScene() {
   player_->setPosition(spawn_position_);
 
   // connect entities to the Graph
+  player_->setParentRoom(room_nodes_[current_room_type_]);
   room_nodes_[current_room_type_]->setPlayer(std::move(player));
   scene_graph_.attachChild(std::move(room_storage_[current_room_type_]));
 }

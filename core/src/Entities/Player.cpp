@@ -2,7 +2,9 @@
 
 #include <cassert>
 #include <iostream>
-#include "Entities/Killable.hpp"
+#include <memory>
+
+#include <Combat/Projectile.hpp>
 
 namespace ink {
 
@@ -17,7 +19,7 @@ Textures::ID Player::toTextureID(const Player::Type type) const {
 Player::Player(const Type type, const TextureHolder& textures)
     : Entity(textures.get(toTextureID(type)), true),
       Killable(20, getSpriteGlobalBounds()),
-      type_(type) {}
+      type_(type), texture_holder_(textures) {}
 
 void Player::setPlayerVelocity(float velocity, Direction direction) noexcept {
   switch (direction) {
@@ -38,6 +40,14 @@ void Player::setPlayerVelocity(float velocity, Direction direction) noexcept {
       assert(false);
   }
   updatePlayerVelocity();
+}
+
+void Player::setParentRoom(room::RoomNode* parent) noexcept {
+  parent_ = parent;
+}
+
+void Player::OnAttack() {
+  parent_->attachChild(std::make_unique<combat::Projectile>(texture_holder_.get(toTextureID(type_))));
 }
 
 void Player::updatePlayerVelocity() noexcept {
