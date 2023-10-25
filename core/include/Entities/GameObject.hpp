@@ -2,11 +2,13 @@
 
 #include <memory>
 
+#include <SFML/System/Vector2.hpp>
+
 #include <Components/GraphicsComponent.hpp>
 #include <Components/PhysicsComponent.hpp>
+#include <Entities/VelocityModule.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <SceneNode.hpp>
-#include "SFML/System/Vector2.hpp"
 
 namespace ink {
 
@@ -14,26 +16,19 @@ class GameObject : public SceneNode {
  public:
   using SceneNode::SceneNode;
   GameObject(std::unique_ptr<component::PhysicsComponent> physics,
-             std::unique_ptr<component::GraphicsComponent> graphics)
-      : physics_impl_(std::move(physics)),
-        graphics_impl_(std::move(graphics)) {}
+             std::unique_ptr<component::GraphicsComponent> graphics);
 
   void drawCurrent(sf::RenderTarget& target,
-                   const sf::RenderStates states) const override {
-    graphics_impl_->draw(target, states);
-  }
+                   const sf::RenderStates states) const override;
 
-  void updateCurrent(sf::Time dt) override {
-    sf::Vector2f transforms;
-    physics_impl_->update(dt, transforms);
-    Transformable::move(transforms);
-  };
+  void updateCurrent(sf::Time dt) override;
 
   virtual ~GameObject() = default;
 
  protected:
   std::unique_ptr<component::PhysicsComponent> physics_impl_;
   std::unique_ptr<component::GraphicsComponent> graphics_impl_;
+  VelocityModule velocity_{};
 };
 
 }  // namespace ink

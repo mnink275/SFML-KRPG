@@ -10,16 +10,10 @@ class PlayerPhysics : public PhysicsComponent {
  public:
   virtual ~PlayerPhysics() = default;
 
-  void update(sf::Time dt, sf::Vector2f& transform) override;
-
-  sf::Vector2f getVelocity() const noexcept override;
-  void setVelocity(sf::Vector2f velocity) noexcept override;
+  sf::Vector2f getTransform(sf::Time dt, VelocityModule& velocity) override;
 
  private:
-  sf::Vector2f updatedVelocity() const;
-
- private:
-  sf::Vector2f velocity_{0.0f, 0.0f};
+  sf::Vector2f fixDiagonalVelocity(sf::Vector2f velocity) const;
 };
 
 }  // namespace ink::component

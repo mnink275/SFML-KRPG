@@ -29,16 +29,8 @@ class Player final : public GameObject {
   void OnAttack();
 
  private:
-  void updatePlayerVelocity() noexcept;
-
- private:
   const TextureHolder& texture_holder_;
   room::RoomNode* parent_{nullptr};
-
-  float to_left_vel_{0};
-  float to_right_vel_{0};
-  float to_up_vel_{0};
-  float to_down_vel_{0};
 };
 
 }  // namespace ink
