@@ -1,7 +1,8 @@
 #include <Room/Node.hpp>
 
-#include "SFML/Graphics/Rect.hpp"
+#include <SFML/Graphics/Rect.hpp>
 
+#include <Components/SimpleGraphics.hpp>
 #include <Resource/SpriteNode.hpp>
 
 namespace ink::room {
@@ -58,7 +59,9 @@ void RoomNode::doorsInitialize() {
     const auto transition_type = transition[dir_id];
 
     auto door = std::make_unique<Door>(
-        texture_.get(Textures::Door), sf::IntRect{door_sizes[dir_id]},
+        std::make_unique<component::SimpleGraphics>(
+            texture_.get(Textures::Door), sf::IntRect{door_sizes[dir_id]},
+            false),
         direction_type, door_positions[dir_id],
         door_positions[static_cast<std::size_t>(transition_type)]);
     doors_storage_[dir_id] = door.get();

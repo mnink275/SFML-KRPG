@@ -5,8 +5,8 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <Components/MouseKeyboardInput.hpp>
-#include <Components/PlayerGraphics.hpp>
 #include <Components/PlayerPhysics.hpp>
+#include <Components/SimpleGraphics.hpp>
 
 #include <Entities/PlayerContext.hpp>
 
@@ -127,8 +127,8 @@ void World::buildScene() {
   auto* physics_ptr = physics.get();
   auto player = std::make_unique<Player>(
       std::move(physics),
-      std::make_unique<component::PlayerGraphics>(
-          textures_.get(Textures::Peepo)),
+      std::make_unique<component::SimpleGraphics>(
+          textures_.get(Textures::Peepo), true),
       std::make_unique<component::MouseKeyboardInput>(physics_ptr), textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);

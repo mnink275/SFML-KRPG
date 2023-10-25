@@ -1,7 +1,5 @@
 #include <Entities/GameObject.hpp>
 
-#include <memory>
-
 namespace ink {
 
 GameObject::GameObject(std::unique_ptr<component::PhysicsComponent> physics,

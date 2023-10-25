@@ -1,11 +1,14 @@
 #include <Room/Door.hpp>
 
+#include <cmath>
+#include <memory>
+
 namespace ink::room {
 
-Door::Door(sf::Texture& texture, sf::IntRect texture_rect,
+Door::Door(std::unique_ptr<component::GraphicsComponent> graphics,
            ConnectionType door_type, sf::Vector2f coords,
            sf::Vector2f transition_coords)
-    : SpriteNode(texture, texture_rect, false),
+    : GameStaticObject(std::move(graphics)),
       door_type_(door_type),
       other_size_position_(transition_coords) {
   setPosition(coords);

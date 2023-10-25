@@ -6,11 +6,13 @@
 
 namespace ink::component {
 
-class PlayerGraphics final : public GraphicsComponent {
+class SimpleGraphics final : public GraphicsComponent {
  public:
-  PlayerGraphics(const sf::Texture& texture);
+  explicit SimpleGraphics(const sf::Texture& texture, bool is_centered);
+  SimpleGraphics(const sf::Texture& texture, const sf::IntRect& rect,
+                 bool is_centered);
 
-  ~PlayerGraphics() override = default;
+  ~SimpleGraphics() override = default;
 
   void draw(sf::RenderTarget& target,
             const sf::RenderStates states) const override;
