@@ -20,11 +20,6 @@ class GameObject : public SceneNode {
              std::unique_ptr<component::GraphicsComponent> graphics,
              std::unique_ptr<component::InputComponent> inputs);
 
-  void drawCurrent(sf::RenderTarget& target,
-                   const sf::RenderStates states) const override;
-
-  void updateCurrent(sf::Time dt) override;
-
   virtual ~GameObject() = default;
 
  protected:
@@ -32,6 +27,12 @@ class GameObject : public SceneNode {
   std::unique_ptr<component::GraphicsComponent> graphics_impl_;
   std::unique_ptr<component::InputComponent> inputs_impl_;
   VelocityModule velocity_{};
+
+ private:
+  void drawCurrent(sf::RenderTarget& target,
+                   const sf::RenderStates states) const override;
+
+  void updateCurrent(sf::Time dt) override;
 };
 
 }  // namespace ink
