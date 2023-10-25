@@ -1,5 +1,3 @@
-#pragma once
-
 #include <Components/BulletPhysics.hpp>
 
 namespace ink::component {

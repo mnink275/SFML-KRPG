@@ -5,8 +5,6 @@
 #include <SFML/System/Vector2.hpp>
 #include "SFML/Graphics/Rect.hpp"
 
-#include <Entities/Entity.hpp>
-
 namespace ink {
 
 class HitBox {
