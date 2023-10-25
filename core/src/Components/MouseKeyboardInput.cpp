@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include <Entities/PlayerContext.hpp>
-
 namespace ink::component {
 
 void MouseKeyboardInput::handlePlayerInput(const sf::Keyboard::Key key,

@@ -8,8 +8,6 @@
 #include <Components/PlayerPhysics.hpp>
 #include <Components/SimpleGraphics.hpp>
 
-#include <Entities/PlayerContext.hpp>
-
 namespace ink {
 
 World::World(sf::RenderWindow& window)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Entities/GameObject.hpp>
-#include <Entities/PlayerContext.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/Node.hpp>
 
