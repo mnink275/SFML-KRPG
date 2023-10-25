@@ -26,7 +26,6 @@ class Game final {
   void render();
 
   void updateStatistics(sf::Time elapsed_time);
-  void handlePlayerInput(const sf::Keyboard::Key key, bool is_pressed);
 
   const sf::Time kTimePerFrame{sf::seconds(1.f / 60.f)};
 

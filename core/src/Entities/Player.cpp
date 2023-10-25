@@ -8,24 +8,9 @@
 
 namespace ink {
 
-void Player::setPlayerVelocity(float velocity, Direction direction) noexcept {
-  switch (direction) {
-    case Direction::kToLeft:
-      velocity_.to_left_ = velocity;
-      break;
-    case Direction::kToRight:
-      velocity_.to_right_ = velocity;
-      break;
-    case Direction::kToUp:
-      velocity_.to_up_ = velocity;
-      break;
-    case Direction::kToDown:
-      velocity_.to_down_ = velocity;
-      break;
-    default:
-      std::cout << "Error: Wrong direction in Direction enum\n";
-      assert(false);
-  }
+void Player::handlePlayerInput(const sf::Keyboard::Key key,
+                               const bool is_pressed) {
+  inputs_impl_->handlePlayerInput(key, is_pressed, velocity_);
 }
 
 void Player::setParentRoom(room::RoomNode* parent) noexcept {

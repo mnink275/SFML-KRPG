@@ -2,11 +2,13 @@
 
 #include <memory>
 
+#include <SFML/Graphics/Texture.hpp>
+
+#include <Components/MouseKeyboardInput.hpp>
 #include <Components/PlayerGraphics.hpp>
 #include <Components/PlayerPhysics.hpp>
 
 #include <Entities/PlayerContext.hpp>
-#include "SFML/Graphics/Texture.hpp"
 
 namespace ink {
 
@@ -62,25 +64,12 @@ void World::draw() const {
 
 void World::handlePlayerInput(const sf::Keyboard::Key key,
                               const bool is_pressed) {
-  static constexpr float kPlayerVelocityShift = 400.f;
-
-  float velocity = 0.f;
   switch (key) {
     case sf::Keyboard::Key::A:
-      if (is_pressed) velocity = -kPlayerVelocityShift;
-      player_->setPlayerVelocity(velocity, Direction::kToLeft);
-      break;
     case sf::Keyboard::Key::D:
-      if (is_pressed) velocity = kPlayerVelocityShift;
-      player_->setPlayerVelocity(velocity, Direction::kToRight);
-      break;
     case sf::Keyboard::Key::W:
-      if (is_pressed) velocity = -kPlayerVelocityShift;
-      player_->setPlayerVelocity(velocity, Direction::kToUp);
-      break;
     case sf::Keyboard::Key::S:
-      if (is_pressed) velocity = kPlayerVelocityShift;
-      player_->setPlayerVelocity(velocity, Direction::kToDown);
+      player_->handlePlayerInput(key, is_pressed);
       break;
     case sf::Keyboard::Key::E:
       interact_with_ = is_pressed;
@@ -134,12 +123,13 @@ void World::buildScene() {
   createRoomConnections();
 
   // add the player
-  // auto player = std::make_unique<Player>(Player::Peepo, textures_);
-  auto player =
-      std::make_unique<Player>(std::make_unique<component::PlayerPhysics>(),
-                               std::make_unique<component::PlayerGraphics>(
-                                   textures_.get(Textures::Peepo)),
-                               textures_);
+  auto physics = std::make_unique<component::PlayerPhysics>();
+  auto* physics_ptr = physics.get();
+  auto player = std::make_unique<Player>(
+      std::move(physics),
+      std::make_unique<component::PlayerGraphics>(
+          textures_.get(Textures::Peepo)),
+      std::make_unique<component::MouseKeyboardInput>(physics_ptr), textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 

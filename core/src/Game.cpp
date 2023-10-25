@@ -43,10 +43,10 @@ void Game::processEvents() {
   while (window_.pollEvent(event)) {
     switch (event.type) {
       case sf::Event::KeyPressed:
-        handlePlayerInput(event.key.code, true);
+        world_.handlePlayerInput(event.key.code, true);
         break;
       case sf::Event::KeyReleased:
-        handlePlayerInput(event.key.code, false);
+        world_.handlePlayerInput(event.key.code, false);
         break;
       case sf::Event::Closed:
         window_.close();
@@ -103,11 +103,6 @@ void Game::updateStatistics(const sf::Time elapsed_time) {
     statistics_update_time_ -= sf::seconds(1.0f);
     statistics_num_frames_ = 0;
   }
-}
-
-void Game::handlePlayerInput(const sf::Keyboard::Key key,
-                             const bool is_pressed) {
-  world_.handlePlayerInput(key, is_pressed);
 }
 
 }  // namespace ink

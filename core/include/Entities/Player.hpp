@@ -17,13 +17,15 @@ class Player final : public GameObject {
   using GameObject::GameObject;
   Player(std::unique_ptr<component::PhysicsComponent> physics,
          std::unique_ptr<component::GraphicsComponent> graphics,
+         std::unique_ptr<component::InputComponent> inputs,
          const TextureHolder& texture_holder)
-      : GameObject(std::move(physics), std::move(graphics)),
+      : GameObject(std::move(physics), std::move(graphics), std::move(inputs)),
         texture_holder_(texture_holder) {}
 
   ~Player() override = default;
 
-  void setPlayerVelocity(float velocity, Direction direction) noexcept;
+  void handlePlayerInput(const sf::Keyboard::Key key, const bool is_pressed);
+
   void setParentRoom(room::RoomNode* parent) noexcept;
 
   void OnAttack();
