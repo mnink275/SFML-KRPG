@@ -7,6 +7,7 @@
 #include <Components/MouseKeyboardInput.hpp>
 #include <Components/PlayerPhysics.hpp>
 #include <Components/SimpleGraphics.hpp>
+#include "Resource/ResourceIdentifiers.hpp"
 
 namespace ink {
 
@@ -88,6 +89,7 @@ void World::loadTextures() {
   textures_.load(Textures::Peepo,
                  kTexturePath + "/texture/StaregeGun64x64.png");
   textures_.load(Textures::Door, kTexturePath + "/texture/Door.png");
+  textures_.load(Textures::Bullet, kTexturePath + "/texture/Bullet16x16T.png");
 }
 
 void World::createRooms() {

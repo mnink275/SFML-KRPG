@@ -5,6 +5,9 @@
 #include <memory>
 
 #include <Combat/Projectile.hpp>
+#include <Components/BulletPhysics.hpp>
+#include <Components/MouseKeyboardInput.hpp>
+#include <Components/SimpleGraphics.hpp>
 
 namespace ink {
 
@@ -19,7 +22,10 @@ void Player::setParentRoom(room::RoomNode* parent) noexcept {
 
 void Player::OnAttack() {
   parent_->attachChild(std::make_unique<combat::Projectile>(
-      texture_holder_.get(Textures::Peepo)));
+      std::make_unique<component::BulletPhysics>(),
+      std::make_unique<component::SimpleGraphics>(
+          texture_holder_.get(Textures::Bullet), true),
+      nullptr));
 }
 
 }  // namespace ink

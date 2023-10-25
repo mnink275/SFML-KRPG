@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Entities/Entity.hpp>
+#include <Entities/GameObject.hpp>
 
 namespace ink::combat {
 
-class Projectile : public Entity {
+class Projectile : public GameObject {
  public:
-  Projectile(const sf::Texture& texture);
+  using GameObject::GameObject;
 };
 
 }  // namespace ink::combat

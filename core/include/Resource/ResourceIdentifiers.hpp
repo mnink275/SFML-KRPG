@@ -15,6 +15,7 @@ enum ID {
 
   Peepo,
   Door,
+  Bullet,
 };
 
 }  // namespace Textures
