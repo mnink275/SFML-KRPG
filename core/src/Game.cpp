@@ -18,6 +18,8 @@ Game::Game()
   statistics_text_.setPosition({5.f, 5.f});
   statistics_text_.setFillColor(sf::Color::Red);
   statistics_text_.setCharacterSize(15);
+
+  window_.setPosition({0, 0});
 }
 
 void Game::run() {
