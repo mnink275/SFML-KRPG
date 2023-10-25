@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Rect.hpp>
 
 #include <Components/SimpleGraphics.hpp>
-#include <Resource/SpriteNode.hpp>
+#include <Entities/GameStaticObject.hpp>
 
 namespace ink::room {
 
@@ -17,8 +17,9 @@ RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
   texture.setRepeated(true);
 
   // add the background sprite to the scene
-  auto background_sprite =
-      std::make_unique<SpriteNode>(texture, background_texture_rect, false);
+  auto background_sprite = std::make_unique<GameStaticObject>(
+      std::make_unique<component::SimpleGraphics>(
+          texture, background_texture_rect, false));
   background_sprite->setPosition({bounds.left, bounds.top});
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
