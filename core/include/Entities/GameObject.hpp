@@ -1,9 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <type_traits>
 
 #include <SFML/System/Vector2.hpp>
 
+#include <Commands/Command.hpp>
+#include <Commands/PhysicsCommand.hpp>
 #include <Components/GraphicsComponent.hpp>
 #include <Components/InputComponent.hpp>
 #include <Components/PhysicsComponent.hpp>
@@ -22,11 +25,17 @@ class GameObject : public SceneNode {
 
   virtual ~GameObject() = default;
 
+  template <class CommandType>
+  void send(std::unique_ptr<Command> command) {
+    if constexpr (std::is_base_of_v<PhysicsCommand, CommandType>) {
+      static_cast<PhysicsCommand*>(command.get())->execute(physics_impl_.get());
+    }
+  }
+
  protected:
   std::unique_ptr<component::PhysicsComponent> physics_impl_;
   std::unique_ptr<component::GraphicsComponent> graphics_impl_;
   std::unique_ptr<component::InputComponent> inputs_impl_;
-  VelocityModule velocity_{};
 
  private:
   void drawCurrent(sf::RenderTarget& target,

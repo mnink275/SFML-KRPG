@@ -2,8 +2,9 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-#include <Components/PhysicsComponent.hpp>
-#include <Entities/VelocityModule.hpp>
+namespace ink {
+class GameObject;
+}
 
 namespace ink::component {
 
@@ -11,9 +12,9 @@ class InputComponent {
  public:
   virtual ~InputComponent() = default;
 
-  virtual void handlePlayerInput(const sf::Keyboard::Key key,
-                                 const bool is_pressed,
-                                 VelocityModule& velocity) = 0;
+  virtual void handlePlayerInput(GameObject* object,
+                                 const sf::Keyboard::Key key,
+                                 const bool is_pressed) = 0;
 };
 
 }  // namespace ink::component

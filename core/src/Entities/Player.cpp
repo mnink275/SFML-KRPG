@@ -13,7 +13,7 @@ namespace ink {
 
 void Player::handlePlayerInput(const sf::Keyboard::Key key,
                                const bool is_pressed) {
-  inputs_impl_->handlePlayerInput(key, is_pressed, velocity_);
+  inputs_impl_->handlePlayerInput(this, key, is_pressed);
 }
 
 void Player::setParentRoom(room::RoomNode* parent) noexcept {

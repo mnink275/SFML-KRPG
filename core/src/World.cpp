@@ -123,13 +123,11 @@ void World::buildScene() {
   createRoomConnections();
 
   // add the player
-  auto physics = std::make_unique<component::PlayerPhysics>();
-  auto* physics_ptr = physics.get();
   auto player = std::make_unique<Player>(
-      std::move(physics),
+      std::make_unique<component::PlayerPhysics>(),
       std::make_unique<component::SimpleGraphics>(
           textures_.get(Textures::Peepo), true),
-      std::make_unique<component::MouseKeyboardInput>(physics_ptr), textures_);
+      std::make_unique<component::MouseKeyboardInput>(), textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 
