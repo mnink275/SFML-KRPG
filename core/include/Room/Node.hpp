@@ -20,7 +20,7 @@ class RoomNode final : public SceneNode {
            sf::FloatRect bounds, Type room_type);
 
   void setPlayer(Ptr player);
-  Ptr popPlayer() const;
+  Ptr popPlayer();
   void createConnection(Type neighbor_room_type,
                         room::ConnectionType direction);
   std::optional<Type> isDoorInteraction();

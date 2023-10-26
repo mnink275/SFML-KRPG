@@ -94,11 +94,11 @@ std::optional<Type> RoomNode::isDoorInteraction() {
 
 void RoomNode::setPlayer(Ptr player) {
   room_layers_[Player] = player.get();
-  room_layers_[Background]->attachChild(std::move(player));
+  attachChild(std::move(player));
 }
 
-SceneNode::Ptr RoomNode::popPlayer() const {
-  return room_layers_[Background]->detachChild(*room_layers_[Player]);
+SceneNode::Ptr RoomNode::popPlayer() {
+  return detachChild(*room_layers_[Player]);
 }
 
 }  // namespace ink::room
