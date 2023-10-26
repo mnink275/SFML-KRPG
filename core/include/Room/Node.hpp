@@ -16,6 +16,7 @@ class RoomNode final : public SceneNode {
   using DoorPtr = std::unique_ptr<Door>;
 
  public:
+  // TODO: make TextureHolder& and Texture& const refs
   RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
            sf::FloatRect bounds, Type room_type);
 
