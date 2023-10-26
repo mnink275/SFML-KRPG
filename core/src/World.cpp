@@ -5,9 +5,9 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <Components/MouseKeyboardInput.hpp>
+#include <Components/PlayerGraphics.hpp>
 #include <Components/PlayerPhysics.hpp>
-#include <Components/SimpleGraphics.hpp>
-#include "Resource/ResourceIdentifiers.hpp"
+#include <Resource/ResourceIdentifiers.hpp>
 
 namespace ink {
 
@@ -86,8 +86,10 @@ void World::loadTextures() {
   textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
   textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
   textures_.load(Textures::Lava, kTexturePath + "/texture/LavaFloor.png");
-  textures_.load(Textures::Peepo,
-                 kTexturePath + "/texture/StaregeGun64x64.png");
+  textures_.load(Textures::PeepoLeft,
+                 kTexturePath + "/texture/StaregeGun64x64Left.png");
+  textures_.load(Textures::PeepoRight,
+                 kTexturePath + "/texture/StaregeGun64x64Right.png");
   textures_.load(Textures::Door, kTexturePath + "/texture/Door.png");
   textures_.load(Textures::Bullet, kTexturePath + "/texture/Bullet16x16T.png");
 }
@@ -125,8 +127,9 @@ void World::buildScene() {
   // add the player
   auto player = std::make_unique<Player>(
       std::make_unique<component::PlayerPhysics>(),
-      std::make_unique<component::SimpleGraphics>(
-          textures_.get(Textures::Peepo), true),
+      std::make_unique<component::PlayerGraphics>(
+          textures_.get(Textures::PeepoLeft),
+          textures_.get(Textures::PeepoRight), true),
       std::make_unique<component::MouseKeyboardInput>(), textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);

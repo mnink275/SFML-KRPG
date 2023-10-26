@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-#include <Commands/CommandList.hpp>
+#include <Commands/SwapPlayerTextureCommand.hpp>
+#include <Commands/VelocityDiffCommand.hpp>
 #include <Entities/GameObject.hpp>
 
 namespace ink::component {
@@ -18,11 +19,15 @@ void MouseKeyboardInput::handlePlayerInput(GameObject* object,
       if (is_pressed) velocity_diff = -kPlayerVelocityShift;
       object->send<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
+      object->send<SwapPlayerTextureCommand>(
+          std::make_unique<SwapPlayerTextureCommand>(false));
       break;
     case sf::Keyboard::Key::D:
       if (is_pressed) velocity_diff = kPlayerVelocityShift;
       object->send<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
+      object->send<SwapPlayerTextureCommand>(
+          std::make_unique<SwapPlayerTextureCommand>(true));
       break;
     case sf::Keyboard::Key::W:
       if (is_pressed) velocity_diff = -kPlayerVelocityShift;

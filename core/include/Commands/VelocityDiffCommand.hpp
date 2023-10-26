@@ -4,8 +4,8 @@
 
 #include <SFML/Window/Event.hpp>
 
-#include <Components/PlayerPhysics.hpp>
 #include <Commands/PhysicsCommand.hpp>
+#include <Components/PlayerPhysics.hpp>
 
 namespace ink {
 

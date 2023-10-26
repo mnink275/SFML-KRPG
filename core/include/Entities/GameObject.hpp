@@ -6,6 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <Commands/Command.hpp>
+#include <Commands/GraphicsCommand.hpp>
 #include <Commands/PhysicsCommand.hpp>
 #include <Components/GraphicsComponent.hpp>
 #include <Components/InputComponent.hpp>
@@ -29,6 +30,9 @@ class GameObject : public SceneNode {
   void send(std::unique_ptr<Command> command) {
     if constexpr (std::is_base_of_v<PhysicsCommand, CommandType>) {
       static_cast<PhysicsCommand*>(command.get())->execute(physics_impl_.get());
+    } else if (std::is_base_of_v<GraphicsCommand, CommandType>) {
+      static_cast<GraphicsCommand*>(command.get())
+          ->execute(graphics_impl_.get());
     }
   }
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Components/PhysicsComponent.hpp>
 #include <Commands/Command.hpp>
+#include <Components/PhysicsComponent.hpp>
 
 namespace ink {
 

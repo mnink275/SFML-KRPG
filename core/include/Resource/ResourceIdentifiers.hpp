@@ -13,7 +13,8 @@ enum ID {
   Stone,
   Lava,
 
-  Peepo,
+  PeepoLeft,
+  PeepoRight,
   Door,
   Bullet,
 };
