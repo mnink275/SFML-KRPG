@@ -13,7 +13,7 @@ class PlayerPhysics : public PhysicsComponent {
 
   virtual ~PlayerPhysics() = default;
 
-  sf::Vector2f getTransform(GameObject* object, sf::Time dt) override;
+  sf::Vector2f getTransform(sf::Time dt) override;
 
  private:
   sf::Vector2f fixDiagonalVelocity(sf::Vector2f velocity) const;

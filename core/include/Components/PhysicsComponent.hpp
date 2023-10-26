@@ -15,7 +15,7 @@ class PhysicsComponent {
  public:
   virtual ~PhysicsComponent() = default;
 
-  virtual sf::Vector2f getTransform(GameObject* object, sf::Time dt) = 0;
+  virtual sf::Vector2f getTransform(sf::Time dt) = 0;
 
   VelocityModule velocity{};
 };

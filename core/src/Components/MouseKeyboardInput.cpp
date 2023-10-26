@@ -17,26 +17,26 @@ void MouseKeyboardInput::handlePlayerInput(GameObject* object,
   switch (key) {
     case sf::Keyboard::Key::A:
       if (is_pressed) velocity_diff = -kPlayerVelocityShift;
-      object->send<VelocityDiffCommand>(
+      object->execute<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
-      object->send<SwapPlayerTextureCommand>(
+      object->execute<SwapPlayerTextureCommand>(
           std::make_unique<SwapPlayerTextureCommand>(false));
       break;
     case sf::Keyboard::Key::D:
       if (is_pressed) velocity_diff = kPlayerVelocityShift;
-      object->send<VelocityDiffCommand>(
+      object->execute<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
-      object->send<SwapPlayerTextureCommand>(
+      object->execute<SwapPlayerTextureCommand>(
           std::make_unique<SwapPlayerTextureCommand>(true));
       break;
     case sf::Keyboard::Key::W:
       if (is_pressed) velocity_diff = -kPlayerVelocityShift;
-      object->send<VelocityDiffCommand>(
+      object->execute<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
       break;
     case sf::Keyboard::Key::S:
       if (is_pressed) velocity_diff = kPlayerVelocityShift;
-      object->send<VelocityDiffCommand>(
+      object->execute<VelocityDiffCommand>(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
       break;
     // case sf::Keyboard::Key::E:

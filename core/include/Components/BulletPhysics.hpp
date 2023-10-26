@@ -10,7 +10,7 @@ class BulletPhysics : public PhysicsComponent {
  public:
   virtual ~BulletPhysics() = default;
 
-  sf::Vector2f getTransform(GameObject* object, sf::Time dt) override;
+  sf::Vector2f getTransform(sf::Time dt) override;
 };
 
 }  // namespace ink::component

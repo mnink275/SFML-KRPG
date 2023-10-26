@@ -1,6 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include <Components/GraphicsComponent.hpp>
 

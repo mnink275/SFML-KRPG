@@ -1,6 +1,4 @@
 #include <Components/PlayerGraphics.hpp>
-#include "SFML/Graphics/Rect.hpp"
-#include "SFML/Graphics/Texture.hpp"
 
 namespace ink::component {
 
@@ -17,14 +15,10 @@ PlayerGraphics::PlayerGraphics(const sf::Texture& left_movement,
     : left_movement_sprite_(left_movement, rect),
       right_movement_sprite_(right_movement, rect) {
   if (is_centered) {
-    const sf::FloatRect left_bounds = left_movement_sprite_.getLocalBounds();
-    left_movement_sprite_.setOrigin(
-        {left_bounds.width / 2.f, left_bounds.height / 2.f});
-
-    const sf::FloatRect right_bounds = right_movement_sprite_.getLocalBounds();
-    right_movement_sprite_.setOrigin(
-        {right_bounds.width / 2.f, right_bounds.height / 2.f});
+    doSpriteCentering(left_movement_sprite_);
+    doSpriteCentering(right_movement_sprite_);
   }
+  assert(left_movement.getSize() == right_movement.getSize());
 }
 
 void PlayerGraphics::draw(sf::RenderTarget& target,

@@ -8,7 +8,8 @@ namespace ink {
 class GraphicsCommand : public Command {
  public:
   virtual ~GraphicsCommand() = default;
-  void virtual execute(component::GraphicsComponent* physics) = 0;
+  void virtual execute(
+      component::GraphicsComponent* physics) const noexcept = 0;
 };
 
 }  // namespace ink

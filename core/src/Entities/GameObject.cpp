@@ -15,7 +15,7 @@ void GameObject::drawCurrent(sf::RenderTarget& target,
 }
 
 void GameObject::updateCurrent(sf::Time dt) {
-  auto transforms = physics_impl_->getTransform(this, dt);
+  auto transforms = physics_impl_->getTransform(dt);
   Transformable::move(transforms);
 };
 
