@@ -19,7 +19,7 @@ World::World(sf::RenderWindow& window)
       spawn_position_(world_view_.getSize().x / 2.f,
                       world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
-      room_manager_(scene_graph_, room::DesertRoom, world_bounds_, textures_) {
+      room_manager_(scene_graph_, world_bounds_, textures_) {
   loadTextures();
   buildScene();
   world_view_.setCenter(spawn_position_);

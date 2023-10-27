@@ -8,10 +8,11 @@
 namespace ink::room {
 
 RoomNode::RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
-                   sf::FloatRect bounds, Type room_type)
+                   sf::FloatRect bounds, Type room_type, std::size_t room_id)
     : room_type_(room_type),
       texture_(texture_holder),
-      room_bounds_(bounds.height, bounds.width) {
+      room_bounds_(bounds.height, bounds.width),
+      room_id_(room_id) {
   // prepare the tiled background
   sf::IntRect background_texture_rect(bounds);
   texture.setRepeated(true);
@@ -72,14 +73,14 @@ void RoomNode::doorsInitialize() {
   }
 }
 
-void RoomNode::createConnection(const Type neighbor_room_type,
+void RoomNode::createConnection(const std::size_t room_id,
                                 const ConnectionType direction) {
   auto dir_id = static_cast<std::size_t>(direction);
-  connected_rooms_[dir_id] = neighbor_room_type;
+  connected_rooms_[dir_id] = room_id;
   doors_storage_[dir_id]->activate();
 }
 
-std::optional<Type> RoomNode::isDoorInteraction() {
+std::optional<std::size_t> RoomNode::isDoorInteraction() {
   const sf::Vector2f& player_coords = room_layers_[Player]->getPosition();
   for (std::size_t i = 0; i < ConnectionsCount; ++i) {
     const auto& door = doors_storage_[i];

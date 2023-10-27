@@ -18,13 +18,13 @@ class RoomNode final : public SceneNode {
  public:
   // TODO: make TextureHolder& and Texture& const refs
   RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
-           sf::FloatRect bounds, Type room_type);
+           sf::FloatRect bounds, Type room_type, std::size_t room_id);
 
   void setPlayer(Ptr player);
   Ptr popPlayer();
-  void createConnection(Type neighbor_room_type,
-                        room::ConnectionType direction);
-  std::optional<Type> isDoorInteraction();
+  void createConnection(const std::size_t room_id,
+                        const room::ConnectionType direction);
+  std::optional<std::size_t> isDoorInteraction();
 
  private:
   enum Layer { Background, Player, LayerCount };
@@ -37,7 +37,8 @@ class RoomNode final : public SceneNode {
   std::array<SceneNode*, LayerCount> room_layers_{nullptr};
   // order: top = 0, right = 1, bottom = 2, left = 3
   std::array<Door*, ConnectionsCount> doors_storage_;
-  std::array<Type, ConnectionsCount> connected_rooms_;
+  std::array<std::size_t, ConnectionsCount> connected_rooms_;
+  std::size_t room_id_;
 };
 
 }  // namespace ink::room
