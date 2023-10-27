@@ -63,7 +63,7 @@ std::size_t RoomManager::createRandomRoom() {
   static std::mt19937 randomizer(fixed_seed);
   std::size_t room_type_id = 0;
   while (room_type_id == curr_room_id_) {
-    room_type_id = randomizer() % 3;
+    room_type_id = randomizer() % kRoomCount;
   }
   std::cout << "New room id: " << room_type_id << '\n';
   const auto texture_type = static_cast<Textures>(room_type_id);
