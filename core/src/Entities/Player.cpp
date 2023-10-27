@@ -24,7 +24,7 @@ void Player::OnAttack() {
   parent_->attachChild(std::make_unique<combat::Projectile>(
       std::make_unique<component::BulletPhysics>(),
       std::make_unique<component::SimpleGraphics>(
-          texture_holder_.get(Textures::Bullet), true),
+          texture_holder_.get(Textures::kBullet), true),
       nullptr));
 }
 

@@ -32,7 +32,7 @@ class RoomManager final {
   void createRooms() {
     // rooms factory
     for (int i = 0; i < room::RoomCount; ++i) {
-      const auto texture_type = static_cast<Textures::ID>(i);
+      const auto texture_type = static_cast<Textures>(i);
       const auto room_type = static_cast<room::Type>(i);
 
       auto room = std::make_unique<room::RoomNode>(

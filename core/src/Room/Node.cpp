@@ -61,7 +61,7 @@ void RoomNode::doorsInitialize() {
 
     auto door = std::make_unique<Door>(
         std::make_unique<component::SimpleGraphics>(
-            texture_.get(Textures::Door), sf::IntRect{door_sizes[dir_id]},
+            texture_.get(Textures::kDoor), sf::IntRect{door_sizes[dir_id]},
             false),
         direction_type, door_positions[dir_id],
         door_positions[static_cast<std::size_t>(transition_type)]);

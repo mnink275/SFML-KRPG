@@ -6,25 +6,22 @@ class Texture;
 
 namespace ink {
 
-namespace Textures {
 // WARNING: do not change the order!
-enum ID {
-  Desert,
-  Stone,
-  Lava,
+enum Textures {
+  kDesert,
+  kStone,
+  kLava,
 
-  PeepoLeft,
-  PeepoRight,
-  Door,
-  Bullet,
+  kPeepoLeft,
+  kPeepoRight,
+  kDoor,
+  kBullet,
 };
-
-}  // namespace Textures
 
 // Forward declaration and a few type definitions
 template <typename Resource, typename Identifier>
 class ResourceHolder;
 
-using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
+using TextureHolder = ResourceHolder<sf::Texture, Textures>;
 
 }  // namespace ink

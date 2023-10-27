@@ -66,15 +66,15 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
 
 void World::loadTextures() {
   const auto kTexturePath = std::string(RESOURCE_FOLDER);
-  textures_.load(Textures::Desert, kTexturePath + "/texture/DesertFloor.jpg");
-  textures_.load(Textures::Stone, kTexturePath + "/texture/StoneFloor.jpg");
-  textures_.load(Textures::Lava, kTexturePath + "/texture/LavaFloor.png");
-  textures_.load(Textures::PeepoLeft,
+  textures_.load(Textures::kDesert, kTexturePath + "/texture/DesertFloor.jpg");
+  textures_.load(Textures::kStone, kTexturePath + "/texture/StoneFloor.jpg");
+  textures_.load(Textures::kLava, kTexturePath + "/texture/LavaFloor.png");
+  textures_.load(Textures::kPeepoLeft,
                  kTexturePath + "/texture/StaregeGun64x64Left.png");
-  textures_.load(Textures::PeepoRight,
+  textures_.load(Textures::kPeepoRight,
                  kTexturePath + "/texture/StaregeGun64x64Right.png");
-  textures_.load(Textures::Door, kTexturePath + "/texture/Door.png");
-  textures_.load(Textures::Bullet, kTexturePath + "/texture/Bullet16x16T.png");
+  textures_.load(Textures::kDoor, kTexturePath + "/texture/Door.png");
+  textures_.load(Textures::kBullet, kTexturePath + "/texture/Bullet16x16T.png");
 }
 
 void World::buildScene() {
@@ -86,8 +86,8 @@ void World::buildScene() {
   auto player = std::make_unique<Player>(
       std::make_unique<component::PlayerPhysics>(),
       std::make_unique<component::PlayerGraphics>(
-          textures_.get(Textures::PeepoLeft),
-          textures_.get(Textures::PeepoRight), true),
+          textures_.get(Textures::kPeepoLeft),
+          textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::MouseKeyboardInput>(), textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);
