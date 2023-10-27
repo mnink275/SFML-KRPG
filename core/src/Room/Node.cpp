@@ -1,5 +1,8 @@
 #include <Room/Node.hpp>
 
+#include <iostream>
+#include <limits>
+
 #include <SFML/Graphics/Rect.hpp>
 
 #include <Components/SimpleGraphics.hpp>
@@ -91,6 +94,24 @@ std::optional<std::size_t> RoomNode::isDoorInteraction() {
   }
 
   return std::nullopt;
+}
+
+RoomNode::InteractionResult RoomNode::CheckDoorInteraction() {
+  const sf::Vector2f& player_coords = room_layers_[Player]->getPosition();
+  for (std::size_t i = 0; i < ConnectionsCount; ++i) {
+    const auto& door = doors_storage_[i];
+    if (door->nearOf(player_coords)) {
+      if (door->isActive()) {
+        std::cout << "Interactions with active door\n";
+        room_layers_[Player]->setPosition(door->getDoorOtherSidePosition());
+        return connected_rooms_[i];
+      }
+      std::cout << "Interactions with inactive door\n";
+      return static_cast<ConnectionType>(i);
+    }
+  }
+  std::cout << "No interactions with doors\n";
+  return std::monostate{};
 }
 
 void RoomNode::setPlayer(Ptr player) {

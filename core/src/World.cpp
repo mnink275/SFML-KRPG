@@ -79,8 +79,7 @@ void World::loadTextures() {
 
 void World::buildScene() {
   // create and connect the rooms
-  room_manager_.createRooms();
-  room_manager_.createRoomConnections();
+  room_manager_.createInitialRoom();
 
   // add the player
   auto player = std::make_unique<Player>(

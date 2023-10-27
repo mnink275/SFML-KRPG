@@ -1,12 +1,16 @@
 #pragma once
 
+#include <limits>
 #include <memory>
+#include <variant>
+#include <iostream>
 
 #include <Entities/Player.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/Node.hpp>
 #include <Room/Types.hpp>
 #include <SceneNode.hpp>
+#include <Room/ConnectionTypes.hpp>
 
 namespace ink::room {
 
@@ -30,19 +34,8 @@ class RoomManager final {
     scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
   }
 
-  void createRooms() {
-    // rooms factory
-    for (int i = 0; i < room::RoomCount; ++i) {
-      const auto texture_type = static_cast<Textures>(i);
-      const auto room_type = static_cast<room::Type>(i);
-
-      auto room_id = rooms_count_++;
-      auto room = std::make_unique<room::RoomNode>(
-          textures_, textures_.get(texture_type), world_bounds_, room_type,
-          room_id);
-      room_nodes_.push_back(room.get());
-      room_storage_.push_back(std::move(room));
-    }
+  void createInitialRoom() { 
+    createRandomRoom();
   }
 
   void changeRoomTo(std::size_t next_room_id) {
@@ -58,19 +51,45 @@ class RoomManager final {
 
     curr_room_id_ = next_room_id;
   }
-  void createRoomConnections() const {
-    room_nodes_[0]->createConnection(1, room::ConnectionType::Top);
-    room_nodes_[1]->createConnection(0, room::ConnectionType::Bottom);
-
-    room_nodes_[0]->createConnection(2, room::ConnectionType::Right);
-    room_nodes_[2]->createConnection(0, room::ConnectionType::Left);
-  }
 
   void checkDoorInteraction() {
     room::RoomNode* curr_room = room_nodes_[curr_room_id_];
-    if (auto next_room_type = curr_room->isDoorInteraction()) {
-      changeRoomTo(next_room_type.value());
+    auto result = curr_room->CheckDoorInteraction();
+    if (std::holds_alternative<std::monostate>(result)) return;
+    if (std::holds_alternative<room::ConnectionType>(result)) {
+      auto connection = std::get<room::ConnectionType>(result);
+      createConnectionTo(connection);
+      checkDoorInteraction();
+    } else {
+      changeRoomTo(std::get<std::size_t>(result));
     }
+  }
+
+ private:
+  std::size_t createRandomRoom() {
+    std::size_t room_type_id = 0;
+    while (room_type_id == curr_room_id_) {
+      room_type_id = rand() % 3;
+    }
+    std::cout << "New room id: " << room_type_id << '\n';
+    const auto texture_type = static_cast<Textures>(room_type_id);
+    const auto room_type = static_cast<room::Type>(room_type_id);
+
+    auto room_id = rooms_count_++;
+    auto room =
+        std::make_unique<room::RoomNode>(textures_, textures_.get(texture_type),
+                                         world_bounds_, room_type, room_id);
+    room_nodes_.push_back(room.get());
+    room_storage_.push_back(std::move(room));
+
+    return room_id;
+  }
+
+  void createConnectionTo(room::ConnectionType connection) {
+    auto random_room_id = createRandomRoom();
+    room_nodes_[curr_room_id_]->createConnection(random_room_id, connection);
+    room_nodes_[random_room_id]->createConnection(curr_room_id_,
+                                                  getSisterType(connection));
   }
 
  private:

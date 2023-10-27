@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <optional>
+#include <variant>
 
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
@@ -13,7 +13,10 @@
 namespace ink::room {
 
 class RoomNode final : public SceneNode {
+ public:
   using DoorPtr = std::unique_ptr<Door>;
+  using InteractionResult =
+      std::variant<std::monostate, std::size_t, ConnectionType>;
 
  public:
   // TODO: make TextureHolder& and Texture& const refs
@@ -23,7 +26,8 @@ class RoomNode final : public SceneNode {
   void setPlayer(Ptr player);
   Ptr popPlayer();
   void createConnection(const std::size_t room_id,
-                        const room::ConnectionType direction);
+                        const ConnectionType direction);
+  InteractionResult CheckDoorInteraction();
   std::optional<std::size_t> isDoorInteraction();
 
  private:
