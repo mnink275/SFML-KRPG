@@ -82,7 +82,7 @@ void RoomManager::createConnectionTo(ConnectionType connection) {
   auto random_room_id = createRandomRoom();
   room_nodes_[curr_room_id_]->createConnection(random_room_id, connection);
   room_nodes_[random_room_id]->createConnection(curr_room_id_,
-                                                getSisterType(connection));
+                                                getMirrorType(connection));
 }
 
 }  // namespace ink::room

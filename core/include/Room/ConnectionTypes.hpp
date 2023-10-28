@@ -7,7 +7,7 @@ namespace ink::room {
 
 enum class ConnectionType { Top, Right, Bottom, Left, Count };
 
-inline static ConnectionType getSisterType(ConnectionType connection) {
+inline static ConnectionType getMirrorType(ConnectionType connection) {
   switch (connection) {
     case ConnectionType::Top:
       return ConnectionType::Bottom;
