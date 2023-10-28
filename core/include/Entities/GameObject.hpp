@@ -26,13 +26,12 @@ class GameObject : public SceneNode {
 
   virtual ~GameObject() = default;
 
-  template <class CommandType>
+  template <class Command>
   void execute(std::unique_ptr<Command> command) {
-    if constexpr (std::is_base_of_v<PhysicsCommand, CommandType>) {
-      static_cast<PhysicsCommand*>(command.get())->execute(physics_impl_.get());
-    } else if (std::is_base_of_v<GraphicsCommand, CommandType>) {
-      static_cast<GraphicsCommand*>(command.get())
-          ->execute(graphics_impl_.get());
+    if constexpr (std::is_base_of_v<PhysicsCommand, Command>) {
+      command.get()->execute(physics_impl_.get());
+    } else if constexpr (std::is_base_of_v<GraphicsCommand, Command>) {
+      command.get()->execute(graphics_impl_.get());
     }
   }
 
