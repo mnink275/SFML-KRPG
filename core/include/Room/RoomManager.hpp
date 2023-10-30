@@ -9,6 +9,9 @@
 namespace ink::room {
 
 class RoomManager final {
+ private:
+  using Ptr = SceneNode::Ptr;
+
  public:
   RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
               TextureHolder& textures);
@@ -17,6 +20,8 @@ class RoomManager final {
   void createInitialRoom();
   void changeRoomTo(std::size_t next_room_id);
   void checkDoorInteraction();
+
+  void onProjectileAttack(Ptr projectile);
 
  private:
   std::size_t createRandomRoom();
@@ -27,7 +32,6 @@ class RoomManager final {
   // it needs to detach SceneNode(rooms) by it's address
   // and work with concrete object.
   std::vector<RoomNode*> room_nodes_;
-  using Ptr = SceneNode::Ptr;
   std::vector<Ptr> room_storage_;
   std::size_t curr_room_id_;
   std::size_t rooms_count_;

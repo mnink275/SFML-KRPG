@@ -4,10 +4,12 @@ namespace ink {
 
 GameObject::GameObject(std::unique_ptr<component::PhysicsComponent> physics,
                        std::unique_ptr<component::GraphicsComponent> graphics,
-                       std::unique_ptr<component::InputComponent> inputs)
+                       std::unique_ptr<component::InputComponent> inputs,
+                       std::unique_ptr<component::CombatComponent> combat)
     : physics_impl_(std::move(physics)),
       graphics_impl_(std::move(graphics)),
-      inputs_impl_(std::move(inputs)) {}
+      inputs_impl_(std::move(inputs)),
+      combat_impl_(std::move(combat)) {}
 
 void GameObject::drawCurrent(sf::RenderTarget& target,
                              const sf::RenderStates states) const {

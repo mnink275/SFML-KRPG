@@ -24,7 +24,6 @@ RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
 
 void RoomManager::attachPlayer(std::unique_ptr<Player> player) {
   // connect entities to the Graph
-  player->setParentRoom(room_nodes_[curr_room_id_]);
   room_nodes_[curr_room_id_]->setPlayer(std::move(player));
   scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
 }
@@ -56,6 +55,10 @@ void RoomManager::checkDoorInteraction() {
   } else {
     changeRoomTo(std::get<std::size_t>(result));
   }
+}
+
+void RoomManager::onProjectileAttack(SceneNode::Ptr projectile) {
+  room_nodes_[curr_room_id_]->attachChild(std::move(projectile));
 }
 
 std::size_t RoomManager::createRandomRoom() {

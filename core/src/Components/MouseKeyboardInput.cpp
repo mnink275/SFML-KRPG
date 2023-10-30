@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <Commands/PlayerFireCommand.hpp>
 #include <Commands/SwapPlayerTextureCommand.hpp>
 #include <Commands/VelocityDiffCommand.hpp>
 #include <Entities/GameObject.hpp>
@@ -38,11 +39,12 @@ void MouseKeyboardInput::handlePlayerInput(GameObject* object,
       object->execute(
           std::make_unique<VelocityDiffCommand>(velocity_diff, key));
       break;
+    case sf::Keyboard::Key::F:
+      object->execute(std::make_unique<PlayerFireCommand>(
+          key, is_pressed, object->getPosition()));
+      break;
     // case sf::Keyboard::Key::E:
     //   interact_with_ = is_pressed;
-    //   break;
-    // case sf::Keyboard::Key::F:
-    //   player_->OnAttack();
     //   break;
     default:
       std::cout << "The key isn't implemented!\n";

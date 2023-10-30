@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <Components/MouseKeyboardInput.hpp>
+#include <Components/PlayerCombat.hpp>
 #include <Components/PlayerGraphics.hpp>
 #include <Components/PlayerPhysics.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
@@ -51,13 +52,11 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::D:
     case sf::Keyboard::Key::W:
     case sf::Keyboard::Key::S:
+    case sf::Keyboard::Key::F:
       player_->handlePlayerInput(key, is_pressed);
       break;
     case sf::Keyboard::Key::E:
       interact_with_ = is_pressed;
-      break;
-    case sf::Keyboard::Key::F:
-      player_->OnAttack();
       break;
     default:
       std::cout << "The key isn't implemented!\n";
@@ -87,7 +86,9 @@ void World::buildScene() {
       std::make_unique<component::PlayerGraphics>(
           textures_.get(Textures::kPeepoLeft),
           textures_.get(Textures::kPeepoRight), true),
-      std::make_unique<component::MouseKeyboardInput>(), textures_);
+      std::make_unique<component::MouseKeyboardInput>(),
+      std::make_unique<component::PlayerCombat>(room_manager_, textures_),
+      textures_);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 
