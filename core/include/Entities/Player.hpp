@@ -3,7 +3,6 @@
 #include <Category.hpp>
 #include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
-#include <Commands/ComponentCommand.hpp>
 #include <Entities/GameObject.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/Node.hpp>
@@ -26,13 +25,13 @@ class Player final : public GameObject {
 
   ~Player() override = default;
 
-  void handlePlayerInput(CommandQueue<Command>& commands,
+  void handlePlayerInput(CommandQueue<NodeCommand>& commands,
                          const sf::Keyboard::Key key, const bool is_pressed);
-  void updateCurrent(sf::Time dt, CommandQueue<Command>& commands) override;
+  void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
 
  private:
   const TextureHolder& texture_holder_;  // TODO: remove candidate
-  Command fire_command_;
+  NodeCommand fire_command_;
   CommandQueue<ComponentCommand> command_queue_;
 };
 

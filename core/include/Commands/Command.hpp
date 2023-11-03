@@ -6,26 +6,42 @@
 #include <SFML/System/Time.hpp>
 
 #include <Category.hpp>
+#include <Components/Category.hpp>
+
+namespace ink::component {
+class Component;
+}  // namespace ink::component
+namespace ink {
+class SceneNode;
+}  // namespace ink
 
 namespace ink {
 
-class SceneNode;
-
+template <class Base, class Category>
 struct Command {
-  using Action = std::function<void(SceneNode&, sf::Time)>;
+  using Action = std::function<void(Base&, sf::Time)>;
 
-  Command() : action(), category(static_cast<CategoryType>(Category::None)) {}
+  Command() : action(), category(0) {}
 
   Action action;
-  CategoryType category;
+  unsigned int category;
 };
 
-template <class GameObject, class Func>
-Command::Action SendAs(Func func) {
-  return [func](SceneNode& node, sf::Time dt) {
-    assert(dynamic_cast<GameObject*>(&node) != nullptr);
+using NodeCommand = Command<SceneNode, Category>;
+using ComponentCommand = Command<component::Component, component::Category>;
 
-    func(static_cast<GameObject&>(node), dt);
+template <class Derived>
+using GetBase = std::conditional_t<std::is_base_of_v<SceneNode, Derived>,
+                                   SceneNode, component::Component>;
+
+template <class Derived, class Func>
+typename std::conditional_t<std::is_same_v<SceneNode, GetBase<Derived>>,
+                            NodeCommand, ComponentCommand>::Action
+SendTo(Func func) {
+  return [func](GetBase<Derived>& node, sf::Time dt) {
+    assert(dynamic_cast<Derived*>(&node) != nullptr);
+
+    func(static_cast<Derived&>(node), dt);
   };
 }
 

@@ -2,9 +2,8 @@
 
 #include <SFML/System/Time.hpp>
 
+#include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
-#include <Commands/ComponentCommand.hpp>
-#include <Components/Category.hpp>
 
 namespace ink::component {
 

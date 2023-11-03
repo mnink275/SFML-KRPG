@@ -4,8 +4,8 @@
 
 #include <Commands/Command.hpp>
 #include <Components/CombatComponent.hpp>
-#include <Components/PhysicsComponent.hpp>
 #include <Components/GraphicsComponent.hpp>
+#include <Components/PhysicsComponent.hpp>
 
 namespace ink::component {
 
@@ -66,42 +66,41 @@ KeyboardInput::KeyboardInput() {
   player_move_.category = static_cast<CategoryType>(Category::kPhysic);
 
   player_fire_.category = static_cast<CategoryType>(Category::kCombat);
-  player_fire_.action =
-      SendAsComp<component::CombatComponent>(PlayerFireCommand{});
+  player_fire_.action = SendTo<component::CombatComponent>(PlayerFireCommand{});
 
   player_body_rotation_.category =
       static_cast<CategoryType>(Category::kGraphic);
 }
 
-void KeyboardInput::handlePlayerInput(CommandQueue<Command>& /*command_queue*/,
-                                      const sf::Keyboard::Key key,
-                                      const bool is_pressed) {
+void KeyboardInput::handlePlayerInput(
+    CommandQueue<NodeCommand>& /*command_queue*/, const sf::Keyboard::Key key,
+    const bool is_pressed) {
   switch (key) {
     case sf::Keyboard::Key::A:
-      player_move_.action = SendAsComp<component::PhysicsComponent>(
+      player_move_.action = SendTo<component::PhysicsComponent>(
           PlayerMoveCommand{key, is_pressed});
       sendCommand(player_move_);
 
-      player_body_rotation_.action = SendAsComp<component::GraphicsComponent>(
+      player_body_rotation_.action = SendTo<component::GraphicsComponent>(
           PlayerBodyRotationCommand{EyesDirection::kLeft});
       sendCommand(player_body_rotation_);
       break;
     case sf::Keyboard::Key::D:
-      player_move_.action = SendAsComp<component::PhysicsComponent>(
+      player_move_.action = SendTo<component::PhysicsComponent>(
           PlayerMoveCommand{key, is_pressed});
       sendCommand(player_move_);
 
-      player_body_rotation_.action = SendAsComp<component::GraphicsComponent>(
+      player_body_rotation_.action = SendTo<component::GraphicsComponent>(
           PlayerBodyRotationCommand{EyesDirection::kRight});
       sendCommand(player_body_rotation_);
       break;
     case sf::Keyboard::Key::W:
-      player_move_.action = SendAsComp<component::PhysicsComponent>(
+      player_move_.action = SendTo<component::PhysicsComponent>(
           PlayerMoveCommand{key, is_pressed});
       sendCommand(player_move_);
       break;
     case sf::Keyboard::Key::S:
-      player_move_.action = SendAsComp<component::PhysicsComponent>(
+      player_move_.action = SendTo<component::PhysicsComponent>(
           PlayerMoveCommand{key, is_pressed});
       sendCommand(player_move_);
       break;

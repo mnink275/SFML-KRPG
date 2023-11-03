@@ -13,7 +13,7 @@ class InputComponent : public Component {
   InputComponent();
   virtual ~InputComponent() = default;
 
-  virtual void handlePlayerInput(CommandQueue<Command>& command_queue,
+  virtual void handlePlayerInput(CommandQueue<NodeCommand>& command_queue,
                                  const sf::Keyboard::Key key,
                                  const bool is_pressed) = 0;
 };

@@ -18,7 +18,7 @@ void GameObject::drawCurrent(sf::RenderTarget& target,
   graphics_impl_->draw(target, states);
 }
 
-void GameObject::updateCurrent(sf::Time dt, CommandQueue<Command>&) {
+void GameObject::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>&) {
   auto transforms = physics_impl_->getTransform(dt);
   Transformable::move(transforms);
 };

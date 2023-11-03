@@ -26,17 +26,17 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
 
   void attachChild(Ptr child);
   Ptr detachChild(const SceneNode& node);
-  void update(const sf::Time dt, CommandQueue<Command>& commands);
+  void update(const sf::Time dt, CommandQueue<NodeCommand>& commands);
 
-  void onCommand(const Command& command, sf::Time dt);
+  void onCommand(const NodeCommand& command, sf::Time dt);
 
  private:
   void draw(sf::RenderTarget& target,
             const sf::RenderStates& states) const override final;
   virtual void drawCurrent(sf::RenderTarget& target,
                            const sf::RenderStates states) const;
-  virtual void updateCurrent(sf::Time dt, CommandQueue<Command>& commands);
-  void updateChildren(sf::Time dt, CommandQueue<Command>& commands) const;
+  virtual void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands);
+  void updateChildren(sf::Time dt, CommandQueue<NodeCommand>& commands) const;
   sf::Transform getWorldTransform() const;
   sf::Vector2f getWorldPosition() const;
 

@@ -23,12 +23,12 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
   return result;
 }
 
-void SceneNode::update(const sf::Time dt, CommandQueue<Command>& commands) {
+void SceneNode::update(const sf::Time dt, CommandQueue<NodeCommand>& commands) {
   updateCurrent(dt, commands);
   updateChildren(dt, commands);
 }
 
-void SceneNode::onCommand(const Command& command, sf::Time dt) {
+void SceneNode::onCommand(const NodeCommand& command, sf::Time dt) {
   if (command.category & static_cast<CategoryType>(category_))
     command.action(*this, dt);
 
@@ -50,10 +50,10 @@ void SceneNode::draw(sf::RenderTarget& target,
 void SceneNode::drawCurrent(sf::RenderTarget& /*target*/,
                             const sf::RenderStates /*states*/) const {}
 
-void SceneNode::updateCurrent(sf::Time, CommandQueue<Command>&) {}
+void SceneNode::updateCurrent(sf::Time, CommandQueue<NodeCommand>&) {}
 
 void SceneNode::updateChildren(const sf::Time dt,
-                               CommandQueue<Command>& commands) const {
+                               CommandQueue<NodeCommand>& commands) const {
   for (auto&& child : children_) {
     child->update(dt, commands);
   }

@@ -45,7 +45,7 @@ class World final {
 
   Player* player_;
   room::RoomManager room_manager_;
-  CommandQueue<Command> command_queue_;
+  CommandQueue<NodeCommand> command_queue_;
 };
 
 }  // namespace ink

@@ -21,13 +21,13 @@ Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
   };
 }
 
-void Player::handlePlayerInput(CommandQueue<Command>& commands,
+void Player::handlePlayerInput(CommandQueue<NodeCommand>& commands,
                                const sf::Keyboard::Key key,
                                const bool is_pressed) {
   inputs_impl_->handlePlayerInput(commands, key, is_pressed);
 }
 
-void Player::updateCurrent(sf::Time dt, CommandQueue<Command>& commands) {
+void Player::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
     physics_impl_->onCommand(command, dt);

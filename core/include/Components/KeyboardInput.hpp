@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Commands/Command.hpp>
-#include <Commands/ComponentCommand.hpp>
 #include <Components/InputComponent.hpp>
 
 namespace ink::component {
@@ -11,7 +10,7 @@ class KeyboardInput final : public InputComponent {
   KeyboardInput();
   ~KeyboardInput() override = default;
 
-  void handlePlayerInput(CommandQueue<Command>& command_queue,
+  void handlePlayerInput(CommandQueue<NodeCommand>& command_queue,
                          const sf::Keyboard::Key key,
                          const bool is_pressed) override;
 

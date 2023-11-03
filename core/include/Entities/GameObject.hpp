@@ -36,7 +36,7 @@ class GameObject : public SceneNode {
   void drawCurrent(sf::RenderTarget& target,
                    const sf::RenderStates states) const override;
 
-  void updateCurrent(sf::Time dt, CommandQueue<Command>& commands) override;
+  void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
 };
 
 }  // namespace ink
