@@ -103,7 +103,7 @@ void KeyboardInput::handlePlayerInput(
           PlayerMoveCommand{key, is_pressed});
       sendCommand(player_move_);
       break;
-    case sf::Keyboard::Key::F:
+    case sf::Keyboard::Key::Space:
       sendCommand(player_fire_);
       break;
     // case sf::Keyboard::Key::E:

@@ -59,18 +59,19 @@ void RoomManager::checkDoorInteraction() {
 }
 
 std::size_t RoomManager::createRandomRoom() {
-  static const std::size_t fixed_seed = 0;
-  static std::mt19937 randomizer(fixed_seed);
+  static const std::size_t fixed_seed = 275;
+  static std::mt19937 gen(fixed_seed);
+  static std::uniform_int_distribution<> randomizer(0, kRoomCount - 1);
   std::size_t room_type_id = 0;
   while (room_type_id == curr_room_id_) {
-    room_type_id = randomizer() % kRoomCount;
+    room_type_id = randomizer(gen);
   }
   std::cout << "New room id: " << room_type_id << '\n';
   const auto texture_type = static_cast<Textures>(room_type_id);
   const auto room_type = static_cast<Type>(room_type_id);
 
   auto room_id = rooms_count_++;
-  auto room = std::make_unique<RoomNode>(NodeCategory::RoomContext, textures_,
+  auto room = std::make_unique<RoomNode>(NodeCategory::Room, textures_,
                                          textures_.get(texture_type),
                                          world_bounds_, room_type, room_id);
   room_nodes_.push_back(room.get());

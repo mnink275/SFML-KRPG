@@ -15,7 +15,7 @@ Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
   inputs_impl_->setCommandQueue(&command_queue_);
   combat_impl_->setCommandQueue(&command_queue_);
 
-  fire_command_.category = NodeCategory::RoomContext;
+  fire_command_.category = NodeCategory::Room;
   fire_command_.action = [this](SceneNode& node, sf::Time) {
     combat_impl_->onAttack(node, getPosition(), graphics_impl_->eyes_direction);
   };

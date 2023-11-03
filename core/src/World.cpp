@@ -57,7 +57,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::D:
     case sf::Keyboard::Key::W:
     case sf::Keyboard::Key::S:
-    case sf::Keyboard::Key::F:
+    case sf::Keyboard::Key::Space:
       player_->handlePlayerInput(command_queue_, key, is_pressed);
       break;
     case sf::Keyboard::Key::E:
@@ -93,7 +93,7 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::KeyboardInput>(),
       std::make_unique<component::PlayerCombat>(textures_), textures_,
-      NodeCategory::PlayerContex);
+      NodeCategory::Player);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 
