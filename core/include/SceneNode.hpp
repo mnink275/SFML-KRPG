@@ -5,7 +5,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <Category.hpp>
 #include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
 
@@ -15,7 +14,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
  public:
   using Ptr = std::unique_ptr<SceneNode>;
 
-  SceneNode(Category category = Category::None);
+  SceneNode(NodeCategory category = NodeCategory::None);
   virtual ~SceneNode() = default;
 
   SceneNode(const SceneNode&) = delete;
@@ -42,7 +41,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
 
   std::vector<Ptr> children_;
   SceneNode* parent_;
-  Category category_;
+  NodeCategory category_;
 };
 
 }  // namespace ink

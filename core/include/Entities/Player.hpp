@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Category.hpp>
 #include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
 #include <Entities/GameObject.hpp>
@@ -21,7 +20,7 @@ class Player final : public GameObject {
          std::unique_ptr<component::GraphicsComponent> graphics,
          std::unique_ptr<component::InputComponent> inputs,
          std::unique_ptr<component::CombatComponent> combat,
-         const TextureHolder& texture_holder, Category category);
+         const TextureHolder& texture_holder, NodeCategory category);
 
   ~Player() override = default;
 

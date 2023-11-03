@@ -5,7 +5,7 @@
 #include <random>
 #include <variant>
 
-#include <Category.hpp>
+#include <Commands/Category/NodeCategory.hpp>
 #include <Entities/Player.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
@@ -70,7 +70,7 @@ std::size_t RoomManager::createRandomRoom() {
   const auto room_type = static_cast<Type>(room_type_id);
 
   auto room_id = rooms_count_++;
-  auto room = std::make_unique<RoomNode>(Category::RoomContext, textures_,
+  auto room = std::make_unique<RoomNode>(NodeCategory::RoomContext, textures_,
                                          textures_.get(texture_type),
                                          world_bounds_, room_type, room_id);
   room_nodes_.push_back(room.get());

@@ -5,8 +5,8 @@
 
 #include <SFML/System/Time.hpp>
 
-#include <Category.hpp>
-#include <Components/Category.hpp>
+#include <Commands/Category/ComponentCategory.hpp>
+#include <Commands/Category/NodeCategory.hpp>
 
 namespace ink::component {
 class Component;
@@ -17,18 +17,18 @@ class SceneNode;
 
 namespace ink {
 
-template <class Base, class Category>
+template <class Base, class CategoryType>
 struct Command {
   using Action = std::function<void(Base&, sf::Time)>;
 
-  Command() : action(), category(0) {}
+  Command() : action(), category() {}
 
   Action action;
-  unsigned int category;
+  CategoryType category;
 };
 
-using NodeCommand = Command<SceneNode, Category>;
-using ComponentCommand = Command<component::Component, component::Category>;
+using NodeCommand = Command<SceneNode, NodeCategory>;
+using ComponentCommand = Command<component::Component, ComponentCategory>;
 
 template <class Derived>
 using GetBase = std::conditional_t<std::is_base_of_v<SceneNode, Derived>,

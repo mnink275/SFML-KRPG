@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-#include <Category.hpp>
+#include <Commands/Category/Category.hpp>
 #include <Components/KeyboardInput.hpp>
 #include <Components/PlayerCombat.hpp>
 #include <Components/PlayerGraphics.hpp>
@@ -93,7 +93,7 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::KeyboardInput>(),
       std::make_unique<component::PlayerCombat>(textures_), textures_,
-      Category::PlayerContex);
+      NodeCategory::PlayerContex);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 

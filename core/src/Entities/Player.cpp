@@ -6,7 +6,7 @@ Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
                std::unique_ptr<component::GraphicsComponent> graphics,
                std::unique_ptr<component::InputComponent> inputs,
                std::unique_ptr<component::CombatComponent> combat,
-               const TextureHolder& texture_holder, Category category)
+               const TextureHolder& texture_holder, NodeCategory category)
     : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
                  std::move(combat), category),
       texture_holder_(texture_holder) {
@@ -15,7 +15,7 @@ Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
   inputs_impl_->setCommandQueue(&command_queue_);
   combat_impl_->setCommandQueue(&command_queue_);
 
-  fire_command_.category = static_cast<CategoryType>(Category::RoomContext);
+  fire_command_.category = NodeCategory::RoomContext;
   fire_command_.action = [this](SceneNode& node, sf::Time) {
     combat_impl_->onAttack(node, getPosition(), graphics_impl_->eyes_direction);
   };

@@ -4,11 +4,12 @@
 
 namespace ink::component {
 
-Component::Component(component::Category category)
+Component::Component(ComponentCategory category)
     : category_(category), command_queue_(nullptr) {}
 
 void Component::onCommand(const ComponentCommand& command, sf::Time dt) {
-  if (command.category & static_cast<component::CategoryType>(category_))
+  if (static_cast<CategoryUnderlying>(command.category) &
+      static_cast<CategoryUnderlying>(category_))
     command.action(*this, dt);
 }
 

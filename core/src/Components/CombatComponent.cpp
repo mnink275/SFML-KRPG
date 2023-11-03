@@ -3,6 +3,6 @@
 namespace ink::component {
 
 CombatComponent::CombatComponent()
-    : Component(Category::kCombat), is_attacking(false) {}
+    : Component(ComponentCategory::kCombat), is_attacking(false) {}
 
 }  // namespace ink::component

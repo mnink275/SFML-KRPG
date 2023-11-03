@@ -63,13 +63,12 @@ struct PlayerBodyRotationCommand final {
 
 KeyboardInput::KeyboardInput() {
   // TODO: create key binding
-  player_move_.category = static_cast<CategoryType>(Category::kPhysic);
+  player_move_.category = ComponentCategory::kPhysic;
 
-  player_fire_.category = static_cast<CategoryType>(Category::kCombat);
+  player_fire_.category = ComponentCategory::kCombat;
   player_fire_.action = SendTo<component::CombatComponent>(PlayerFireCommand{});
 
-  player_body_rotation_.category =
-      static_cast<CategoryType>(Category::kGraphic);
+  player_body_rotation_.category = ComponentCategory::kGraphic;
 }
 
 void KeyboardInput::handlePlayerInput(

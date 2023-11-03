@@ -4,7 +4,7 @@
 
 namespace ink {
 
-SceneNode::SceneNode(Category category)
+SceneNode::SceneNode(NodeCategory category)
     : children_(), parent_(nullptr), category_(category) {}
 
 void SceneNode::attachChild(Ptr child) {
@@ -29,7 +29,8 @@ void SceneNode::update(const sf::Time dt, CommandQueue<NodeCommand>& commands) {
 }
 
 void SceneNode::onCommand(const NodeCommand& command, sf::Time dt) {
-  if (command.category & static_cast<CategoryType>(category_))
+  if (static_cast<CategoryUnderlying>(command.category) &
+      static_cast<CategoryUnderlying>(category_))
     command.action(*this, dt);
 
   for (auto&& child : children_) {

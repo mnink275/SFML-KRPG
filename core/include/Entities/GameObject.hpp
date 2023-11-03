@@ -5,7 +5,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <Category.hpp>
+#include <Commands/Category/NodeCategory.hpp>
 #include <SceneNode.hpp>
 
 #include <Components/CombatComponent.hpp>
@@ -22,7 +22,7 @@ class GameObject : public SceneNode {
              std::unique_ptr<component::GraphicsComponent> graphics,
              std::unique_ptr<component::InputComponent> inputs,
              std::unique_ptr<component::CombatComponent> combat,
-             Category category = Category::None);
+             NodeCategory category = NodeCategory::None);
 
   virtual ~GameObject() = default;
 

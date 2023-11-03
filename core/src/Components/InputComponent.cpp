@@ -2,6 +2,6 @@
 
 namespace ink::component {
 
-InputComponent::InputComponent() : Component(Category::kInput) {}
+InputComponent::InputComponent() : Component(ComponentCategory::kInput) {}
 
 }  // namespace ink::component

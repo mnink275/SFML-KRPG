@@ -2,6 +2,7 @@
 
 #include <SFML/System/Time.hpp>
 
+#include <Commands/Category/ComponentCategory.hpp>
 #include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
 
@@ -9,7 +10,7 @@ namespace ink::component {
 
 class Component {
  public:
-  explicit Component(component::Category category);
+  explicit Component(ComponentCategory category);
   virtual ~Component() = default;
 
   virtual void onCommand(const ComponentCommand& command, sf::Time dt);
@@ -18,7 +19,7 @@ class Component {
   virtual void sendCommand(ComponentCommand& command) noexcept;
 
  private:
-  component::Category category_;
+  ComponentCategory category_;
   CommandQueue<ComponentCommand>* command_queue_;
 };
 

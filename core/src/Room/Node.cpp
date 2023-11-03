@@ -10,7 +10,7 @@
 
 namespace ink::room {
 
-RoomNode::RoomNode(Category category, TextureHolder& texture_holder,
+RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
                    sf::Texture& texture, sf::FloatRect bounds, Type room_type,
                    std::size_t room_id)
     : SceneNode(category),
