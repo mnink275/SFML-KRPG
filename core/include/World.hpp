@@ -3,6 +3,7 @@
 #include <array>
 #include <iostream>
 
+#include <Commands/CommandQueue.hpp>
 #include <Entities/Player.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/RoomManager.hpp>
@@ -44,6 +45,7 @@ class World final {
 
   Player* player_;
   room::RoomManager room_manager_;
+  CommandQueue<Command> command_queue_;
 };
 
 }  // namespace ink

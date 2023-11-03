@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Category.hpp>
+#include <Commands/Command.hpp>
+#include <Commands/CommandQueue.hpp>
+#include <Commands/ComponentCommand.hpp>
 #include <Entities/GameObject.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/Node.hpp>
@@ -18,17 +22,18 @@ class Player final : public GameObject {
          std::unique_ptr<component::GraphicsComponent> graphics,
          std::unique_ptr<component::InputComponent> inputs,
          std::unique_ptr<component::CombatComponent> combat,
-         const TextureHolder& texture_holder)
-      : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
-                   std::move(combat)),
-        texture_holder_(texture_holder) {}
+         const TextureHolder& texture_holder, Category category);
 
   ~Player() override = default;
 
-  void handlePlayerInput(const sf::Keyboard::Key key, const bool is_pressed);
+  void handlePlayerInput(CommandQueue<Command>& commands,
+                         const sf::Keyboard::Key key, const bool is_pressed);
+  void updateCurrent(sf::Time dt, CommandQueue<Command>& commands) override;
 
  private:
   const TextureHolder& texture_holder_;  // TODO: remove candidate
+  Command fire_command_;
+  CommandQueue<ComponentCommand> command_queue_;
 };
 
 }  // namespace ink

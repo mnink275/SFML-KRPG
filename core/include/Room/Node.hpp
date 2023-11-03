@@ -3,6 +3,7 @@
 #include <array>
 #include <variant>
 
+#include <Category.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
@@ -20,8 +21,9 @@ class RoomNode final : public SceneNode {
 
  public:
   // TODO: make TextureHolder& and Texture& const refs
-  RoomNode(TextureHolder& texture_holder, sf::Texture& texture,
-           sf::FloatRect bounds, Type room_type, std::size_t room_id);
+  RoomNode(Category category, TextureHolder& texture_holder,
+           sf::Texture& texture, sf::FloatRect bounds, Type room_type,
+           std::size_t room_id);
 
   void setPlayer(Ptr player);
   Ptr popPlayer();

@@ -6,7 +6,7 @@ namespace ink {
 
 struct VelocityModule final {
   sf::Vector2f toVector() const {
-    return sf::Vector2f{to_left_ + to_right_, to_down_ + to_up_};
+    return sf::Vector2f{to_right_ - to_left_, to_down_ - to_up_};
   }
 
   float to_left_{0};

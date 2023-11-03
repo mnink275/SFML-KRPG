@@ -1,5 +1,7 @@
 #include <Components/PlayerGraphics.hpp>
 
+#include <iostream>
+
 namespace ink::component {
 
 PlayerGraphics::PlayerGraphics(const sf::Texture& left_movement,
@@ -12,7 +14,8 @@ PlayerGraphics::PlayerGraphics(const sf::Texture& left_movement,
 PlayerGraphics::PlayerGraphics(const sf::Texture& left_movement,
                                const sf::Texture& right_movement,
                                const sf::IntRect& rect, bool is_centered)
-    : left_movement_sprite_(left_movement, rect),
+    : GraphicsComponent(EyesDirection::kLeft),
+      left_movement_sprite_(left_movement, rect),
       right_movement_sprite_(right_movement, rect) {
   if (is_centered) {
     doSpriteCentering(left_movement_sprite_);
@@ -23,10 +26,16 @@ PlayerGraphics::PlayerGraphics(const sf::Texture& left_movement,
 
 void PlayerGraphics::draw(sf::RenderTarget& target,
                           const sf::RenderStates states) const {
-  if (is_turned_right) {
-    target.draw(right_movement_sprite_, states);
-  } else {
-    target.draw(left_movement_sprite_, states);
+  switch (eyes_direction) {
+    case EyesDirection::kLeft:
+      target.draw(left_movement_sprite_, states);
+      break;
+    case EyesDirection::kRight:
+      target.draw(right_movement_sprite_, states);
+      break;
+    default:
+      std::cout << "Warning in PlayerGraphics: eye direction is kNone\n";
+      break;
   }
 }
 

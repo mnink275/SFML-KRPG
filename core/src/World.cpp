@@ -4,7 +4,8 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-#include <Components/MouseKeyboardInput.hpp>
+#include <Category.hpp>
+#include <Components/KeyboardInput.hpp>
 #include <Components/PlayerCombat.hpp>
 #include <Components/PlayerGraphics.hpp>
 #include <Components/PlayerPhysics.hpp>
@@ -30,7 +31,11 @@ void World::update(const sf::Time dt) {
   boundChecking();
   checkDoorInteraction();
 
-  scene_graph_.update(dt);
+  while (!command_queue_.isEmpty()) {
+    scene_graph_.onCommand(command_queue_.pop(), dt);
+  }
+
+  scene_graph_.update(dt, command_queue_);
 }
 
 void World::checkDoorInteraction() {
@@ -53,7 +58,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::W:
     case sf::Keyboard::Key::S:
     case sf::Keyboard::Key::F:
-      player_->handlePlayerInput(key, is_pressed);
+      player_->handlePlayerInput(command_queue_, key, is_pressed);
       break;
     case sf::Keyboard::Key::E:
       interact_with_ = is_pressed;
@@ -86,9 +91,9 @@ void World::buildScene() {
       std::make_unique<component::PlayerGraphics>(
           textures_.get(Textures::kPeepoLeft),
           textures_.get(Textures::kPeepoRight), true),
-      std::make_unique<component::MouseKeyboardInput>(),
-      std::make_unique<component::PlayerCombat>(room_manager_, textures_),
-      textures_);
+      std::make_unique<component::KeyboardInput>(),
+      std::make_unique<component::PlayerCombat>(textures_), textures_,
+      Category::PlayerContex);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 

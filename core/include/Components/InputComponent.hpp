@@ -2,17 +2,18 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-namespace ink {
-class GameObject;
-}
+#include <Commands/Command.hpp>
+#include <Commands/CommandQueue.hpp>
+#include <Components/Component.hpp>
 
 namespace ink::component {
 
-class InputComponent {
+class InputComponent : public Component {
  public:
+  InputComponent();
   virtual ~InputComponent() = default;
 
-  virtual void handlePlayerInput(GameObject* object,
+  virtual void handlePlayerInput(CommandQueue<Command>& command_queue,
                                  const sf::Keyboard::Key key,
                                  const bool is_pressed) = 0;
 };

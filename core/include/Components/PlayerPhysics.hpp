@@ -3,7 +3,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <Components/PhysicsComponent.hpp>
-#include <Entities/GameObject.hpp>
 
 namespace ink::component {
 

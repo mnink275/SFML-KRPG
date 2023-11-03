@@ -4,6 +4,9 @@
 
 namespace ink {
 
+SceneNode::SceneNode(Category category)
+    : children_(), parent_(nullptr), category_(category) {}
+
 void SceneNode::attachChild(Ptr child) {
   child->parent_ = this;
   children_.push_back(std::move(child));
@@ -20,9 +23,18 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
   return result;
 }
 
-void SceneNode::update(const sf::Time dt) {
-  updateCurrent(dt);
-  updateChildren(dt);
+void SceneNode::update(const sf::Time dt, CommandQueue<Command>& commands) {
+  updateCurrent(dt, commands);
+  updateChildren(dt, commands);
+}
+
+void SceneNode::onCommand(const Command& command, sf::Time dt) {
+  if (command.category & static_cast<CategoryType>(category_))
+    command.action(*this, dt);
+
+  for (auto&& child : children_) {
+    child->onCommand(command, dt);
+  }
 }
 
 void SceneNode::draw(sf::RenderTarget& target,
@@ -38,11 +50,12 @@ void SceneNode::draw(sf::RenderTarget& target,
 void SceneNode::drawCurrent(sf::RenderTarget& /*target*/,
                             const sf::RenderStates /*states*/) const {}
 
-void SceneNode::updateCurrent(sf::Time) {}
+void SceneNode::updateCurrent(sf::Time, CommandQueue<Command>&) {}
 
-void SceneNode::updateChildren(const sf::Time dt) const {
+void SceneNode::updateChildren(const sf::Time dt,
+                               CommandQueue<Command>& commands) const {
   for (auto&& child : children_) {
-    child->update(dt);
+    child->update(dt, commands);
   }
 }
 

@@ -10,9 +10,9 @@ include(FetchContent)
 
 include(cmake/CompileOptions.cmake)
 include(cmake/Sanitizers.cmake)
-include(cmake/SFML.cmake)
 include(cmake/VisualStudio.cmake)
 
+add_subdirectory(third_party/SFML)
 add_subdirectory(core)
 
 add_executable(

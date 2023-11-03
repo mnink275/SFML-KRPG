@@ -4,14 +4,21 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <Components/Component.hpp>
+#include <Entities/EyesDirection.hpp>
+
 namespace ink::component {
 
-class GraphicsComponent {
+class GraphicsComponent : public Component {
  public:
+  GraphicsComponent(EyesDirection eyes_direction = EyesDirection::kNone);
   virtual ~GraphicsComponent() = default;
 
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;
+
+ public:
+  EyesDirection eyes_direction;
 
  protected:
   void doSpriteCentering(sf::Sprite& sprite);

@@ -5,6 +5,7 @@
 #include <random>
 #include <variant>
 
+#include <Category.hpp>
 #include <Entities/Player.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
@@ -57,10 +58,6 @@ void RoomManager::checkDoorInteraction() {
   }
 }
 
-void RoomManager::onProjectileAttack(SceneNode::Ptr projectile) {
-  room_nodes_[curr_room_id_]->attachChild(std::move(projectile));
-}
-
 std::size_t RoomManager::createRandomRoom() {
   static const std::size_t fixed_seed = 0;
   static std::mt19937 randomizer(fixed_seed);
@@ -73,7 +70,8 @@ std::size_t RoomManager::createRandomRoom() {
   const auto room_type = static_cast<Type>(room_type_id);
 
   auto room_id = rooms_count_++;
-  auto room = std::make_unique<RoomNode>(textures_, textures_.get(texture_type),
+  auto room = std::make_unique<RoomNode>(Category::RoomContext, textures_,
+                                         textures_.get(texture_type),
                                          world_bounds_, room_type, room_id);
   room_nodes_.push_back(room.get());
   room_storage_.push_back(std::move(room));

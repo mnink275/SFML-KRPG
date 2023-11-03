@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-#include <SFML/System/Vector2.hpp>
-
 namespace ink::component {
 
 sf::Vector2f PlayerPhysics::getTransform(sf::Time dt) {

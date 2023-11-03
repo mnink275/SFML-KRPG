@@ -21,8 +21,6 @@ class RoomManager final {
   void changeRoomTo(std::size_t next_room_id);
   void checkDoorInteraction();
 
-  void onProjectileAttack(Ptr projectile);
-
  private:
   std::size_t createRandomRoom();
   void createConnectionTo(ConnectionType connection);

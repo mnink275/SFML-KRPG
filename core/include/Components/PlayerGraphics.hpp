@@ -21,9 +21,6 @@ class PlayerGraphics final : public GraphicsComponent {
   void draw(sf::RenderTarget& target,
             const sf::RenderStates states) const override;
 
- public:
-  bool is_turned_right{true};
-
  private:
   sf::Sprite left_movement_sprite_;
   sf::Sprite right_movement_sprite_;
