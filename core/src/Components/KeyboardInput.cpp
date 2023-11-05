@@ -73,9 +73,9 @@ KeyboardInput::KeyboardInput() {
   stop_.action = SendTo<PhysicsComponent>(StopMoveCommand{});
 }
 
-void KeyboardInput::handlePlayerInput(
-    CommandQueue<NodeCommand>& /*command_queue*/, const sf::Keyboard::Key key,
-    const bool /*is_pressed*/) {
+void KeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
+                                const sf::Keyboard::Key key,
+                                const bool /*is_pressed*/) {
   if (isRealtimeAction(key)) return;
 
   switch (key) {

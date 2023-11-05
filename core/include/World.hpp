@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include <Commands/CommandQueue.hpp>
-#include <Entities/Player.hpp>
+#include <Entities/Unit.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/RoomManager.hpp>
 
@@ -43,7 +43,7 @@ class World final {
   sf::Vector2f spawn_position_;
   bool interact_with_{false};
 
-  Player* player_;
+  Unit* player_;
   room::RoomManager room_manager_;
   CommandQueue<NodeCommand> command_queue_;
 };

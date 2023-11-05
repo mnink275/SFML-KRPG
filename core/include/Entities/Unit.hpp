@@ -8,24 +8,26 @@
 
 namespace ink {
 
-class Player final : public GameObject {
+class Unit final : public GameObject {
  public:
-  enum Type {
-    Peepo,
+  enum class OwnerType {
+    kPlayer,
+    kEnemy,
+    kAlly,
   };
 
  public:
   using GameObject::GameObject;
-  Player(std::unique_ptr<component::PhysicsComponent> physics,
-         std::unique_ptr<component::GraphicsComponent> graphics,
-         std::unique_ptr<component::InputComponent> inputs,
-         std::unique_ptr<component::CombatComponent> combat,
-         const TextureHolder& texture_holder, NodeCategory category);
+  Unit(std::unique_ptr<component::PhysicsComponent> physics,
+       std::unique_ptr<component::GraphicsComponent> graphics,
+       std::unique_ptr<component::InputComponent> inputs,
+       std::unique_ptr<component::CombatComponent> combat,
+       const TextureHolder& texture_holder, NodeCategory category);
 
-  ~Player() override = default;
+  ~Unit() override = default;
 
-  void handlePlayerInput(CommandQueue<NodeCommand>& commands,
-                         const sf::Keyboard::Key key, const bool is_pressed);
+  void handleInput(CommandQueue<NodeCommand>& commands,
+                   const sf::Keyboard::Key key, const bool is_pressed);
   void handleRealtimeInput(CommandQueue<NodeCommand>& commands);
   void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
 

@@ -6,9 +6,9 @@
 
 #include <Commands/Category/Category.hpp>
 #include <Components/KeyboardInput.hpp>
-#include <Components/PlayerCombat.hpp>
-#include <Components/PlayerGraphics.hpp>
-#include <Components/PlayerPhysics.hpp>
+#include <Components/SimplePhysics.hpp>
+#include <Components/TwoSpriteGraphics.hpp>
+#include <Components/UnitCombat.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 
 namespace ink {
@@ -59,7 +59,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::W:
     case sf::Keyboard::Key::S:
     case sf::Keyboard::Key::Space:
-      player_->handlePlayerInput(command_queue_, key, is_pressed);
+      player_->handleInput(command_queue_, key, is_pressed);
       break;
     case sf::Keyboard::Key::E:
       interact_with_ = is_pressed;
@@ -87,14 +87,14 @@ void World::buildScene() {
   room_manager_.createInitialRoom();
 
   // add the player
-  auto player = std::make_unique<Player>(
-      std::make_unique<component::PlayerPhysics>(),
-      std::make_unique<component::PlayerGraphics>(
-          textures_.get(Textures::kPeepoLeft),
-          textures_.get(Textures::kPeepoRight), true),
-      std::make_unique<component::KeyboardInput>(),
-      std::make_unique<component::PlayerCombat>(textures_), textures_,
-      NodeCategory::Player);
+  auto player =
+      std::make_unique<Unit>(std::make_unique<component::SimplePhysics>(),
+                             std::make_unique<component::TwoSpriteGraphics>(
+                                 textures_.get(Textures::kPeepoLeft),
+                                 textures_.get(Textures::kPeepoRight), true),
+                             std::make_unique<component::KeyboardInput>(),
+                             std::make_unique<component::UnitCombat>(textures_),
+                             textures_, NodeCategory::Unit);
   player_ = player.get();
   player_->setPosition(spawn_position_);
 

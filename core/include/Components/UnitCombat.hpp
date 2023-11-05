@@ -6,14 +6,14 @@
 
 namespace ink::component {
 
-class PlayerCombat final : public CombatComponent {
+class UnitCombat final : public CombatComponent {
  public:
-  explicit PlayerCombat(const TextureHolder& texture_holder);
+  explicit UnitCombat(const TextureHolder& texture_holder);
 
   void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                 EyesDirection eyes_direction) override;
 
-  ~PlayerCombat() override = default;
+  ~UnitCombat() override = default;
 
   const TextureHolder& texture_holder;
 };

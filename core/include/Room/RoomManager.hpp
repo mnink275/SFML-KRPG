@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <Entities/Player.hpp>
+#include <Entities/Unit.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <SceneNode.hpp>
 
@@ -16,7 +16,7 @@ class RoomManager final {
   RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
               TextureHolder& textures);
 
-  void attachPlayer(std::unique_ptr<Player> player);
+  void attachPlayer(std::unique_ptr<Unit> player);
   void createInitialRoom();
   void changeRoomTo(std::size_t next_room_id);
   void checkDoorInteraction();

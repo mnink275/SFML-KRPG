@@ -13,9 +13,9 @@ class InputComponent : public Component {
   InputComponent();
   virtual ~InputComponent() = default;
 
-  virtual void handlePlayerInput(CommandQueue<NodeCommand>& command_queue,
-                                 const sf::Keyboard::Key key,
-                                 const bool is_pressed) = 0;
+  virtual void handleInput(CommandQueue<NodeCommand>& command_queue,
+                           const sf::Keyboard::Key key,
+                           const bool is_pressed) = 0;
   virtual void handleRealtimeInput(CommandQueue<NodeCommand>& commands) = 0;
 };
 

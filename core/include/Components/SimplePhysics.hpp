@@ -6,11 +6,11 @@
 
 namespace ink::component {
 
-class PlayerPhysics : public PhysicsComponent {
+class SimplePhysics : public PhysicsComponent {
  public:
   using PhysicsComponent::PhysicsComponent;
 
-  virtual ~PlayerPhysics() = default;
+  virtual ~SimplePhysics() = default;
 
   sf::Vector2f getTransform(sf::Time dt) override;
 

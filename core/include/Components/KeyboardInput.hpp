@@ -13,9 +13,8 @@ class KeyboardInput final : public InputComponent {
   KeyboardInput();
   ~KeyboardInput() override = default;
 
-  void handlePlayerInput(CommandQueue<NodeCommand>& command_queue,
-                         const sf::Keyboard::Key key,
-                         const bool is_pressed) override;
+  void handleInput(CommandQueue<NodeCommand>& command_queue,
+                   const sf::Keyboard::Key key, const bool is_pressed) override;
 
   void handleRealtimeInput(CommandQueue<NodeCommand>& commands) override;
 

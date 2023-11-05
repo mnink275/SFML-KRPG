@@ -6,7 +6,7 @@
 #include <variant>
 
 #include <Commands/Category/NodeCategory.hpp>
-#include <Entities/Player.hpp>
+#include <Entities/Unit.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
 #include <Room/Node.hpp>
@@ -23,7 +23,7 @@ RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
       world_bounds_(world_bounds),
       textures_(textures) {}
 
-void RoomManager::attachPlayer(std::unique_ptr<Player> player) {
+void RoomManager::attachPlayer(std::unique_ptr<Unit> player) {
   // connect entities to the Graph
   room_nodes_[curr_room_id_]->setPlayer(std::move(player));
   scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));

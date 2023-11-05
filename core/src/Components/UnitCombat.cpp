@@ -1,4 +1,4 @@
-#include <Components/PlayerCombat.hpp>
+#include <Components/UnitCombat.hpp>
 
 #include <Combat/Projectile.hpp>
 #include <Components/BulletPhysics.hpp>
@@ -6,11 +6,11 @@
 
 namespace ink::component {
 
-PlayerCombat::PlayerCombat(const TextureHolder& texture_holder)
+UnitCombat::UnitCombat(const TextureHolder& texture_holder)
     : texture_holder(texture_holder) {}
 
-void PlayerCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
-                            EyesDirection eyes_direction) {
+void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
+                          EyesDirection eyes_direction) {
   auto bullet = std::make_unique<combat::Projectile>(
       std::make_unique<component::BulletPhysics>(eyes_direction),
       std::make_unique<component::SimpleGraphics>(

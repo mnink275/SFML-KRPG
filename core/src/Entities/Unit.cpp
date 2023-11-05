@@ -1,15 +1,16 @@
-#include <Entities/Player.hpp>
+#include <Entities/Unit.hpp>
 
 namespace ink {
 
-Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
-               std::unique_ptr<component::GraphicsComponent> graphics,
-               std::unique_ptr<component::InputComponent> inputs,
-               std::unique_ptr<component::CombatComponent> combat,
-               const TextureHolder& texture_holder, NodeCategory category)
+Unit::Unit(std::unique_ptr<component::PhysicsComponent> physics,
+           std::unique_ptr<component::GraphicsComponent> graphics,
+           std::unique_ptr<component::InputComponent> inputs,
+           std::unique_ptr<component::CombatComponent> combat,
+           const TextureHolder& texture_holder, NodeCategory category)
     : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
                  std::move(combat), category),
       texture_holder_(texture_holder) {
+  // TODO: move components logic to GameObject class
   physics_impl_->setCommandQueue(&command_queue_);
   graphics_impl_->setCommandQueue(&command_queue_);
   inputs_impl_->setCommandQueue(&command_queue_);
@@ -21,17 +22,16 @@ Player::Player(std::unique_ptr<component::PhysicsComponent> physics,
   };
 }
 
-void Player::handlePlayerInput(CommandQueue<NodeCommand>& commands,
-                               const sf::Keyboard::Key key,
-                               const bool is_pressed) {
-  inputs_impl_->handlePlayerInput(commands, key, is_pressed);
+void Unit::handleInput(CommandQueue<NodeCommand>& commands,
+                       const sf::Keyboard::Key key, const bool is_pressed) {
+  inputs_impl_->handleInput(commands, key, is_pressed);
 }
 
-void Player::handleRealtimeInput(CommandQueue<NodeCommand>& commands) {
+void Unit::handleRealtimeInput(CommandQueue<NodeCommand>& commands) {
   inputs_impl_->handleRealtimeInput(commands);
 }
 
-void Player::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
+void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
     physics_impl_->onCommand(command, dt);
