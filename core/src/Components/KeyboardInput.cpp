@@ -12,34 +12,20 @@ namespace ink::component {
 namespace {
 
 struct PlayerMoveCommand final {
-  PlayerMoveCommand(sf::Keyboard::Key key, bool is_pressed)
-      : key(key), is_pressed(is_pressed) {}
+  PlayerMoveCommand(sf::Vector2f multipliers) : multipliers(multipliers) {}
 
   void operator()(component::PhysicsComponent& physics, sf::Time) const {
     static constexpr float kPlayerVelocityShift = 400.f;
-    float velocity_diff = 0.f;
-    if (is_pressed) velocity_diff = kPlayerVelocityShift;
-    switch (key) {
-      case sf::Keyboard::Key::A:
-        physics.velocity.to_left_ = velocity_diff;
-        break;
-      case sf::Keyboard::Key::D:
-        physics.velocity.to_right_ = velocity_diff;
-        break;
-      case sf::Keyboard::Key::W:
-        physics.velocity.to_up_ = velocity_diff;
-        break;
-      case sf::Keyboard::Key::S:
-        physics.velocity.to_down_ = velocity_diff;
-        break;
-      default:
-        std::cout << "Error in PlayerMoveCommand: only WASD keys allowed\n";
-        assert(false);
-    }
+    physics.velocity += multipliers * kPlayerVelocityShift;
   }
 
-  sf::Keyboard::Key key;
-  bool is_pressed;
+  sf::Vector2f multipliers;
+};
+
+struct StopMoveCommand final {
+  void operator()(component::PhysicsComponent& physics, sf::Time) const {
+    physics.velocity = {0, 0};
+  }
 };
 
 struct PlayerFireCommand final {
@@ -62,56 +48,71 @@ struct PlayerBodyRotationCommand final {
 }  // namespace
 
 KeyboardInput::KeyboardInput() {
-  // TODO: create key binding
-  player_move_.category = ComponentCategory::kPhysic;
+  createCommand(sf::Keyboard::A, ComponentCategory::kPhysic,
+                SendTo<PhysicsComponent>(PlayerMoveCommand{{-1.f, 0.f}}));
+  createCommand(sf::Keyboard::A, ComponentCategory::kGraphic,
+                SendTo<GraphicsComponent>(
+                    PlayerBodyRotationCommand{EyesDirection::kLeft}));
 
-  player_fire_.category = ComponentCategory::kCombat;
-  player_fire_.action = SendTo<component::CombatComponent>(PlayerFireCommand{});
+  createCommand(sf::Keyboard::D, ComponentCategory::kPhysic,
+                SendTo<PhysicsComponent>(PlayerMoveCommand{{1.f, 0.f}}));
+  createCommand(sf::Keyboard::D, ComponentCategory::kGraphic,
+                SendTo<GraphicsComponent>(
+                    PlayerBodyRotationCommand{EyesDirection::kRight}));
 
-  player_body_rotation_.category = ComponentCategory::kGraphic;
+  createCommand(sf::Keyboard::W, ComponentCategory::kPhysic,
+                SendTo<PhysicsComponent>(PlayerMoveCommand{{0.f, -1.f}}));
+
+  createCommand(sf::Keyboard::S, ComponentCategory::kPhysic,
+                SendTo<PhysicsComponent>(PlayerMoveCommand{{0.f, 1.f}}));
+
+  createCommand(sf::Keyboard::Space, ComponentCategory::kCombat,
+                SendTo<CombatComponent>(PlayerFireCommand{}));
+
+  stop_.category = ComponentCategory::kPhysic;
+  stop_.action = SendTo<PhysicsComponent>(StopMoveCommand{});
 }
 
 void KeyboardInput::handlePlayerInput(
     CommandQueue<NodeCommand>& /*command_queue*/, const sf::Keyboard::Key key,
-    const bool is_pressed) {
+    const bool /*is_pressed*/) {
+  if (isRealtimeAction(key)) return;
+
   switch (key) {
-    case sf::Keyboard::Key::A:
-      player_move_.action = SendTo<component::PhysicsComponent>(
-          PlayerMoveCommand{key, is_pressed});
-      sendCommand(player_move_);
-
-      player_body_rotation_.action = SendTo<component::GraphicsComponent>(
-          PlayerBodyRotationCommand{EyesDirection::kLeft});
-      sendCommand(player_body_rotation_);
-      break;
-    case sf::Keyboard::Key::D:
-      player_move_.action = SendTo<component::PhysicsComponent>(
-          PlayerMoveCommand{key, is_pressed});
-      sendCommand(player_move_);
-
-      player_body_rotation_.action = SendTo<component::GraphicsComponent>(
-          PlayerBodyRotationCommand{EyesDirection::kRight});
-      sendCommand(player_body_rotation_);
-      break;
-    case sf::Keyboard::Key::W:
-      player_move_.action = SendTo<component::PhysicsComponent>(
-          PlayerMoveCommand{key, is_pressed});
-      sendCommand(player_move_);
-      break;
-    case sf::Keyboard::Key::S:
-      player_move_.action = SendTo<component::PhysicsComponent>(
-          PlayerMoveCommand{key, is_pressed});
-      sendCommand(player_move_);
-      break;
-    case sf::Keyboard::Key::Space:
-      sendCommand(player_fire_);
-      break;
     // case sf::Keyboard::Key::E:
     //   interact_with_ = is_pressed;
     //   break;
     default:
       std::cout << "The key isn't implemented!\n";
   }
+}
+
+void KeyboardInput::handleRealtimeInput(
+    CommandQueue<NodeCommand>& /*commands*/) {
+  sendCommand(stop_);
+  for (auto&& [key, command_list] : commands_) {
+    if (!isRealtimeAction(key) || !sf::Keyboard::isKeyPressed(key)) continue;
+    for (auto&& command : command_list) sendCommand(command);
+  }
+}
+
+bool KeyboardInput::isRealtimeAction(sf::Keyboard::Key key) const noexcept {
+  switch (key) {
+    case sf::Keyboard::Key::A:
+    case sf::Keyboard::Key::D:
+    case sf::Keyboard::Key::W:
+    case sf::Keyboard::Key::S:
+    case sf::Keyboard::Key::Space:
+      return true;
+    default:
+      return false;
+  }
+}
+
+void KeyboardInput::createCommand(sf::Keyboard::Key key,
+                                  ComponentCommand::Receiver receiver_category,
+                                  ComponentCommand::Action action) {
+  commands_[key].emplace_back(receiver_category, action);
 }
 
 }  // namespace ink::component

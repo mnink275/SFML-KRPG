@@ -11,19 +11,17 @@ sf::Vector2f BulletPhysics::getTransform(sf::Time dt) {
   const static auto bullet_speed = 1000;
   switch (eyes_direction) {
     case EyesDirection::kLeft:
-      velocity.to_left_ = bullet_speed;
-      velocity.to_right_ = 0;
+      velocity = {-bullet_speed, 0.f};
       break;
     case EyesDirection::kRight:
-      velocity.to_left_ = 0;
-      velocity.to_right_ = bullet_speed;
+      velocity = {bullet_speed, 0.f};
       break;
     default:
       std::cout << "Error in BulletPhysics: bullet must have a direction\n";
       assert(false);
   }
 
-  return velocity.toVector() * dt.asSeconds();
+  return velocity * dt.asSeconds();
 }
 
 }  // namespace ink::component

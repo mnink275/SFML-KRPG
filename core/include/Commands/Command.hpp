@@ -20,8 +20,11 @@ namespace ink {
 template <class Base, class CategoryType>
 struct Command {
   using Action = std::function<void(Base&, sf::Time)>;
+  using Receiver = CategoryType;
 
-  Command() : action(), category() {}
+  Command() = default;
+  Command(CategoryType category, Action action)
+      : action(action), category(category) {}
 
   Action action;
   CategoryType category;

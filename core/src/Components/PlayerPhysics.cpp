@@ -5,7 +5,7 @@
 namespace ink::component {
 
 sf::Vector2f PlayerPhysics::getTransform(sf::Time dt) {
-  return fixDiagonalVelocity(velocity.toVector()) * dt.asSeconds();
+  return fixDiagonalVelocity(velocity) * dt.asSeconds();
 }
 
 sf::Vector2f PlayerPhysics::fixDiagonalVelocity(sf::Vector2f velo) const {

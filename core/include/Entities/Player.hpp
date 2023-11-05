@@ -26,6 +26,7 @@ class Player final : public GameObject {
 
   void handlePlayerInput(CommandQueue<NodeCommand>& commands,
                          const sf::Keyboard::Key key, const bool is_pressed);
+  void handleRealtimeInput(CommandQueue<NodeCommand>& commands);
   void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
 
  private:

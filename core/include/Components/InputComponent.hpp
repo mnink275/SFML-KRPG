@@ -16,6 +16,7 @@ class InputComponent : public Component {
   virtual void handlePlayerInput(CommandQueue<NodeCommand>& command_queue,
                                  const sf::Keyboard::Key key,
                                  const bool is_pressed) = 0;
+  virtual void handleRealtimeInput(CommandQueue<NodeCommand>& commands) = 0;
 };
 
 }  // namespace ink::component

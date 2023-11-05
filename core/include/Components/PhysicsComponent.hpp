@@ -4,7 +4,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <Components/Component.hpp>
-#include <Entities/VelocityModule.hpp>
 
 namespace ink::component {
 
@@ -15,7 +14,7 @@ class PhysicsComponent : public Component {
 
   virtual sf::Vector2f getTransform(sf::Time dt) = 0;
 
-  VelocityModule velocity{};
+  sf::Vector2f velocity{};
 };
 
 }  // namespace ink::component

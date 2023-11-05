@@ -35,6 +35,7 @@ void World::update(const sf::Time dt) {
     scene_graph_.onCommand(command_queue_.pop(), dt);
   }
 
+  player_->handleRealtimeInput(command_queue_);
   scene_graph_.update(dt, command_queue_);
 }
 

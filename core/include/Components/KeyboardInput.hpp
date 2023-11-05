@@ -1,5 +1,8 @@
 #pragma once
 
+#include <unordered_map>
+#include <vector>
+
 #include <Commands/Command.hpp>
 #include <Components/InputComponent.hpp>
 
@@ -14,10 +17,20 @@ class KeyboardInput final : public InputComponent {
                          const sf::Keyboard::Key key,
                          const bool is_pressed) override;
 
+  void handleRealtimeInput(CommandQueue<NodeCommand>& commands) override;
+
  private:
-  ComponentCommand player_move_;
-  ComponentCommand player_fire_;
-  ComponentCommand player_body_rotation_;
+  bool isRealtimeAction(sf::Keyboard::Key key) const noexcept;
+
+  void createCommand(sf::Keyboard::Key key,
+                     ComponentCommand::Receiver receiver_category,
+                     ComponentCommand::Action action);
+
+ private:
+  std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>
+      commands_;
+
+  ComponentCommand stop_;
 };
 
 }  // namespace ink::component

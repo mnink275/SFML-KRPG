@@ -27,6 +27,10 @@ void Player::handlePlayerInput(CommandQueue<NodeCommand>& commands,
   inputs_impl_->handlePlayerInput(commands, key, is_pressed);
 }
 
+void Player::handleRealtimeInput(CommandQueue<NodeCommand>& commands) {
+  inputs_impl_->handleRealtimeInput(commands);
+}
+
 void Player::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
