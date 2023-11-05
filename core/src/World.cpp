@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include <Commands/Category/Category.hpp>
+#include <Components/AIKeyboardInput.hpp>
 #include <Components/KeyboardInput.hpp>
 #include <Components/SimplePhysics.hpp>
 #include <Components/TwoSpriteGraphics.hpp>
@@ -35,7 +36,6 @@ void World::update(const sf::Time dt) {
     scene_graph_.onCommand(command_queue_.pop(), dt);
   }
 
-  player_->handleRealtimeInput(command_queue_);
   scene_graph_.update(dt, command_queue_);
 }
 
@@ -86,19 +86,30 @@ void World::buildScene() {
   // create and connect the rooms
   room_manager_.createInitialRoom();
 
-  // add the player
-  auto player =
-      std::make_unique<Unit>(std::make_unique<component::SimplePhysics>(),
-                             std::make_unique<component::TwoSpriteGraphics>(
-                                 textures_.get(Textures::kPeepoLeft),
-                                 textures_.get(Textures::kPeepoRight), true),
-                             std::make_unique<component::KeyboardInput>(),
-                             std::make_unique<component::UnitCombat>(textures_),
-                             textures_, NodeCategory::Unit);
+  // add a player
+  auto player = std::make_unique<Unit>(
+      std::make_unique<component::SimplePhysics>(),
+      std::make_unique<component::TwoSpriteGraphics>(
+          textures_.get(Textures::kPeepoLeft),
+          textures_.get(Textures::kPeepoRight), true),
+      std::make_unique<component::KeyboardInput>(),
+      std::make_unique<component::UnitCombat>(textures_), textures_,
+      NodeCategory::Unit, Unit::OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
+  room_manager_.attachUnit(std::move(player));
 
-  room_manager_.attachPlayer(std::move(player));
+  // add an enemy
+  auto enemy = std::make_unique<Unit>(
+      std::make_unique<component::SimplePhysics>(),
+      std::make_unique<component::TwoSpriteGraphics>(
+          textures_.get(Textures::kPeepoLeft),
+          textures_.get(Textures::kPeepoRight), true),
+      std::make_unique<component::AIKeyboardInput>(),
+      std::make_unique<component::UnitCombat>(textures_), textures_,
+      NodeCategory::Unit, Unit::OwnerType::kEnemy);
+  enemy->setPosition(spawn_position_ * 0.5f);
+  room_manager_.attachUnit(std::move(enemy));
 }
 
 void World::boundChecking() const {

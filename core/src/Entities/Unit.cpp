@@ -6,10 +6,12 @@ Unit::Unit(std::unique_ptr<component::PhysicsComponent> physics,
            std::unique_ptr<component::GraphicsComponent> graphics,
            std::unique_ptr<component::InputComponent> inputs,
            std::unique_ptr<component::CombatComponent> combat,
-           const TextureHolder& texture_holder, NodeCategory category)
+           const TextureHolder& texture_holder, NodeCategory category,
+           OwnerType owner)
     : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
                  std::move(combat), category),
-      texture_holder_(texture_holder) {
+      texture_holder_(texture_holder),
+      owner_(owner) {
   // TODO: move components logic to GameObject class
   physics_impl_->setCommandQueue(&command_queue_);
   graphics_impl_->setCommandQueue(&command_queue_);
@@ -27,11 +29,14 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
   inputs_impl_->handleInput(commands, key, is_pressed);
 }
 
-void Unit::handleRealtimeInput(CommandQueue<NodeCommand>& commands) {
-  inputs_impl_->handleRealtimeInput(commands);
+void Unit::handleRealtimeInput(sf::Time dt,
+                               CommandQueue<NodeCommand>& commands) {
+  inputs_impl_->handleRealtimeInput(dt, commands);
 }
 
 void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
+  handleRealtimeInput(dt, commands);
+
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
     physics_impl_->onCommand(command, dt);
@@ -48,5 +53,7 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
     commands.push(fire_command_);
   }
 };
+
+Unit::OwnerType Unit::GetOwnerType() const noexcept { return owner_; }
 
 }  // namespace ink

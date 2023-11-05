@@ -1,14 +1,18 @@
 #pragma once
 
+#include <unordered_map>
+
+#include <SFML/System/Time.hpp>
+
 #include <Commands/Command.hpp>
 #include <Components/InputComponent.hpp>
 
 namespace ink::component {
 
-class KeyboardInput final : public InputComponent {
+class AIKeyboardInput final : public InputComponent {
  public:
-  KeyboardInput();
-  ~KeyboardInput() override = default;
+  AIKeyboardInput();
+  ~AIKeyboardInput() override = default;
 
   void handleInput(CommandQueue<NodeCommand>& command_queue,
                    const sf::Keyboard::Key key, const bool is_pressed) override;
@@ -17,7 +21,17 @@ class KeyboardInput final : public InputComponent {
                            CommandQueue<NodeCommand>& commands) override;
 
  private:
-  bool isRealtimeAction(sf::Keyboard::Key key) const noexcept;
+  enum class State {
+    kIdle,
+    kMoveDown,
+    kMoveLeft,
+    kMoveUp,
+    kMoveRight,
+  };
+
+ private:
+  std::unordered_map<sf::Keyboard::Key, bool> is_pressed_map_;
+  State state{State::kIdle};
 };
 
 }  // namespace ink::component

@@ -22,19 +22,24 @@ class Unit final : public GameObject {
        std::unique_ptr<component::GraphicsComponent> graphics,
        std::unique_ptr<component::InputComponent> inputs,
        std::unique_ptr<component::CombatComponent> combat,
-       const TextureHolder& texture_holder, NodeCategory category);
+       const TextureHolder& texture_holder, NodeCategory category,
+       OwnerType owner);
 
   ~Unit() override = default;
 
   void handleInput(CommandQueue<NodeCommand>& commands,
                    const sf::Keyboard::Key key, const bool is_pressed);
-  void handleRealtimeInput(CommandQueue<NodeCommand>& commands);
   void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
+  OwnerType GetOwnerType() const noexcept;
+
+ private:
+  void handleRealtimeInput(sf::Time dt, CommandQueue<NodeCommand>& commands);
 
  private:
   const TextureHolder& texture_holder_;  // TODO: remove candidate
   NodeCommand fire_command_;
   CommandQueue<ComponentCommand> command_queue_;
+  OwnerType owner_;
 };
 
 }  // namespace ink

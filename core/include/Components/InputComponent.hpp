@@ -1,5 +1,9 @@
 #pragma once
 
+#include <unordered_map>
+#include <vector>
+
+#include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
 #include <Commands/Command.hpp>
@@ -16,7 +20,16 @@ class InputComponent : public Component {
   virtual void handleInput(CommandQueue<NodeCommand>& command_queue,
                            const sf::Keyboard::Key key,
                            const bool is_pressed) = 0;
-  virtual void handleRealtimeInput(CommandQueue<NodeCommand>& commands) = 0;
+  virtual void handleRealtimeInput(sf::Time dt,
+                                   CommandQueue<NodeCommand>& commands) = 0;
+
+ protected:
+  void createCommand(sf::Keyboard::Key key,
+                     ComponentCommand::Receiver receiver_category,
+                     ComponentCommand::Action action);
+
+  std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>
+      commands_;
 };
 
 }  // namespace ink::component

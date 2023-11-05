@@ -23,13 +23,19 @@ RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
       world_bounds_(world_bounds),
       textures_(textures) {}
 
-void RoomManager::attachPlayer(std::unique_ptr<Unit> player) {
+void RoomManager::attachUnit(std::unique_ptr<Unit> unit) {
   // connect entities to the Graph
-  room_nodes_[curr_room_id_]->setPlayer(std::move(player));
-  scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
+  if (unit->GetOwnerType() == Unit::OwnerType::kPlayer) {
+    room_nodes_[curr_room_id_]->setPlayer(std::move(unit));
+  } else {
+    room_nodes_[curr_room_id_]->attachChild(std::move(unit));
+  }
 }
 
-void RoomManager::createInitialRoom() { createRandomRoom(); }
+void RoomManager::createInitialRoom() {
+  createRandomRoom();
+  scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
+}
 
 void RoomManager::changeRoomTo(std::size_t next_room_id) {
   // re-set the player

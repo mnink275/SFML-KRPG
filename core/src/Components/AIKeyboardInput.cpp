@@ -1,6 +1,4 @@
-#include <Components/KeyboardInput.hpp>
-
-#include <iostream>
+#include <Components/AIKeyboardInput.hpp>
 
 #include <Components/CombatComponent.hpp>
 #include <Components/GraphicsComponent.hpp>
@@ -40,7 +38,7 @@ struct BodyRotationCommand final {
 
 }  // namespace
 
-KeyboardInput::KeyboardInput() {
+AIKeyboardInput::AIKeyboardInput() {
   createCommand(sf::Keyboard::A, ComponentCategory::kPhysic,
                 SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
   createCommand(
@@ -63,38 +61,51 @@ KeyboardInput::KeyboardInput() {
                 SendTo<CombatComponent>(FireCommand{}));
 }
 
-void KeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
-                                const sf::Keyboard::Key key,
-                                const bool /*is_pressed*/) {
-  if (isRealtimeAction(key)) return;
+void AIKeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
+                                  const sf::Keyboard::Key key,
+                                  const bool /*is_pressed*/) {}
 
-  switch (key) {
-    // case sf::Keyboard::Key::E:
-    //   interact_with_ = is_pressed;
-    //   break;
-    default:
-      std::cout << "The key isn't implemented!\n";
-  }
-}
-
-void KeyboardInput::handleRealtimeInput(
-    sf::Time /*dt*/, CommandQueue<NodeCommand>& /*commands*/) {
-  for (auto&& [key, command_list] : commands_) {
-    if (!isRealtimeAction(key) || !sf::Keyboard::isKeyPressed(key)) continue;
-    for (auto&& command : command_list) sendCommand(command);
-  }
-}
-
-bool KeyboardInput::isRealtimeAction(sf::Keyboard::Key key) const noexcept {
-  switch (key) {
-    case sf::Keyboard::Key::A:
-    case sf::Keyboard::Key::D:
-    case sf::Keyboard::Key::W:
-    case sf::Keyboard::Key::S:
-    case sf::Keyboard::Key::Space:
-      return true;
-    default:
-      return false;
+void AIKeyboardInput::handleRealtimeInput(
+    sf::Time dt, CommandQueue<NodeCommand>& /*commands*/) {
+  static auto kIdleInterval = sf::seconds(2.f);
+  static auto kMoveInterval = sf::seconds(1.f);
+  static auto timer = sf::Time::Zero;
+  timer += dt;
+  switch (state) {
+    case State::kIdle:
+      if (timer > kIdleInterval) {
+        timer -= kIdleInterval;
+        state = State::kMoveDown;
+      }
+      break;
+    case State::kMoveDown:
+      if (timer > kMoveInterval) {
+        timer -= kMoveInterval;
+        state = State::kMoveRight;
+      }
+      for (auto&& command : commands_[sf::Keyboard::S]) sendCommand(command);
+      break;
+    case State::kMoveRight:
+      if (timer > kMoveInterval) {
+        timer -= kMoveInterval;
+        state = State::kMoveUp;
+      }
+      for (auto&& command : commands_[sf::Keyboard::D]) sendCommand(command);
+      break;
+    case State::kMoveUp:
+      if (timer > kMoveInterval) {
+        timer -= kMoveInterval;
+        state = State::kMoveLeft;
+      }
+      for (auto&& command : commands_[sf::Keyboard::W]) sendCommand(command);
+      break;
+    case State::kMoveLeft:
+      if (timer > kMoveInterval) {
+        timer -= kMoveInterval;
+        state = State::kIdle;
+      }
+      for (auto&& command : commands_[sf::Keyboard::A]) sendCommand(command);
+      break;
   }
 }
 
