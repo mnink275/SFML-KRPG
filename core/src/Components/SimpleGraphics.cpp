@@ -20,4 +20,8 @@ void SimpleGraphics::draw(sf::RenderTarget& target,
   target.draw(sprite_, states);
 }
 
+sf::FloatRect SimpleGraphics::getGlobalBounds() const {
+  return sprite_.getGlobalBounds();
+}
+
 }  // namespace ink::component

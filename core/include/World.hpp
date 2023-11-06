@@ -25,6 +25,7 @@ class World final {
   void update(sf::Time dt);
   void draw() const;
   void handlePlayerInput(sf::Keyboard::Key key, bool is_pressed);
+  void handleCollisions();
 
  private:
   // initial
@@ -33,6 +34,8 @@ class World final {
   // update
   void boundChecking() const;
   void checkDoorInteraction();
+  bool matchesCategories(SceneNode::NodePair& pair, NodeCategory first,
+                         NodeCategory second) const noexcept;
 
   sf::RenderWindow& window_;
   sf::View world_view_;

@@ -17,6 +17,8 @@ class SimpleGraphics final : public GraphicsComponent {
   void draw(sf::RenderTarget& target,
             const sf::RenderStates states) const override;
 
+  sf::FloatRect getGlobalBounds() const override;
+
  private:
   sf::Sprite sprite_;
 };

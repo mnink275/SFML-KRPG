@@ -15,7 +15,7 @@ void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
       std::make_unique<component::BulletPhysics>(eyes_direction),
       std::make_unique<component::SimpleGraphics>(
           texture_holder.get(Textures::kBullet), true),
-      nullptr, nullptr);
+      nullptr, nullptr, NodeCategory::kBullet);
   bullet->setPosition(owner_position);
   node.attachChild(std::move(bullet));
 }

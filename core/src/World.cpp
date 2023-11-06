@@ -1,9 +1,11 @@
 #include <World.hpp>
 
 #include <memory>
+#include <set>
 
 #include <SFML/Graphics/Texture.hpp>
 
+#include <Combat/Projectile.hpp>
 #include <Commands/Category/Category.hpp>
 #include <Components/AIKeyboardInput.hpp>
 #include <Components/KeyboardInput.hpp>
@@ -37,12 +39,31 @@ void World::update(const sf::Time dt) {
   }
 
   scene_graph_.update(dt, command_queue_);
+  handleCollisions();
 }
 
 void World::checkDoorInteraction() {
   if (interact_with_) {
     interact_with_ = false;
     room_manager_.checkDoorInteraction();
+  }
+}
+
+bool World::matchesCategories(SceneNode::NodePair& pair, NodeCategory first,
+                              NodeCategory second) const noexcept {
+  auto first_id = static_cast<CategoryUnderlying>(first);
+  auto second_id = static_cast<CategoryUnderlying>(second);
+  auto category_id1 =
+      static_cast<CategoryUnderlying>(pair.first->getCategory());
+  auto category_id2 =
+      static_cast<CategoryUnderlying>(pair.second->getCategory());
+  if (first_id & category_id1 && second_id & category_id2) {
+    return true;
+  } else if (first_id & category_id2 && second_id & category_id1) {
+    std::swap(pair.first, pair.second);
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -66,6 +87,23 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
       break;
     default:
       std::cout << "The key isn't implemented!\n";
+  }
+}
+
+void World::handleCollisions() {
+  std::set<SceneNode::NodePair> collisions;
+  scene_graph_.checkSceneCollision(scene_graph_, collisions);
+  for (auto pair : collisions) {
+    if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kBullet)) {
+      auto* unit = static_cast<Unit*>(pair.first);
+      auto* bullet = static_cast<combat::Projectile*>(pair.second);
+      if (unit->GetOwnerType() == Unit::OwnerType::kEnemy) {
+        std::cout << "Unit and Bullet collision!\n";
+      }
+    }
+    if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kUnit)) {
+      std::cout << "Unit and Unit collision!\n";
+    }
   }
 }
 
@@ -94,7 +132,7 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::KeyboardInput>(),
       std::make_unique<component::UnitCombat>(textures_), textures_,
-      NodeCategory::Unit, Unit::OwnerType::kPlayer);
+      NodeCategory::kUnit, Unit::OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_.attachUnit(std::move(player));
@@ -107,7 +145,7 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::AIKeyboardInput>(),
       std::make_unique<component::UnitCombat>(textures_), textures_,
-      NodeCategory::Unit, Unit::OwnerType::kEnemy);
+      NodeCategory::kUnit, Unit::OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_.attachUnit(std::move(enemy));
 }

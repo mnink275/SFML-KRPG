@@ -22,9 +22,11 @@ class GameObject : public SceneNode {
              std::unique_ptr<component::GraphicsComponent> graphics,
              std::unique_ptr<component::InputComponent> inputs,
              std::unique_ptr<component::CombatComponent> combat,
-             NodeCategory category = NodeCategory::None);
+             NodeCategory category = NodeCategory::kNone);
 
   virtual ~GameObject() = default;
+
+  sf::FloatRect getBoundingRect() const override;
 
  protected:
   std::unique_ptr<component::PhysicsComponent> physics_impl_;

@@ -62,7 +62,7 @@ AIKeyboardInput::AIKeyboardInput() {
 }
 
 void AIKeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
-                                  const sf::Keyboard::Key key,
+                                  const sf::Keyboard::Key /*key*/,
                                   const bool /*is_pressed*/) {}
 
 void AIKeyboardInput::handleRealtimeInput(

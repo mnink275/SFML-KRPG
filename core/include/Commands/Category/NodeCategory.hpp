@@ -5,9 +5,10 @@
 namespace ink {
 
 enum class NodeCategory : CategoryUnderlying {
-  None = 0,
-  Room = 1 << 0,
-  Unit = 1 << 1,
+  kNone = 0,
+  kRoom = 1 << 0,
+  kUnit = 1 << 1,
+  kBullet = 1 << 2,
 };
 
 }  // namespace ink

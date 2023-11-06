@@ -17,6 +17,8 @@ class GraphicsComponent : public Component {
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;
 
+  virtual sf::FloatRect getGlobalBounds() const = 0;
+
  public:
   EyesDirection eyes_direction;
 

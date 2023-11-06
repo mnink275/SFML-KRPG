@@ -38,6 +38,37 @@ void SceneNode::onCommand(const NodeCommand& command, sf::Time dt) {
   }
 }
 
+void SceneNode::checkSceneCollision(SceneNode& scene_root,
+                                    std::set<SceneNode::NodePair>& collisions) {
+  checkNodeCollision(scene_root, collisions);
+  for (auto&& child : scene_root.children_) {
+    checkSceneCollision(*child, collisions);
+  }
+}
+
+void SceneNode::checkNodeCollision(SceneNode& node,
+                                   std::set<SceneNode::NodePair>& collisions) {
+  if (this != &node && isCollide(*this, node)) {
+    collisions.insert(std::minmax(this, &node));
+  }
+  for (auto&& child : children_) {
+    child->checkNodeCollision(node, collisions);
+  }
+}
+
+sf::FloatRect SceneNode::getBoundingRect() const { return sf::FloatRect{}; }
+
+sf::Transform SceneNode::getWorldTransform() const {
+  sf::Transform transform = sf::Transform::Identity;
+  for (auto node = this; node != nullptr; node = node->parent_) {
+    transform *= node->getTransform();
+  }
+
+  return transform;
+}
+
+NodeCategory SceneNode::getCategory() const noexcept { return category_; }
+
 void SceneNode::draw(sf::RenderTarget& target,
                      const sf::RenderStates& states) const {
   sf::RenderStates node_states(states);
@@ -60,17 +91,14 @@ void SceneNode::updateChildren(const sf::Time dt,
   }
 }
 
-sf::Transform SceneNode::getWorldTransform() const {
-  sf::Transform transform = sf::Transform::Identity;
-  for (auto node = this; node != nullptr; node = node->parent_) {
-    transform = node->getTransform() * transform;
-  }
-
-  return transform;
-}
-
 sf::Vector2f SceneNode::getWorldPosition() const {
   return getWorldTransform() * sf::Vector2f();
+}
+
+bool SceneNode::isCollide(const SceneNode& lhs, const SceneNode& rhs) const {
+  return lhs.getBoundingRect()
+      .findIntersection(rhs.getBoundingRect())
+      .has_value();
 }
 
 }  // namespace ink

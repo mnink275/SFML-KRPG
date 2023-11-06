@@ -40,4 +40,8 @@ void TwoSpriteGraphics::draw(sf::RenderTarget& target,
   }
 }
 
+sf::FloatRect TwoSpriteGraphics::getGlobalBounds() const {
+  return left_movement_sprite_.getGlobalBounds();
+}
+
 }  // namespace ink::component

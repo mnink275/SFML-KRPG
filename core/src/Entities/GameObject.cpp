@@ -13,6 +13,10 @@ GameObject::GameObject(std::unique_ptr<component::PhysicsComponent> physics,
       inputs_impl_(std::move(inputs)),
       combat_impl_(std::move(combat)) {}
 
+sf::FloatRect GameObject::getBoundingRect() const {
+  return getWorldTransform().transformRect(graphics_impl_->getGlobalBounds());
+}
+
 void GameObject::drawCurrent(sf::RenderTarget& target,
                              const sf::RenderStates states) const {
   graphics_impl_->draw(target, states);
