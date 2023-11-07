@@ -12,4 +12,3 @@
   git submodule update --init
   make run
   ```
-  
