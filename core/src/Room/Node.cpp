@@ -91,11 +91,11 @@ void RoomNode::buildWalls() {
   // `positions` contains left-top corner of the walls
   // walls "grow" from the left-top corner to the bottom-right
   static const std::vector<sf::Vector2f> positions = {
-      {0.0f, 0.0f},                // left
-      {0.0f, 0.0f},                // top
-      {width - thickness, 0.0f},   // right
-      {0.0f, height - thickness},  // bottom
-      {3 * width / 4, height / 2}};    // middle
+      {0.0f, 0.0f},                  // left
+      {0.0f, 0.0f},                  // top
+      {width - thickness, 0.0f},     // right
+      {0.0f, height - thickness},    // bottom
+      {3 * width / 4, height / 2}};  // middle
   static const std::vector<sf::Vector2f> sizes = {
       {thickness, height},       // left
       {width, thickness},        // top

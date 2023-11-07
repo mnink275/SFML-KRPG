@@ -31,7 +31,7 @@ World::World(sf::RenderWindow& window)
 }
 
 void World::update(const sf::Time dt) {
-  boundChecking();
+  // boundChecking();
   checkDoorInteraction();
 
   while (!command_queue_.isEmpty()) {
@@ -110,8 +110,33 @@ void World::handleCollisions() {
       assert(dynamic_cast<combat::Projectile*>(pair.first));
       auto* bullet = static_cast<combat::Projectile*>(pair.first);
       assert(dynamic_cast<GameStaticObject*>(pair.second));
-      auto* wall = static_cast<GameStaticObject*>(pair.first);
+      auto* wall = static_cast<GameStaticObject*>(pair.second);
       bullet->destroy();
+    } else if (matchesCategories(pair, NodeCategory::kUnit,
+                                 NodeCategory::kWall)) {
+      std::cout << "Unit and Wall collision!\n";
+      assert(dynamic_cast<Unit*>(pair.first));
+      auto* unit = static_cast<Unit*>(pair.first);
+      assert(dynamic_cast<GameStaticObject*>(pair.second));
+      auto* wall = static_cast<GameStaticObject*>(pair.second);
+
+      auto intersection_opt =
+          unit->getBoundingRect().findIntersection(wall->getBoundingRect());
+      assert(intersection_opt.has_value());
+      auto intersection = intersection_opt.value();
+
+      auto is_vertical_collision = intersection.width < intersection.height;
+      auto shift = std::min(intersection.width, intersection.height);
+      auto player_pos = unit->getPosition();
+      auto obstacle_pos = wall->getPosition();
+      if (is_vertical_collision) {
+        auto sign = (player_pos.x < obstacle_pos.x) ? -1 : +1;
+        player_pos.x += shift * sign;
+      } else {
+        auto sign = (player_pos.y < obstacle_pos.y) ? -1 : +1;
+        player_pos.y += shift * sign;
+      }
+      unit->setPosition(player_pos);
     }
   }
 }
