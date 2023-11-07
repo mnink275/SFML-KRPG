@@ -30,7 +30,6 @@ class RoomNode final : public SceneNode {
   void createConnection(const std::size_t room_id,
                         const ConnectionType direction);
   InteractionResult CheckDoorInteraction();
-  std::optional<std::size_t> isDoorInteraction();
 
  private:
   enum Layer { Background, Player, LayerCount };
@@ -46,6 +45,7 @@ class RoomNode final : public SceneNode {
   std::array<Door*, ConnectionsCount> doors_storage_;
   std::array<std::size_t, ConnectionsCount> connected_rooms_;
   std::size_t room_id_;
+  const float wall_thickness_ = 10.0f;
 };
 
 }  // namespace ink::room
