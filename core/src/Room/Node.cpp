@@ -104,8 +104,7 @@ void RoomNode::buildWalls() {
   for (std::size_t i = 0; i < kWallsCount; ++i) {
     auto wall = std::make_unique<GameStaticObject>(
         std::make_unique<component::SimpleGraphics>(
-            texture_.get(Textures::kWall),
-            sf::IntRect{sf::FloatRect{{0, 0}, sizes[i]}}, false),
+            texture_.get(Textures::kWall), sf::Vector2i{sizes[i]}, false),
         NodeCategory::kWall);
     wall->setPosition(positions[i]);
     walls_holder->attachChild(std::move(wall));

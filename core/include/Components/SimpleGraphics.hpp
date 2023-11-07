@@ -8,7 +8,9 @@ namespace ink::component {
 
 class SimpleGraphics final : public GraphicsComponent {
  public:
-  explicit SimpleGraphics(const sf::Texture& texture, bool is_centered);
+  SimpleGraphics(const sf::Texture& texture, bool is_centered);
+  SimpleGraphics(const sf::Texture& texture, const sf::Vector2i& sizes,
+                 bool is_centered);
   SimpleGraphics(const sf::Texture& texture, const sf::IntRect& rect,
                  bool is_centered);
 

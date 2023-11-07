@@ -5,9 +5,11 @@
 namespace ink::component {
 
 SimpleGraphics::SimpleGraphics(const sf::Texture& texture, bool is_centered)
-    : SimpleGraphics(texture,
-                     sf::IntRect{{0, 0}, sf::Vector2i{texture.getSize()}},
-                     is_centered) {}
+    : SimpleGraphics(texture, sf::Vector2i{texture.getSize()}, is_centered) {}
+
+SimpleGraphics::SimpleGraphics(const sf::Texture& texture,
+                               const sf::Vector2i& sizes, bool is_centered)
+    : SimpleGraphics(texture, sf::IntRect{{0, 0}, sizes}, is_centered) {}
 
 SimpleGraphics::SimpleGraphics(const sf::Texture& texture,
                                const sf::IntRect& rect, bool is_centered)
