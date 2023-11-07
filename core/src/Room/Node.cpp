@@ -30,8 +30,8 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
 
-  doorsInitialize();
   buildWalls();
+  doorsInitialize();
 }
 
 void RoomNode::doorsInitialize() {
@@ -82,7 +82,6 @@ void RoomNode::doorsInitialize() {
 
 void RoomNode::buildWalls() {
   texture_.get(Textures::kWall).setRepeated(true);
-  static constexpr std::size_t kWallsCount = 4;
 
   auto walls_holder = std::make_unique<SceneNode>();
   float width = room_bounds_.x;
@@ -91,15 +90,21 @@ void RoomNode::buildWalls() {
 
   // `positions` contains left-top corner of the walls
   // walls "grow" from the left-top corner to the bottom-right
-  const std::vector<sf::Vector2f> positions = {
-      {0.0f, 0.0f},                                              // left
-      {0.0f, 0.0f},                                              // top
-      {width - thickness, 0.0f},                                 // right
-      {0.0f, height - thickness}};                               // bottomt
-  const std::vector<sf::Vector2f> sizes = {{thickness, height},  // left
-                                           {width, thickness},   // top
-                                           {thickness, height},  // right
-                                           {width, thickness}};  // bottom
+  static const std::vector<sf::Vector2f> positions = {
+      {0.0f, 0.0f},                // left
+      {0.0f, 0.0f},                // top
+      {width - thickness, 0.0f},   // right
+      {0.0f, height - thickness},  // bottom
+      {3 * width / 4, height / 2}};    // middle
+  static const std::vector<sf::Vector2f> sizes = {
+      {thickness, height},       // left
+      {width, thickness},        // top
+      {thickness, height},       // right
+      {width, thickness},        // bottom
+      {thickness, height / 2}};  // middle
+
+  assert(positions.size() == sizes.size());
+  static const std::size_t kWallsCount = positions.size();
 
   for (std::size_t i = 0; i < kWallsCount; ++i) {
     auto wall = std::make_unique<GameStaticObject>(
