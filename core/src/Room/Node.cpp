@@ -16,7 +16,7 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
     : SceneNode(category),
       room_type_(room_type),
       texture_(texture_holder),
-      room_bounds_(bounds.height, bounds.width),
+      room_bounds_(bounds.width, bounds.height),
       room_id_(room_id) {
   // prepare the tiled background
   sf::IntRect background_texture_rect(bounds);
@@ -37,8 +37,8 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
 void RoomNode::doorsInitialize() {
   // TODO: simplify
   // door position constants
-  float height = room_bounds_.x;
-  float width = room_bounds_.y;
+  float width = room_bounds_.x;
+  float height = room_bounds_.y;
   const float door_width = 100;
   const float door_height = 20;
   const sf::FloatRect horizontal_door({0, 0}, {door_width, door_height});
@@ -85,9 +85,8 @@ void RoomNode::buildWalls() {
   static constexpr std::size_t kWallsCount = 4;
 
   auto walls_holder = std::make_unique<SceneNode>();
-  // TODO: fix wrong height and width binding
-  float width = room_bounds_.y;
-  float height = room_bounds_.x;
+  float width = room_bounds_.x;
+  float height = room_bounds_.y;
   float thickness = 10.0f;
 
   // `positions` contains left-top corner of the walls
