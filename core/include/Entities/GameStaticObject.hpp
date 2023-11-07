@@ -12,7 +12,8 @@ namespace ink {
 class GameStaticObject : public SceneNode {
  public:
   using SceneNode::SceneNode;
-  GameStaticObject(std::unique_ptr<component::GraphicsComponent> graphics);
+  GameStaticObject(std::unique_ptr<component::GraphicsComponent> graphics,
+                   NodeCategory category = NodeCategory::kNone);
 
   virtual ~GameStaticObject() = default;
 

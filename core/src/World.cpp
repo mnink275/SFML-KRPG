@@ -104,9 +104,14 @@ void World::handleCollisions() {
         std::cout << "Unit and Bullet collision!\n";
         unit->destroy();
       }
-    } else if (matchesCategories(pair, NodeCategory::kUnit,
-                                 NodeCategory::kUnit)) {
-      std::cout << "Unit and Unit collision!\n";
+    } else if (matchesCategories(pair, NodeCategory::kBullet,
+                                 NodeCategory::kWall)) {
+      std::cout << "Bullet and Wall collision!\n";
+      assert(dynamic_cast<combat::Projectile*>(pair.first));
+      auto* bullet = static_cast<combat::Projectile*>(pair.first);
+      assert(dynamic_cast<GameStaticObject*>(pair.second));
+      auto* wall = static_cast<GameStaticObject*>(pair.first);
+      bullet->destroy();
     }
   }
 }
