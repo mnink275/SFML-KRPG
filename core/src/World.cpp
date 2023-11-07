@@ -40,6 +40,7 @@ void World::update(const sf::Time dt) {
 
   scene_graph_.update(dt, command_queue_);
   handleCollisions();
+  scene_graph_.cleanGarbage();
 }
 
 void World::checkDoorInteraction() {
@@ -99,9 +100,10 @@ void World::handleCollisions() {
       auto* bullet = static_cast<combat::Projectile*>(pair.second);
       if (unit->GetOwnerType() == Unit::OwnerType::kEnemy) {
         std::cout << "Unit and Bullet collision!\n";
+        unit->destroy();
       }
-    }
-    if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kUnit)) {
+    } else if (matchesCategories(pair, NodeCategory::kUnit,
+                                 NodeCategory::kUnit)) {
       std::cout << "Unit and Unit collision!\n";
     }
   }

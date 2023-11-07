@@ -39,6 +39,10 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
   sf::Transform getWorldTransform() const;
   NodeCategory getCategory() const noexcept;
 
+  void cleanGarbage();
+  void destroy() noexcept;
+  bool isDestroyed() const noexcept;
+
  private:
   void draw(sf::RenderTarget& target,
             const sf::RenderStates& states) const override final;
@@ -52,6 +56,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
   std::vector<Ptr> children_;
   SceneNode* parent_;
   NodeCategory category_;
+  bool is_destroyed_;
 };
 
 }  // namespace ink

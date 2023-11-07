@@ -5,7 +5,10 @@
 namespace ink {
 
 SceneNode::SceneNode(NodeCategory category)
-    : children_(), parent_(nullptr), category_(category) {}
+    : children_(),
+      parent_(nullptr),
+      category_(category),
+      is_destroyed_(false) {}
 
 void SceneNode::attachChild(Ptr child) {
   child->parent_ = this;
@@ -68,6 +71,21 @@ sf::Transform SceneNode::getWorldTransform() const {
 }
 
 NodeCategory SceneNode::getCategory() const noexcept { return category_; }
+
+void SceneNode::cleanGarbage() {
+  auto garbage_begin =
+      std::remove_if(children_.begin(), children_.end(),
+                     [](const Ptr& child) { return child->isDestroyed(); });
+  children_.erase(garbage_begin, children_.end());
+
+  for (auto&& child : children_) {
+    child->cleanGarbage();
+  }
+}
+
+void SceneNode::destroy() noexcept { is_destroyed_ = true; }
+
+bool SceneNode::isDestroyed() const noexcept { return is_destroyed_; }
 
 void SceneNode::draw(sf::RenderTarget& target,
                      const sf::RenderStates& states) const {
