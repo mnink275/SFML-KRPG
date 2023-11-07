@@ -31,9 +31,11 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
   attachChild(std::move(background_sprite));
 
   doorsInitialize();
+  buildWalls();
 }
 
 void RoomNode::doorsInitialize() {
+  // TODO: simplify
   // door position constants
   float height = room_bounds_.x;
   float width = room_bounds_.y;
@@ -76,6 +78,40 @@ void RoomNode::doorsInitialize() {
                                         texture_shift[dir_id]);
     attachChild(std::move(door));
   }
+}
+
+void RoomNode::buildWalls() {
+  texture_.get(Textures::kWall).setRepeated(true);
+  static constexpr std::size_t kWallsCount = 4;
+
+  auto walls_holder = std::make_unique<SceneNode>();
+  // TODO: fix wrong height and width binding
+  float width = room_bounds_.y;
+  float height = room_bounds_.x;
+  float thickness = 10.0f;
+
+  // `positions` contains left-top corner of the walls
+  // walls "grow" from the left-top corner to the bottom-right
+  const std::vector<sf::Vector2f> positions = {
+      {0.0f, 0.0f},                                              // left
+      {0.0f, 0.0f},                                              // top
+      {width - thickness, 0.0f},                                 // right
+      {0.0f, height - thickness}};                               // bottomt
+  const std::vector<sf::Vector2f> sizes = {{thickness, height},  // left
+                                           {width, thickness},   // top
+                                           {thickness, height},  // right
+                                           {width, thickness}};  // bottom
+
+  for (std::size_t i = 0; i < kWallsCount; ++i) {
+    auto wall = std::make_unique<GameStaticObject>(
+        std::make_unique<component::SimpleGraphics>(
+            texture_.get(Textures::kWall),
+            sf::IntRect{sf::FloatRect{{0, 0}, sizes[i]}}, false));
+    wall->setPosition(positions[i]);
+    walls_holder->attachChild(std::move(wall));
+  }
+
+  attachChild(std::move(walls_holder));
 }
 
 void RoomNode::createConnection(const std::size_t room_id,

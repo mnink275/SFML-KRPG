@@ -36,6 +36,7 @@ class RoomNode final : public SceneNode {
   enum Layer { Background, Player, LayerCount };
 
   void doorsInitialize();
+  void buildWalls();
 
   Type room_type_;
   TextureHolder& texture_;

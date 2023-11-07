@@ -16,6 +16,8 @@ class GameStaticObject : public SceneNode {
 
   virtual ~GameStaticObject() = default;
 
+  sf::FloatRect getBoundingRect() const override;
+
  protected:
   std::unique_ptr<component::GraphicsComponent> graphics_impl_;
 

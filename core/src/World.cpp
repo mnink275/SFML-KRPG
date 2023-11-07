@@ -96,7 +96,9 @@ void World::handleCollisions() {
   scene_graph_.checkSceneCollision(scene_graph_, collisions);
   for (auto pair : collisions) {
     if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kBullet)) {
+      assert(dynamic_cast<Unit*>(pair.first));
       auto* unit = static_cast<Unit*>(pair.first);
+      assert(dynamic_cast<combat::Projectile*>(pair.second));
       auto* bullet = static_cast<combat::Projectile*>(pair.second);
       if (unit->GetOwnerType() == Unit::OwnerType::kEnemy) {
         std::cout << "Unit and Bullet collision!\n";
@@ -120,6 +122,7 @@ void World::loadTextures() {
                  kTexturePath + "/texture/StaregeGun64x64Right.png");
   textures_.load(Textures::kDoor, kTexturePath + "/texture/Door.png");
   textures_.load(Textures::kBullet, kTexturePath + "/texture/Bullet16x16T.png");
+  textures_.load(Textures::kWall, kTexturePath + "/texture/Wall64x64.png");
 }
 
 void World::buildScene() {

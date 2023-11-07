@@ -16,6 +16,7 @@ enum Textures {
   kPeepoRight,
   kDoor,
   kBullet,
+  kWall,
 };
 
 // Forward declaration and a few type definitions
