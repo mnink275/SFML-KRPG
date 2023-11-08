@@ -2,7 +2,6 @@
 
 #include <Entities/GameStaticObject.hpp>
 #include <Room/ConnectionTypes.hpp>
-#include <Room/Types.hpp>
 
 namespace ink::room {
 
@@ -21,7 +20,6 @@ class Door final : public GameStaticObject {
 
  private:
   bool is_active_{false};
-  Type next_room_type_;
   ConnectionType door_type_;
   sf::Vector2f other_size_position_;
 };

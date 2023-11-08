@@ -10,7 +10,6 @@
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
 #include <Room/Node.hpp>
-#include <Room/Types.hpp>
 #include <SceneNode.hpp>
 
 namespace ink::room {
@@ -33,7 +32,7 @@ void RoomManager::attachUnit(std::unique_ptr<Unit> unit) {
 }
 
 void RoomManager::createInitialRoom() {
-  createRandomRoom();
+  createRoom(static_cast<std::size_t>(Textures::kStoneOnGrass));
   scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
 }
 
@@ -65,21 +64,25 @@ void RoomManager::checkDoorInteraction() {
 }
 
 std::size_t RoomManager::createRandomRoom() {
-  static const std::size_t fixed_seed = 275;
+  static const std::size_t fixed_seed = 500;
   static std::mt19937 gen(fixed_seed);
   static std::uniform_int_distribution<> randomizer(0, kRoomCount - 1);
   std::size_t room_type_id = 0;
   while (room_type_id == curr_room_id_) {
     room_type_id = randomizer(gen);
   }
+
+  return createRoom(room_type_id);
+}
+
+std::size_t RoomManager::createRoom(std::size_t room_type_id) {
   std::cout << "New room id: " << room_type_id << '\n';
   const auto texture_type = static_cast<Textures>(room_type_id);
-  const auto room_type = static_cast<Type>(room_type_id);
 
   auto room_id = rooms_count_++;
   auto room = std::make_unique<RoomNode>(NodeCategory::kRoom, textures_,
                                          textures_.get(texture_type),
-                                         world_bounds_, room_type, room_id);
+                                         world_bounds_, room_id);
   room_nodes_.push_back(room.get());
   room_storage_.push_back(std::move(room));
 

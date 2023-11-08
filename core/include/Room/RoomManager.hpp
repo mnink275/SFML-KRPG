@@ -23,6 +23,7 @@ class RoomManager final {
 
  private:
   std::size_t createRandomRoom();
+  std::size_t createRoom(std::size_t room_type_id);
   void createConnectionTo(ConnectionType connection);
 
  private:

@@ -8,7 +8,6 @@
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
 #include <Room/Door.hpp>
-#include <Room/Types.hpp>
 #include <SceneNode.hpp>
 
 namespace ink::room {
@@ -22,8 +21,7 @@ class RoomNode final : public SceneNode {
  public:
   // TODO: make TextureHolder& and Texture& const refs
   RoomNode(NodeCategory category, TextureHolder& texture_holder,
-           sf::Texture& texture, sf::FloatRect bounds, Type room_type,
-           std::size_t room_id);
+           sf::Texture& texture, sf::FloatRect bounds, std::size_t room_id);
 
   void setPlayer(Ptr player);
   Ptr popPlayer();
@@ -37,7 +35,6 @@ class RoomNode final : public SceneNode {
   void doorsInitialize();
   void buildWalls();
 
-  Type room_type_;
   TextureHolder& texture_;
   sf::Vector2f room_bounds_;
   std::array<SceneNode*, LayerCount> room_layers_{nullptr};
