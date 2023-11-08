@@ -32,7 +32,7 @@ void RoomManager::attachUnit(std::unique_ptr<Unit> unit) {
 }
 
 void RoomManager::createInitialRoom() {
-  createRoom(static_cast<std::size_t>(Textures::kStoneOnGrass));
+  createRoom(static_cast<std::size_t>(Textures::kDesert));
   scene_graph_.attachChild(std::move(room_storage_[curr_room_id_]));
 }
 

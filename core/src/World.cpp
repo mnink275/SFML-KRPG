@@ -152,7 +152,7 @@ void World::loadTextures() {
                  kTexturePath + "/texture/StaregeGun64x64Right.png");
   textures_.load(Textures::kDoor, kTexturePath + "/texture/Door.png");
   textures_.load(Textures::kBullet, kTexturePath + "/texture/Bullet16x16T.png");
-  textures_.load(Textures::kWall, kTexturePath + "/texture/Wall64x64.png");
+  textures_.load(Textures::kWall, kTexturePath + "/texture/BlackSquare64x64.png");
   textures_.load(Textures::kIce, kTexturePath + "/texture/Ice64x64.png");
   textures_.load(Textures::kStoneOnGrass,
                  kTexturePath + "/texture/StoneOnGrass256x256.png");
