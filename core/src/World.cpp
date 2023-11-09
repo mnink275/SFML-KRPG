@@ -97,46 +97,19 @@ void World::handleCollisions() {
   for (auto pair : collisions) {
     if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kBullet)) {
       assert(dynamic_cast<Unit*>(pair.first));
-      auto* unit = static_cast<Unit*>(pair.first);
       assert(dynamic_cast<combat::Projectile*>(pair.second));
-      auto* bullet = static_cast<combat::Projectile*>(pair.second);
-      if (unit->GetOwnerType() == Unit::OwnerType::kEnemy) {
-        std::cout << "Unit and Bullet collision!\n";
-        unit->destroy();
-      }
+      pair.first->handleCollisionWith(NodeCategory::kBullet, pair.second);
+      pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
     } else if (matchesCategories(pair, NodeCategory::kBullet,
                                  NodeCategory::kWall)) {
-      std::cout << "Bullet and Wall collision!\n";
       assert(dynamic_cast<combat::Projectile*>(pair.first));
-      auto* bullet = static_cast<combat::Projectile*>(pair.first);
       assert(dynamic_cast<GameStaticObject*>(pair.second));
-      auto* wall = static_cast<GameStaticObject*>(pair.second);
-      bullet->destroy();
+      pair.first->handleCollisionWith(NodeCategory::kWall, pair.second);
     } else if (matchesCategories(pair, NodeCategory::kUnit,
                                  NodeCategory::kWall)) {
-      std::cout << "Unit and Wall collision!\n";
       assert(dynamic_cast<Unit*>(pair.first));
-      auto* unit = static_cast<Unit*>(pair.first);
       assert(dynamic_cast<GameStaticObject*>(pair.second));
-      auto* wall = static_cast<GameStaticObject*>(pair.second);
-
-      auto intersection_opt =
-          unit->getBoundingRect().findIntersection(wall->getBoundingRect());
-      assert(intersection_opt.has_value());
-      auto intersection = intersection_opt.value();
-
-      auto is_vertical_collision = intersection.width < intersection.height;
-      auto shift = std::min(intersection.width, intersection.height);
-      auto player_pos = unit->getPosition();
-      auto obstacle_pos = wall->getPosition();
-      if (is_vertical_collision) {
-        auto sign = (player_pos.x < obstacle_pos.x) ? -1 : +1;
-        player_pos.x += shift * sign;
-      } else {
-        auto sign = (player_pos.y < obstacle_pos.y) ? -1 : +1;
-        player_pos.y += shift * sign;
-      }
-      unit->setPosition(player_pos);
+      pair.first->handleCollisionWith(NodeCategory::kWall, pair.second);
     }
   }
 }
@@ -152,7 +125,8 @@ void World::loadTextures() {
                  kTexturePath + "/texture/StaregeGun64x64Right.png");
   textures_.load(Textures::kDoor, kTexturePath + "/texture/Door.png");
   textures_.load(Textures::kBullet, kTexturePath + "/texture/Bullet16x16T.png");
-  textures_.load(Textures::kWall, kTexturePath + "/texture/BlackSquare64x64.png");
+  textures_.load(Textures::kWall,
+                 kTexturePath + "/texture/BlackSquare64x64.png");
   textures_.load(Textures::kIce, kTexturePath + "/texture/Ice64x64.png");
   textures_.load(Textures::kStoneOnGrass,
                  kTexturePath + "/texture/StoneOnGrass256x256.png");
@@ -169,8 +143,8 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoLeft),
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::KeyboardInput>(),
-      std::make_unique<component::UnitCombat>(textures_), textures_,
-      NodeCategory::kUnit, Unit::OwnerType::kPlayer);
+      std::make_unique<component::UnitCombat>(textures_, OwnerType::kPlayer),
+      textures_, NodeCategory::kUnit, OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_.attachUnit(std::move(player));
@@ -182,8 +156,8 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoLeft),
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::AIKeyboardInput>(),
-      std::make_unique<component::UnitCombat>(textures_), textures_,
-      NodeCategory::kUnit, Unit::OwnerType::kEnemy);
+      std::make_unique<component::UnitCombat>(textures_, OwnerType::kEnemy),
+      textures_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_.attachUnit(std::move(enemy));
 }

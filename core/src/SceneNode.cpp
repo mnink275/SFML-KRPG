@@ -59,6 +59,8 @@ void SceneNode::checkNodeCollision(SceneNode& node,
   }
 }
 
+void SceneNode::handleCollisionWith(NodeCategory, const SceneNode*) {}
+
 sf::FloatRect SceneNode::getBoundingRect() const { return sf::FloatRect{}; }
 
 sf::Transform SceneNode::getWorldTransform() const {

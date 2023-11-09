@@ -34,6 +34,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
   void checkSceneCollision(SceneNode& scene_root,
                            std::set<NodePair>& collisions);
   void checkNodeCollision(SceneNode& node, std::set<NodePair>& collisions);
+  virtual void handleCollisionWith(NodeCategory category,
+                                   const SceneNode* node);
   virtual sf::FloatRect getBoundingRect() const;
 
   sf::Transform getWorldTransform() const;

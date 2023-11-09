@@ -3,11 +3,12 @@
 #include <Combat/Projectile.hpp>
 #include <Components/BulletPhysics.hpp>
 #include <Components/SimpleGraphics.hpp>
+#include <Entities/Unit.hpp>
 
 namespace ink::component {
 
-UnitCombat::UnitCombat(const TextureHolder& texture_holder)
-    : texture_holder(texture_holder) {}
+UnitCombat::UnitCombat(const TextureHolder& texture_holder, OwnerType owner)
+    : texture_holder(texture_holder), owner(owner) {}
 
 void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                           EyesDirection eyes_direction) {
@@ -17,6 +18,8 @@ void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
           texture_holder.get(Textures::kBullet), true),
       nullptr, nullptr, NodeCategory::kBullet);
   bullet->setPosition(owner_position);
+  bullet->owner = owner;
+
   node.attachChild(std::move(bullet));
 }
 
