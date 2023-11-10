@@ -7,6 +7,7 @@
 
 #include <Combat/Projectile.hpp>
 #include <Commands/Category/Category.hpp>
+#include <Components/Collision/UnitCollision.hpp>
 #include <Components/Combat/UnitCombat.hpp>
 #include <Components/Graphics/TwoSpriteGraphics.hpp>
 #include <Components/Input/AIKeyboardInput.hpp>
@@ -144,7 +145,8 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::KeyboardInput>(),
       std::make_unique<component::UnitCombat>(textures_, OwnerType::kPlayer),
-      textures_, NodeCategory::kUnit, OwnerType::kPlayer);
+      std::make_unique<component::UnitCollision>(), textures_,
+      NodeCategory::kUnit, OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_.attachUnit(std::move(player));
@@ -157,7 +159,8 @@ void World::buildScene() {
           textures_.get(Textures::kPeepoRight), true),
       std::make_unique<component::AIKeyboardInput>(),
       std::make_unique<component::UnitCombat>(textures_, OwnerType::kEnemy),
-      textures_, NodeCategory::kUnit, OwnerType::kEnemy);
+      std::make_unique<component::UnitCollision>(), textures_,
+      NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_.attachUnit(std::move(enemy));
 }

@@ -10,6 +10,7 @@ enum class ComponentCategory : CategoryUnderlying {
   kGraphic = 1 << 1,
   kInput = 1 << 2,
   kCombat = 1 << 3,
+  kCollision = 1 << 4,
 };
 
 }  // namespace ink

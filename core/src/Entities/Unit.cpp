@@ -9,10 +9,11 @@ Unit::Unit(std::unique_ptr<component::PhysicsComponent> physics,
            std::unique_ptr<component::GraphicsComponent> graphics,
            std::unique_ptr<component::InputComponent> inputs,
            std::unique_ptr<component::CombatComponent> combat,
+           std::unique_ptr<component::CollisionComponent> collision,
            const TextureHolder& texture_holder, NodeCategory category,
            OwnerType owner)
     : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
-                 std::move(combat), category),
+                 std::move(combat), std::move(collision), category),
       texture_holder_(texture_holder),
       owner_(owner) {
   // TODO: move components logic to GameObject class
@@ -33,36 +34,8 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
 }
 
 void Unit::handleCollisionWith(NodeCategory category, const SceneNode* node) {
-  switch (category) {
-    case NodeCategory::kBullet: {
-      const auto* bullet = static_cast<const combat::Projectile*>(node);
-      if (GetOwnerType() != bullet->owner) destroy();
-      break;
-    }
-    case NodeCategory::kWall: {
-      const auto* wall = static_cast<const GameStaticObject*>(node);
-      auto intersection_opt =
-          getBoundingRect().findIntersection(wall->getBoundingRect());
-      assert(intersection_opt.has_value());
-      auto intersection = intersection_opt.value();
-
-      auto is_vertical_collision = intersection.width < intersection.height;
-      auto shift = std::min(intersection.width, intersection.height);
-      auto player_pos = getPosition();
-      auto obstacle_pos = wall->getPosition();
-      if (is_vertical_collision) {
-        auto sign = (player_pos.x < obstacle_pos.x) ? -1 : +1;
-        player_pos.x += shift * sign;
-      } else {
-        auto sign = (player_pos.y < obstacle_pos.y) ? -1 : +1;
-        player_pos.y += shift * sign;
-      }
-      setPosition(player_pos);
-      break;
-    }
-    default:
-      break;
-  }
+  assert(collision_impl_);
+  collision_impl_->handleCollisionWith(this, category, node);
 }
 
 void Unit::handleRealtimeInput(sf::Time dt,

@@ -8,6 +8,7 @@
 #include <Commands/Category/NodeCategory.hpp>
 #include <SceneNode.hpp>
 
+#include <Components/Collision/CollisionComponent.hpp>
 #include <Components/Combat/CombatComponent.hpp>
 #include <Components/Graphics/GraphicsComponent.hpp>
 #include <Components/Input/InputComponent.hpp>
@@ -22,6 +23,7 @@ class GameObject : public SceneNode {
              std::unique_ptr<component::GraphicsComponent> graphics,
              std::unique_ptr<component::InputComponent> inputs,
              std::unique_ptr<component::CombatComponent> combat,
+             std::unique_ptr<component::CollisionComponent> collision,
              NodeCategory category);
 
   virtual ~GameObject() = default;
@@ -33,6 +35,7 @@ class GameObject : public SceneNode {
   std::unique_ptr<component::GraphicsComponent> graphics_impl_;
   std::unique_ptr<component::InputComponent> inputs_impl_;
   std::unique_ptr<component::CombatComponent> combat_impl_;
+  std::unique_ptr<component::CollisionComponent> collision_impl_;
 
  private:
   void drawCurrent(sf::RenderTarget& target,

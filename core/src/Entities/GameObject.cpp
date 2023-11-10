@@ -6,12 +6,14 @@ GameObject::GameObject(std::unique_ptr<component::PhysicsComponent> physics,
                        std::unique_ptr<component::GraphicsComponent> graphics,
                        std::unique_ptr<component::InputComponent> inputs,
                        std::unique_ptr<component::CombatComponent> combat,
+                       std::unique_ptr<component::CollisionComponent> collision,
                        NodeCategory category)
     : SceneNode(category),
       physics_impl_(std::move(physics)),
       graphics_impl_(std::move(graphics)),
       inputs_impl_(std::move(inputs)),
-      combat_impl_(std::move(combat)) {}
+      combat_impl_(std::move(combat)),
+      collision_impl_(std::move(collision)) {}
 
 sf::FloatRect GameObject::getBoundingRect() const {
   return getWorldTransform().transformRect(graphics_impl_->getGlobalBounds());

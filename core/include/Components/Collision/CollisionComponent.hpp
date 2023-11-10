@@ -1,25 +1,16 @@
-// #pragma once
+#pragma once
 
-// namespace ink::component {
+#include <Components/Component.hpp>
 
-// class CollisionComponent : public Component {
-//  public:
-//   CollisionComponent();
-//   virtual ~CollisionComponent() = default;
+namespace ink::component {
 
-//   virtual void handleInput(CommandQueue<NodeCommand>& command_queue,
-//                            const sf::Keyboard::Key key,
-//                            const bool is_pressed) = 0;
-//   virtual void handleRealtimeInput(sf::Time dt,
-//                                    CommandQueue<NodeCommand>& commands) = 0;
+class CollisionComponent : public Component {
+ public:
+  CollisionComponent();
+  virtual ~CollisionComponent() = default;
 
-//  protected:
-//   void createCommand(sf::Keyboard::Key key,
-//                      ComponentCommand::Receiver receiver_category,
-//                      ComponentCommand::Action action);
+  virtual void handleCollisionWith(SceneNode* owner_node, NodeCategory category,
+                                   const SceneNode* node) = 0;
+};
 
-//   std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>
-//       commands_;
-// };
-
-// }  // namespace ink::component
+}  // namespace ink::component

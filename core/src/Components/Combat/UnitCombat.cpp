@@ -1,6 +1,7 @@
 #include <Components/Combat/UnitCombat.hpp>
 
 #include <Combat/Projectile.hpp>
+#include <Components/Collision/ProjectileCollision.hpp>
 #include <Components/Graphics/SimpleGraphics.hpp>
 #include <Components/Physics/BulletPhysics.hpp>
 #include <Entities/Unit.hpp>
@@ -16,7 +17,8 @@ void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
       std::make_unique<component::BulletPhysics>(eyes_direction),
       std::make_unique<component::SimpleGraphics>(
           texture_holder.get(Textures::kBullet), true),
-      nullptr, nullptr, NodeCategory::kBullet);
+      nullptr, nullptr, std::make_unique<component::ProjectileCollision>(),
+      NodeCategory::kBullet);
   bullet->setPosition(owner_position);
   bullet->owner = owner;
 
