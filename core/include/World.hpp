@@ -14,7 +14,8 @@ class World final {
   using Ptr = SceneNode::Ptr;
 
  public:
-  explicit World(sf::RenderWindow& window);
+  explicit World(sf::RenderWindow& window, TextureHolder& textures,
+                 FontHolder& fonts);
 
   World(const World&) = delete;
   World& operator=(const World&) = delete;
@@ -28,8 +29,6 @@ class World final {
   void handleCollisions();
 
  private:
-  // initial
-  void loadTextures();
   void buildScene();
   // update
   void checkDoorInteraction();
@@ -39,7 +38,8 @@ class World final {
 
   sf::RenderWindow& window_;
   sf::View world_view_;
-  TextureHolder textures_;
+  TextureHolder& textures_;
+  FontHolder& fonts_;
   SceneNode scene_graph_;
 
   sf::FloatRect world_bounds_;

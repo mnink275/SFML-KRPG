@@ -18,16 +18,18 @@
 
 namespace ink {
 
-World::World(sf::RenderWindow& window)
+World::World(sf::RenderWindow& window, TextureHolder& textures,
+             FontHolder& fonts)
     : window_(window),
       world_view_(window.getDefaultView()),
+      textures_(textures),
+      fonts_(fonts),
       world_bounds_({0.f, 0.f},
                     {world_view_.getSize().x, world_view_.getSize().y}),
       spawn_position_(world_view_.getSize().x / 2.f,
                       world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
       room_manager_(scene_graph_, world_bounds_, textures_) {
-  loadTextures();
   buildScene();
   world_view_.setCenter(spawn_position_);
 }
@@ -116,24 +118,6 @@ void World::handleCollisions() {
   }
 }
 
-void World::loadTextures() {
-  const auto kTexturePath = std::string(RESOURCE_FOLDER);
-  textures_.load(Textures::kDesert, kTexturePath + "/texture/DesertFloor.jpg");
-  textures_.load(Textures::kStone, kTexturePath + "/texture/StoneFloor.jpg");
-  textures_.load(Textures::kLava, kTexturePath + "/texture/LavaFloor.png");
-  textures_.load(Textures::kPeepoLeft,
-                 kTexturePath + "/texture/StaregeGun64x64Left.png");
-  textures_.load(Textures::kPeepoRight,
-                 kTexturePath + "/texture/StaregeGun64x64Right.png");
-  textures_.load(Textures::kDoor, kTexturePath + "/texture/Door.png");
-  textures_.load(Textures::kBullet, kTexturePath + "/texture/Bullet16x16T.png");
-  textures_.load(Textures::kWall,
-                 kTexturePath + "/texture/BlackSquare64x64.png");
-  textures_.load(Textures::kIce, kTexturePath + "/texture/Ice64x64.png");
-  textures_.load(Textures::kStoneOnGrass,
-                 kTexturePath + "/texture/StoneOnGrass256x256.png");
-}
-
 void World::buildScene() {
   // create and connect the rooms
   room_manager_.createInitialRoom();
@@ -148,7 +132,7 @@ void World::buildScene() {
                        std::make_unique<component::UnitCombat>(
                            textures_, OwnerType::kPlayer, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
-      textures_, NodeCategory::kUnit, OwnerType::kPlayer);
+      fonts_, NodeCategory::kUnit, OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_.attachUnit(std::move(player));
@@ -163,7 +147,7 @@ void World::buildScene() {
                        std::make_unique<component::UnitCombat>(
                            textures_, OwnerType::kEnemy, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
-      textures_, NodeCategory::kUnit, OwnerType::kEnemy);
+      fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_.attachUnit(std::move(enemy));
 }

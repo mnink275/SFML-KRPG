@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <Resource/ResourceIdentifiers.hpp>
 #include <World.hpp>
 
 namespace ink {
@@ -27,12 +28,19 @@ class Game final {
 
   void updateStatistics(sf::Time elapsed_time);
 
-  const sf::Time kTimePerFrame{sf::seconds(1.f / 60.f)};
+  TextureHolder loadTextures();
+  FontHolder loadFonts();
+
+ private:
+  const sf::Time kTimePerFrame;
+
+  const std::string kResourcePath;
+  TextureHolder textures_;
+  FontHolder fonts_;
 
   sf::RenderWindow window_;
   World world_;
 
-  sf::Font font_;
   sf::Text statistics_text_;
   sf::Time statistics_update_time_;
   std::size_t statistics_num_frames_;

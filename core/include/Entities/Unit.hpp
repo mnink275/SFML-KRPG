@@ -11,8 +11,8 @@ namespace ink {
 class Unit final : public GameObject {
  public:
   using GameObject::GameObject;
-  Unit(ComponentManager manager, const TextureHolder& texture_holder,
-       NodeCategory category, OwnerType owner);
+  Unit(ComponentManager manager, const FontHolder& fonts, NodeCategory category,
+       OwnerType owner);
 
   ~Unit() override = default;
 
@@ -26,9 +26,11 @@ class Unit final : public GameObject {
 
  private:
   void handleRealtimeInput(sf::Time dt, CommandQueue<NodeCommand>& commands);
+  void drawCurrent(sf::RenderTarget& target,
+                   const sf::RenderStates states) const override;
 
  private:
-  const TextureHolder& texture_holder_;  // TODO: remove candidate
+  const FontHolder& fonts_;
   NodeCommand fire_command_;
   CommandQueue<ComponentCommand> command_queue_;
   OwnerType owner_;
