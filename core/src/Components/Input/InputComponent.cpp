@@ -2,7 +2,7 @@
 
 namespace ink::component {
 
-InputComponent::InputComponent() : Component(ComponentCategory::kInput) {}
+InputComponent::InputComponent() : Component(kCategory) {}
 
 void InputComponent::createCommand(sf::Keyboard::Key key,
                                    ComponentCommand::Receiver receiver_category,

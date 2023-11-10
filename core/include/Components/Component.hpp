@@ -18,6 +18,8 @@ class Component {
       CommandQueue<ComponentCommand>* command_queue) noexcept;
   virtual void sendCommand(ComponentCommand& command) noexcept;
 
+  ComponentCategory getCategory() const noexcept;
+
  private:
   ComponentCategory category_;
   CommandQueue<ComponentCommand>* command_queue_;

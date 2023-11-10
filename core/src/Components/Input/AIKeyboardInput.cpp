@@ -39,22 +39,22 @@ struct BodyRotationCommand final {
 }  // namespace
 
 AIKeyboardInput::AIKeyboardInput() {
-  createCommand(sf::Keyboard::A, ComponentCategory::kPhysic,
+  createCommand(sf::Keyboard::A, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
   createCommand(
-      sf::Keyboard::A, ComponentCategory::kGraphic,
+      sf::Keyboard::A, ComponentCategory::kGraphics,
       SendTo<GraphicsComponent>(BodyRotationCommand{EyesDirection::kLeft}));
 
-  createCommand(sf::Keyboard::D, ComponentCategory::kPhysic,
+  createCommand(sf::Keyboard::D, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}}));
   createCommand(
-      sf::Keyboard::D, ComponentCategory::kGraphic,
+      sf::Keyboard::D, ComponentCategory::kGraphics,
       SendTo<GraphicsComponent>(BodyRotationCommand{EyesDirection::kRight}));
 
-  createCommand(sf::Keyboard::W, ComponentCategory::kPhysic,
+  createCommand(sf::Keyboard::W, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}}));
 
-  createCommand(sf::Keyboard::S, ComponentCategory::kPhysic,
+  createCommand(sf::Keyboard::S, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}}));
 
   createCommand(sf::Keyboard::Space, ComponentCategory::kCombat,

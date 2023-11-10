@@ -6,6 +6,10 @@ namespace ink::component {
 
 class CollisionComponent : public Component {
  public:
+  static constexpr auto kCategory = ComponentCategory::kCollision;
+  static constexpr auto kName = "Collision";
+
+ public:
   CollisionComponent();
   virtual ~CollisionComponent() = default;
 

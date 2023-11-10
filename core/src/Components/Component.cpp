@@ -26,4 +26,6 @@ void Component::sendCommand(ComponentCommand& command) noexcept {
   }
 }
 
+ComponentCategory Component::getCategory() const noexcept { return category_; }
+
 }  // namespace ink::component

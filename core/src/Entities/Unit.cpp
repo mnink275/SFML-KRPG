@@ -16,31 +16,30 @@ Unit::Unit(std::unique_ptr<component::PhysicsComponent> physics,
                  std::move(combat), std::move(collision), category),
       texture_holder_(texture_holder),
       owner_(owner) {
-  // TODO: move components logic to GameObject class
-  physics_impl_->setCommandQueue(&command_queue_);
-  graphics_impl_->setCommandQueue(&command_queue_);
-  inputs_impl_->setCommandQueue(&command_queue_);
-  combat_impl_->setCommandQueue(&command_queue_);
-
+  manager_.setCommandQueue(&command_queue_);
   fire_command_.category = NodeCategory::kRoom;
   fire_command_.action = [this](SceneNode& node, sf::Time) {
-    combat_impl_->onAttack(node, getPosition(), graphics_impl_->eyes_direction);
+    auto combat = manager_.findComponent<component::CombatComponent>();
+    auto graphics = manager_.findComponent<component::GraphicsComponent>();
+    combat->onAttack(node, getPosition(), graphics->eyes_direction);
   };
 }
 
 void Unit::handleInput(CommandQueue<NodeCommand>& commands,
                        const sf::Keyboard::Key key, const bool is_pressed) {
-  inputs_impl_->handleInput(commands, key, is_pressed);
+  auto input = manager_.findComponent<component::InputComponent>();
+  input->handleInput(commands, key, is_pressed);
 }
 
 void Unit::handleCollisionWith(NodeCategory category, const SceneNode* node) {
-  assert(collision_impl_);
-  collision_impl_->handleCollisionWith(this, category, node);
+  auto collision = manager_.findComponent<component::CollisionComponent>();
+  collision->handleCollisionWith(this, category, node);
 }
 
 void Unit::handleRealtimeInput(sf::Time dt,
                                CommandQueue<NodeCommand>& commands) {
-  inputs_impl_->handleRealtimeInput(dt, commands);
+  auto input = manager_.findComponent<component::InputComponent>();
+  input->handleRealtimeInput(dt, commands);
 }
 
 void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
@@ -48,17 +47,16 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
 
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
-    physics_impl_->onCommand(command, dt);
-    graphics_impl_->onCommand(command, dt);
-    inputs_impl_->onCommand(command, dt);
-    combat_impl_->onCommand(command, dt);
+    manager_.onCommand(command, dt);
   }
 
-  auto transforms = physics_impl_->getTransform(dt);
+  auto physics = manager_.findComponent<component::PhysicsComponent>();
+  auto transforms = physics->getTransform(dt);
   Transformable::move(transforms);
 
-  if (combat_impl_->is_attacking) {
-    combat_impl_->is_attacking = false;
+  auto combat = manager_.findComponent<component::CombatComponent>();
+  if (combat->is_attacking) {
+    combat->is_attacking = false;
     commands.push(fire_command_);
   }
 };

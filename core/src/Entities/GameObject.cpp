@@ -9,23 +9,23 @@ GameObject::GameObject(std::unique_ptr<component::PhysicsComponent> physics,
                        std::unique_ptr<component::CollisionComponent> collision,
                        NodeCategory category)
     : SceneNode(category),
-      physics_impl_(std::move(physics)),
-      graphics_impl_(std::move(graphics)),
-      inputs_impl_(std::move(inputs)),
-      combat_impl_(std::move(combat)),
-      collision_impl_(std::move(collision)) {}
+      manager_(std::move(physics), std::move(graphics), std::move(inputs),
+               std::move(combat), std::move(collision)) {}
 
 sf::FloatRect GameObject::getBoundingRect() const {
-  return getWorldTransform().transformRect(graphics_impl_->getGlobalBounds());
+  auto graphics = manager_.findComponent<component::GraphicsComponent>();
+  return getWorldTransform().transformRect(graphics->getGlobalBounds());
 }
 
 void GameObject::drawCurrent(sf::RenderTarget& target,
                              const sf::RenderStates states) const {
-  graphics_impl_->draw(target, states);
+  auto graphics = manager_.findComponent<component::GraphicsComponent>();
+  graphics->draw(target, states);
 }
 
 void GameObject::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>&) {
-  auto transforms = physics_impl_->getTransform(dt);
+  auto physics = manager_.findComponent<component::PhysicsComponent>();
+  auto transforms = physics->getTransform(dt);
   Transformable::move(transforms);
 };
 

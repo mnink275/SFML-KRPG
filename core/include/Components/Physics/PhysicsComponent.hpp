@@ -9,6 +9,10 @@ namespace ink::component {
 
 class PhysicsComponent : public Component {
  public:
+  static constexpr auto kCategory = ComponentCategory::kPhysics;
+  static constexpr auto kName = "Physics";
+
+ public:
   PhysicsComponent();
   virtual ~PhysicsComponent() = default;
 

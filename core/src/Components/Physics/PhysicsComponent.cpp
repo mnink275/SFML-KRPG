@@ -2,6 +2,6 @@
 
 namespace ink::component {
 
-PhysicsComponent::PhysicsComponent() : Component(ComponentCategory::kPhysic) {}
+PhysicsComponent::PhysicsComponent() : Component(kCategory) {}
 
 }  // namespace ink::component

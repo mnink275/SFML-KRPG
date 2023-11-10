@@ -5,14 +5,9 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <Commands/Category/NodeCategory.hpp>
 #include <SceneNode.hpp>
 
-#include <Components/Collision/CollisionComponent.hpp>
-#include <Components/Combat/CombatComponent.hpp>
-#include <Components/Graphics/GraphicsComponent.hpp>
-#include <Components/Input/InputComponent.hpp>
-#include <Components/Physics/PhysicsComponent.hpp>
+#include <Components/ComponentManager.hpp>
 
 namespace ink {
 
@@ -31,11 +26,7 @@ class GameObject : public SceneNode {
   sf::FloatRect getBoundingRect() const override;
 
  protected:
-  std::unique_ptr<component::PhysicsComponent> physics_impl_;
-  std::unique_ptr<component::GraphicsComponent> graphics_impl_;
-  std::unique_ptr<component::InputComponent> inputs_impl_;
-  std::unique_ptr<component::CombatComponent> combat_impl_;
-  std::unique_ptr<component::CollisionComponent> collision_impl_;
+  ComponentManager manager_;
 
  private:
   void drawCurrent(sf::RenderTarget& target,

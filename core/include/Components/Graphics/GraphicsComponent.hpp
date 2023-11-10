@@ -11,6 +11,10 @@ namespace ink::component {
 
 class GraphicsComponent : public Component {
  public:
+  static constexpr auto kCategory = ComponentCategory::kGraphics;
+  static constexpr auto kName = "Graphics";
+
+ public:
   GraphicsComponent(EyesDirection eyes_direction = EyesDirection::kNone);
   virtual ~GraphicsComponent() = default;
 

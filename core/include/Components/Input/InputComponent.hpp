@@ -14,6 +14,10 @@ namespace ink::component {
 
 class InputComponent : public Component {
  public:
+  static constexpr auto kCategory = ComponentCategory::kInput;
+  static constexpr auto kName = "Input";
+
+ public:
   InputComponent();
   virtual ~InputComponent() = default;
 

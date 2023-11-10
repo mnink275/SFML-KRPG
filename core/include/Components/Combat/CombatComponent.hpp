@@ -10,6 +10,10 @@ namespace ink::component {
 
 class CombatComponent : public Component {
  public:
+  static constexpr auto kCategory = ComponentCategory::kCombat;
+  static constexpr auto kName = "Combat";
+
+ public:
   CombatComponent();
   virtual ~CombatComponent() = default;
 
