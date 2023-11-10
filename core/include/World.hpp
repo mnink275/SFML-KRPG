@@ -34,8 +34,9 @@ class World final {
   // update
   void boundChecking() const;
   void checkDoorInteraction();
-  bool matchesCategories(SceneNode::NodePair& pair, NodeCategory first,
-                         NodeCategory second) const noexcept;
+  bool matchesCategories(SceneNode::NodePair& colliders,
+                         NodeCategory requested1,
+                         NodeCategory requested2) const noexcept;
 
   sf::RenderWindow& window_;
   sf::View world_view_;

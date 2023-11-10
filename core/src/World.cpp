@@ -51,18 +51,19 @@ void World::checkDoorInteraction() {
   }
 }
 
-bool World::matchesCategories(SceneNode::NodePair& pair, NodeCategory first,
-                              NodeCategory second) const noexcept {
-  auto first_id = static_cast<CategoryUnderlying>(first);
-  auto second_id = static_cast<CategoryUnderlying>(second);
-  auto category_id1 =
-      static_cast<CategoryUnderlying>(pair.first->getCategory());
-  auto category_id2 =
-      static_cast<CategoryUnderlying>(pair.second->getCategory());
-  if (first_id & category_id1 && second_id & category_id2) {
+bool World::matchesCategories(SceneNode::NodePair& colliders,
+                              NodeCategory requested1,
+                              NodeCategory requested2) const noexcept {
+  auto requested1_id = static_cast<CategoryUnderlying>(requested1);
+  auto requested2_id = static_cast<CategoryUnderlying>(requested2);
+  auto collider1_id =
+      static_cast<CategoryUnderlying>(colliders.first->getCategory());
+  auto collider2_id =
+      static_cast<CategoryUnderlying>(colliders.second->getCategory());
+  if (requested1_id & collider1_id && requested2_id & collider2_id) {
     return true;
-  } else if (first_id & category_id2 && second_id & category_id1) {
-    std::swap(pair.first, pair.second);
+  } else if (requested1_id & collider2_id && requested2_id & collider1_id) {
+    std::swap(colliders.first, colliders.second);
     return true;
   } else {
     return false;
