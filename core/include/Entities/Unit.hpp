@@ -11,13 +11,8 @@ namespace ink {
 class Unit final : public GameObject {
  public:
   using GameObject::GameObject;
-  Unit(std::unique_ptr<component::PhysicsComponent> physics,
-       std::unique_ptr<component::GraphicsComponent> graphics,
-       std::unique_ptr<component::InputComponent> inputs,
-       std::unique_ptr<component::CombatComponent> combat,
-       std::unique_ptr<component::CollisionComponent> collision,
-       const TextureHolder& texture_holder, NodeCategory category,
-       OwnerType owner);
+  Unit(ComponentManager manager, const TextureHolder& texture_holder,
+       NodeCategory category, OwnerType owner);
 
   ~Unit() override = default;
 

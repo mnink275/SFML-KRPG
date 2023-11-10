@@ -5,10 +5,9 @@
 
 namespace ink {
 
-Door::Door(std::unique_ptr<component::GraphicsComponent> graphics,
-           ConnectionType door_type, sf::Vector2f coords,
-           sf::Vector2f transition_coords)
-    : GameStaticObject(std::move(graphics)),
+Door::Door(ComponentManager manager, ConnectionType door_type,
+           sf::Vector2f coords, sf::Vector2f transition_coords)
+    : GameObject(std::move(manager)),
       door_type_(door_type),
       other_size_position_(transition_coords) {
   setPosition(coords);

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <Entities/GameStaticObject.hpp>
+#include <Components/ComponentManager.hpp>
+#include <Entities/GameObject.hpp>
 #include <Room/ConnectionTypes.hpp>
 
 namespace ink {
 
-class Door final : public GameStaticObject {
+class Door final : public GameObject {
  public:
-  using GameStaticObject::GameStaticObject;
-  Door(std::unique_ptr<component::GraphicsComponent> graphics,
-       ConnectionType door_type, sf::Vector2f coords,
+  using GameObject::GameObject;
+  Door(ComponentManager manager, ConnectionType door_type, sf::Vector2f coords,
        sf::Vector2f transition_coords);
 
   bool nearOf(sf::Vector2f player_position) const;

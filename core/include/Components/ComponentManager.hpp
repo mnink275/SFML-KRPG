@@ -26,6 +26,13 @@ class ComponentManager final {
     (addComponent(std::forward<Args&&>(args)), ...);
   }
 
+  ~ComponentManager() = default;
+
+  ComponentManager(const ComponentManager&) = delete;
+  ComponentManager& operator=(const ComponentManager&) = delete;
+  ComponentManager(ComponentManager&&) = default;
+  ComponentManager& operator=(ComponentManager&&) = default;
+
   template <class ComponentType, typename = std::enable_if_t<std::is_base_of_v<
                                      component::Component, ComponentType>>>
   std::shared_ptr<ComponentType> findComponent() const {

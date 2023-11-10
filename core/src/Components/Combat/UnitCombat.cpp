@@ -14,10 +14,11 @@ UnitCombat::UnitCombat(const TextureHolder& texture_holder, OwnerType owner)
 void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                           EyesDirection eyes_direction) {
   auto bullet = std::make_unique<combat::Projectile>(
-      std::make_unique<component::BulletPhysics>(eyes_direction),
-      std::make_unique<component::SimpleGraphics>(
-          texture_holder.get(Textures::kBullet), true),
-      nullptr, nullptr, std::make_unique<component::ProjectileCollision>(),
+      ComponentManager{
+          std::make_unique<component::BulletPhysics>(eyes_direction),
+          std::make_unique<component::SimpleGraphics>(
+              texture_holder.get(Textures::kBullet), true),
+          std::make_unique<component::ProjectileCollision>()},
       NodeCategory::kBullet);
   bullet->setPosition(owner_position);
   bullet->owner = owner;

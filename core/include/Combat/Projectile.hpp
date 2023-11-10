@@ -13,6 +13,9 @@ class Projectile : public GameObject {
                            const SceneNode* node) override;
 
   OwnerType owner;
+
+ private:
+  void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
 };
 
 }  // namespace ink::combat

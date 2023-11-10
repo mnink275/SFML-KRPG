@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include <Combat/Projectile.hpp>
-#include <Entities/GameStaticObject.hpp>
+#include <Entities/GameObject.hpp>
 #include <Entities/Unit.hpp>
 
 namespace ink::component {
@@ -20,7 +20,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
       break;
     }
     case NodeCategory::kWall: {
-      const auto* wall = static_cast<const GameStaticObject*>(node);
+      const auto* wall = static_cast<const GameObject*>(node);
       auto intersection_opt =
           unit->getBoundingRect().findIntersection(wall->getBoundingRect());
       assert(intersection_opt.has_value());

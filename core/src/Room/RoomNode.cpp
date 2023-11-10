@@ -5,8 +5,9 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
+#include <Components/ComponentManager.hpp>
 #include <Components/Graphics/SimpleGraphics.hpp>
-#include <Entities/GameStaticObject.hpp>
+#include <Entities/GameObject.hpp>
 
 namespace ink {
 
@@ -22,9 +23,9 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
   texture.setRepeated(true);
 
   // add the background sprite to the scene
-  auto background_sprite = std::make_unique<GameStaticObject>(
-      std::make_unique<component::SimpleGraphics>(
-          texture, background_texture_rect, false));
+  auto background_sprite = std::make_unique<GameObject>(
+      ComponentManager{std::make_unique<component::SimpleGraphics>(
+          texture, background_texture_rect, false)});
   background_sprite->setPosition({bounds.left, bounds.top});
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
@@ -98,9 +99,9 @@ void RoomNode::buildWalls() {
   static const std::size_t kWallsCount = positions.size();
 
   for (std::size_t i = 0; i < kWallsCount; ++i) {
-    auto wall = std::make_unique<GameStaticObject>(
-        std::make_unique<component::SimpleGraphics>(
-            texture_.get(Textures::kWall), sf::Vector2i{sizes[i]}, false),
+    auto wall = std::make_unique<GameObject>(
+        ComponentManager{std::make_unique<component::SimpleGraphics>(
+            texture_.get(Textures::kWall), sf::Vector2i{sizes[i]}, false)},
         NodeCategory::kWall);
     wall->setPosition(positions[i]);
     walls_holder->attachChild(std::move(wall));

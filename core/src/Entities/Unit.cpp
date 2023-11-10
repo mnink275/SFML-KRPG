@@ -1,19 +1,12 @@
 #include <Entities/Unit.hpp>
 
 #include <Combat/Projectile.hpp>
-#include <Entities/GameStaticObject.hpp>
 
 namespace ink {
 
-Unit::Unit(std::unique_ptr<component::PhysicsComponent> physics,
-           std::unique_ptr<component::GraphicsComponent> graphics,
-           std::unique_ptr<component::InputComponent> inputs,
-           std::unique_ptr<component::CombatComponent> combat,
-           std::unique_ptr<component::CollisionComponent> collision,
-           const TextureHolder& texture_holder, NodeCategory category,
-           OwnerType owner)
-    : GameObject(std::move(physics), std::move(graphics), std::move(inputs),
-                 std::move(combat), std::move(collision), category),
+Unit::Unit(ComponentManager manager, const TextureHolder& texture_holder,
+           NodeCategory category, OwnerType owner)
+    : GameObject(std::move(manager), category),
       texture_holder_(texture_holder),
       owner_(owner) {
   manager_.setCommandQueue(&command_queue_);
