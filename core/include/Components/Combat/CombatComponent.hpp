@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <Components/Component.hpp>
@@ -17,11 +18,13 @@ class CombatComponent : public Component {
   CombatComponent(int health);
   virtual ~CombatComponent() = default;
 
+  void updateTimeSineLastAttack(sf::Time dt) noexcept;
   virtual void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                         EyesDirection eyes_direction) = 0;
 
-  bool is_attacking;
+  sf::Time time_since_last_attack;
   int health;
+  bool is_attacking;
 };
 
 }  // namespace ink::component

@@ -10,7 +10,7 @@ namespace ink::component {
 class UnitCombat final : public CombatComponent {
  public:
   explicit UnitCombat(const TextureHolder& texture_holder, OwnerType owner,
-                      int health);
+                      int health, float attack_speed_by_second);
 
   void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                 EyesDirection eyes_direction) override;
@@ -19,6 +19,7 @@ class UnitCombat final : public CombatComponent {
 
   const TextureHolder& texture_holder;
   const OwnerType owner;
+  const sf::Time attack_speed;
 };
 
 }  // namespace ink::component

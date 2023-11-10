@@ -47,6 +47,7 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   Transformable::move(transforms);
 
   auto combat = manager_.findComponent<component::CombatComponent>();
+  combat->updateTimeSineLastAttack(dt);
   if (combat->is_attacking) {
     combat->is_attacking = false;
     commands.push(fire_command_);

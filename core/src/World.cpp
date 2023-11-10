@@ -146,7 +146,7 @@ void World::buildScene() {
                            textures_.get(Textures::kPeepoRight), true),
                        std::make_unique<component::KeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, OwnerType::kPlayer, 20),
+                           textures_, OwnerType::kPlayer, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
       textures_, NodeCategory::kUnit, OwnerType::kPlayer);
   player_ = player.get();
@@ -161,7 +161,7 @@ void World::buildScene() {
                            textures_.get(Textures::kPeepoRight), true),
                        std::make_unique<component::AIKeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, OwnerType::kEnemy, 20),
+                           textures_, OwnerType::kEnemy, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
       textures_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
