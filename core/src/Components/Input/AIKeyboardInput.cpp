@@ -1,8 +1,8 @@
-#include <Components/AIKeyboardInput.hpp>
+#include <Components/Input/AIKeyboardInput.hpp>
 
-#include <Components/CombatComponent.hpp>
-#include <Components/GraphicsComponent.hpp>
-#include <Components/PhysicsComponent.hpp>
+#include <Components/Combat/CombatComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
+#include <Components/Physics/PhysicsComponent.hpp>
 
 namespace ink::component {
 

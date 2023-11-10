@@ -8,10 +8,10 @@
 #include <Commands/Category/NodeCategory.hpp>
 #include <SceneNode.hpp>
 
-#include <Components/CombatComponent.hpp>
-#include <Components/GraphicsComponent.hpp>
-#include <Components/InputComponent.hpp>
-#include <Components/PhysicsComponent.hpp>
+#include <Components/Combat/CombatComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
+#include <Components/Input/InputComponent.hpp>
+#include <Components/Physics/PhysicsComponent.hpp>
 
 namespace ink {
 

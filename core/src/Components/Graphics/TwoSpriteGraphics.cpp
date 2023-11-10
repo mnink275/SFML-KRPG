@@ -1,4 +1,4 @@
-#include <Components/TwoSpriteGraphics.hpp>
+#include <Components/Graphics/TwoSpriteGraphics.hpp>
 
 #include <iostream>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Components/CombatComponent.hpp>
+#include <Components/Combat/CombatComponent.hpp>
 #include <Entities/UnitContext.hpp>
 #include <Resource/ResourceHolder.hpp>
 #include <Resource/ResourceIdentifiers.hpp>

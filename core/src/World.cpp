@@ -7,11 +7,11 @@
 
 #include <Combat/Projectile.hpp>
 #include <Commands/Category/Category.hpp>
-#include <Components/AIKeyboardInput.hpp>
-#include <Components/KeyboardInput.hpp>
-#include <Components/SimplePhysics.hpp>
-#include <Components/TwoSpriteGraphics.hpp>
-#include <Components/UnitCombat.hpp>
+#include <Components/Combat/UnitCombat.hpp>
+#include <Components/Graphics/TwoSpriteGraphics.hpp>
+#include <Components/Input/AIKeyboardInput.hpp>
+#include <Components/Input/KeyboardInput.hpp>
+#include <Components/Physics/SimplePhysics.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 
 namespace ink {

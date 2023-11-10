@@ -1,6 +1,6 @@
-#include <Components/SimpleGraphics.hpp>
-#include "SFML/Graphics/Rect.hpp"
-#include "SFML/Graphics/Texture.hpp"
+#include <Components/Graphics/SimpleGraphics.hpp>
+
+#include <SFML/Graphics/Texture.hpp>
 
 namespace ink::component {
 

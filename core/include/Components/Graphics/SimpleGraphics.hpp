@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <Components/GraphicsComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
 
 namespace ink::component {
 

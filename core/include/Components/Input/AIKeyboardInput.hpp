@@ -5,7 +5,7 @@
 #include <SFML/System/Time.hpp>
 
 #include <Commands/Command.hpp>
-#include <Components/InputComponent.hpp>
+#include <Components/Input/InputComponent.hpp>
 
 namespace ink::component {
 

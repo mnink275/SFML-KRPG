@@ -2,7 +2,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <Components/PhysicsComponent.hpp>
+#include <Components/Physics/PhysicsComponent.hpp>
 #include <Entities/EyesDirection.hpp>
 
 namespace ink::component {

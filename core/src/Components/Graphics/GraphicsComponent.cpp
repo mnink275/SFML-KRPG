@@ -1,4 +1,4 @@
-#include <Components/GraphicsComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
 
 #include <SFML/Graphics/Rect.hpp>
 

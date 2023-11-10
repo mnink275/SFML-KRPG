@@ -1,4 +1,4 @@
-#include <Components/PhysicsComponent.hpp>
+#include <Components/Physics/PhysicsComponent.hpp>
 
 namespace ink::component {
 

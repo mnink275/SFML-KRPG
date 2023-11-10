@@ -4,7 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <Components/GraphicsComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
 #include <SceneNode.hpp>
 
 namespace ink {

@@ -1,8 +1,8 @@
-#include <Components/UnitCombat.hpp>
+#include <Components/Combat/UnitCombat.hpp>
 
 #include <Combat/Projectile.hpp>
-#include <Components/BulletPhysics.hpp>
-#include <Components/SimpleGraphics.hpp>
+#include <Components/Graphics/SimpleGraphics.hpp>
+#include <Components/Physics/BulletPhysics.hpp>
 #include <Entities/Unit.hpp>
 
 namespace ink::component {

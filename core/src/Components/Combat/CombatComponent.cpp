@@ -1,4 +1,4 @@
-#include <Components/CombatComponent.hpp>
+#include <Components/Combat/CombatComponent.hpp>
 
 namespace ink::component {
 

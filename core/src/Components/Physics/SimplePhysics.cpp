@@ -1,4 +1,4 @@
-#include <Components/SimplePhysics.hpp>
+#include <Components/Physics/SimplePhysics.hpp>
 
 #include <cmath>
 

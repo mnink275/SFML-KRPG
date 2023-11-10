@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-#include <Components/SimpleGraphics.hpp>
+#include <Components/Graphics/SimpleGraphics.hpp>
 #include <Entities/GameStaticObject.hpp>
 
 namespace ink::room {
