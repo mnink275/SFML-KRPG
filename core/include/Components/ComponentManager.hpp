@@ -7,12 +7,7 @@
 
 #include <Commands/Category/ComponentCategory.hpp>
 #include <Commands/CommandQueue.hpp>
-#include <Components/Collision/CollisionComponent.hpp>
-#include <Components/Combat/CombatComponent.hpp>
 #include <Components/Component.hpp>
-#include <Components/Graphics/GraphicsComponent.hpp>
-#include <Components/Input/InputComponent.hpp>
-#include <Components/Physics/PhysicsComponent.hpp>
 
 namespace ink {
 
@@ -51,22 +46,12 @@ class ComponentManager final {
     return std::dynamic_pointer_cast<ComponentType>(*it);
   }
 
-  void setCommandQueue(CommandQueue<ComponentCommand>* command_queue) noexcept {
-    for (auto component : components_) {
-      component->setCommandQueue(command_queue);
-    }
-  }
+  void setCommandQueue(CommandQueue<ComponentCommand>* command_queue) noexcept;
 
-  void onCommand(const ComponentCommand& command, sf::Time dt) {
-    for (auto component : components_) {
-      component->onCommand(command, dt);
-    }
-  }
+  void onCommand(const ComponentCommand& command, sf::Time dt);
 
  private:
-  void addComponent(std::unique_ptr<component::Component> component) {
-    components_.push_back(std::move(component));
-  }
+  void addComponent(std::unique_ptr<component::Component> component);
 
  private:
   std::vector<SharedPtr> components_;

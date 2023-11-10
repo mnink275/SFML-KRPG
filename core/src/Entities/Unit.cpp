@@ -1,6 +1,11 @@
 #include <Entities/Unit.hpp>
 
 #include <Combat/Projectile.hpp>
+#include <Components/Collision/CollisionComponent.hpp>
+#include <Components/Combat/CombatComponent.hpp>
+#include <Components/Graphics/GraphicsComponent.hpp>
+#include <Components/Input/InputComponent.hpp>
+#include <Components/Physics/PhysicsComponent.hpp>
 
 namespace ink {
 

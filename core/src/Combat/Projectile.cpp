@@ -1,5 +1,6 @@
 #include <Combat/Projectile.hpp>
 
+#include <Components/Physics/PhysicsComponent.hpp>
 #include <Entities/Unit.hpp>
 
 namespace ink::combat {

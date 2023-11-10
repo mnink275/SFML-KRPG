@@ -32,7 +32,6 @@ class World final {
   void loadTextures();
   void buildScene();
   // update
-  void boundChecking() const;
   void checkDoorInteraction();
   bool matchesCategories(SceneNode::NodePair& colliders,
                          NodeCategory requested1,

@@ -1,5 +1,7 @@
 #include <Entities/GameObject.hpp>
 
+#include <Components/Graphics/GraphicsComponent.hpp>
+
 namespace ink {
 
 GameObject::GameObject(ComponentManager manager, NodeCategory category)

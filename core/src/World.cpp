@@ -33,7 +33,6 @@ World::World(sf::RenderWindow& window)
 }
 
 void World::update(const sf::Time dt) {
-  // boundChecking();
   checkDoorInteraction();
 
   while (!command_queue_.isEmpty()) {
@@ -167,18 +166,6 @@ void World::buildScene() {
       textures_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_.attachUnit(std::move(enemy));
-}
-
-void World::boundChecking() const {
-  const auto& position = player_->getPosition();
-  if (position.x < 0)
-    player_->setPosition({0, position.y});
-  else if (position.x > world_bounds_.width)
-    player_->setPosition({world_bounds_.width, position.y});
-  if (position.y < 0)
-    player_->setPosition({position.x, 0});
-  else if (position.y > world_bounds_.height)
-    player_->setPosition({position.x, world_bounds_.height});
 }
 
 }  // namespace ink
