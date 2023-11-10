@@ -3,7 +3,7 @@
 #include <cmath>
 #include <memory>
 
-namespace ink::room {
+namespace ink {
 
 Door::Door(std::unique_ptr<component::GraphicsComponent> graphics,
            ConnectionType door_type, sf::Vector2f coords,
@@ -33,4 +33,4 @@ void Door::deactivate() { is_active_ = false; }
 
 bool Door::isActive() const { return is_active_; }
 
-}  // namespace ink::room
+}  // namespace ink

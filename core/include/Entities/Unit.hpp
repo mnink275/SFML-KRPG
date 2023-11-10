@@ -5,7 +5,6 @@
 #include <Entities/GameObject.hpp>
 #include <Entities/UnitContext.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
-#include <Room/Node.hpp>
 
 namespace ink {
 

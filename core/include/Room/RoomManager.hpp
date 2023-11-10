@@ -4,9 +4,11 @@
 
 #include <Entities/Unit.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
+#include <Room/ConnectionTypes.hpp>
+#include <Room/RoomNode.hpp>
 #include <SceneNode.hpp>
 
-namespace ink::room {
+namespace ink {
 
 class RoomManager final {
  private:
@@ -38,4 +40,4 @@ class RoomManager final {
   TextureHolder& textures_;
 };
 
-}  // namespace ink::room
+}  // namespace ink

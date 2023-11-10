@@ -10,7 +10,7 @@
 #include <Room/Door.hpp>
 #include <SceneNode.hpp>
 
-namespace ink::room {
+namespace ink {
 
 class RoomNode final : public SceneNode {
  public:
@@ -45,4 +45,4 @@ class RoomNode final : public SceneNode {
   const float wall_thickness_ = 10.0f;
 };
 
-}  // namespace ink::room
+}  // namespace ink

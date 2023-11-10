@@ -1,6 +1,7 @@
 #include <Entities/Unit.hpp>
 
 #include <Combat/Projectile.hpp>
+#include <Entities/GameStaticObject.hpp>
 
 namespace ink {
 

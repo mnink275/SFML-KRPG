@@ -3,7 +3,7 @@
 #include <cassert>
 #include <cstddef>
 
-namespace ink::room {
+namespace ink {
 
 enum class ConnectionType { Top, Right, Bottom, Left, Count };
 
@@ -25,4 +25,4 @@ inline static ConnectionType getMirrorType(ConnectionType connection) {
 inline constexpr auto ConnectionsCount =
     static_cast<std::size_t>(ConnectionType::Count);
 
-}  // namespace ink::room
+}  // namespace ink

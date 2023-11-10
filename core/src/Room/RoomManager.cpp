@@ -9,10 +9,9 @@
 #include <Entities/Unit.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
-#include <Room/Node.hpp>
 #include <SceneNode.hpp>
 
-namespace ink::room {
+namespace ink {
 
 RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
                          TextureHolder& textures)
@@ -96,4 +95,4 @@ void RoomManager::createConnectionTo(ConnectionType connection) {
                                                 getMirrorType(connection));
 }
 
-}  // namespace ink::room
+}  // namespace ink

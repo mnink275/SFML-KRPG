@@ -1,4 +1,4 @@
-#include <Room/Node.hpp>
+#include <Room/RoomNode.hpp>
 
 #include <iostream>
 #include <limits>
@@ -8,7 +8,7 @@
 #include <Components/Graphics/SimpleGraphics.hpp>
 #include <Entities/GameStaticObject.hpp>
 
-namespace ink::room {
+namespace ink {
 
 RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
                    sf::Texture& texture, sf::FloatRect bounds,
@@ -143,4 +143,4 @@ SceneNode::Ptr RoomNode::popPlayer() {
   return detachChild(*room_layers_[Player]);
 }
 
-}  // namespace ink::room
+}  // namespace ink

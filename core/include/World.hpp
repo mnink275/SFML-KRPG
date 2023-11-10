@@ -47,7 +47,7 @@ class World final {
   bool interact_with_{false};
 
   Unit* player_;
-  room::RoomManager room_manager_;
+  RoomManager room_manager_;
   CommandQueue<NodeCommand> command_queue_;
 };
 

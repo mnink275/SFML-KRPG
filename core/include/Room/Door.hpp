@@ -3,7 +3,7 @@
 #include <Entities/GameStaticObject.hpp>
 #include <Room/ConnectionTypes.hpp>
 
-namespace ink::room {
+namespace ink {
 
 class Door final : public GameStaticObject {
  public:
@@ -24,4 +24,4 @@ class Door final : public GameStaticObject {
   sf::Vector2f other_size_position_;
 };
 
-}  // namespace ink::room
+}  // namespace ink
