@@ -1,7 +1,6 @@
 #include <Entities/Unit.hpp>
 
 #include <Combat/Projectile.hpp>
-#include <Components/Collision/CollisionComponent.hpp>
 #include <Components/Combat/CombatComponent.hpp>
 #include <Components/Graphics/GraphicsComponent.hpp>
 #include <Components/Input/InputComponent.hpp>
@@ -27,11 +26,6 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
                        const sf::Keyboard::Key key, const bool is_pressed) {
   auto input = manager_.findComponent<component::InputComponent>();
   input->handleInput(commands, key, is_pressed);
-}
-
-void Unit::handleCollisionWith(NodeCategory category, const SceneNode* node) {
-  auto collision = manager_.findComponent<component::CollisionComponent>();
-  collision->handleCollisionWith(this, category, node);
 }
 
 void Unit::handleRealtimeInput(sf::Time dt,

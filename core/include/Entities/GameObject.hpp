@@ -18,6 +18,8 @@ class GameObject : public SceneNode {
 
   virtual ~GameObject() = default;
 
+  void handleCollisionWith(NodeCategory category,
+                           const SceneNode* node) override final;
   sf::FloatRect getBoundingRect() const override;
 
  protected:

@@ -9,9 +9,6 @@ class Projectile : public GameObject {
  public:
   using GameObject::GameObject;
 
-  void handleCollisionWith(NodeCategory category,
-                           const SceneNode* node) override;
-
   OwnerType owner;
 
  private:
