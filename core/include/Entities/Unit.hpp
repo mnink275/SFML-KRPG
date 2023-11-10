@@ -21,6 +21,9 @@ class Unit final : public GameObject {
   void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
   OwnerType GetOwnerType() const noexcept;
 
+  void selfDamage(int value);
+  void selfHeal(int value);
+
  private:
   void handleRealtimeInput(sf::Time dt, CommandQueue<NodeCommand>& commands);
 

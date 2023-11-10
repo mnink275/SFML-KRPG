@@ -8,8 +8,9 @@
 
 namespace ink::component {
 
-UnitCombat::UnitCombat(const TextureHolder& texture_holder, OwnerType owner)
-    : texture_holder(texture_holder), owner(owner) {}
+UnitCombat::UnitCombat(const TextureHolder& texture_holder, OwnerType owner,
+                       int health)
+    : CombatComponent(health), texture_holder(texture_holder), owner(owner) {}
 
 void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                           EyesDirection eyes_direction) {

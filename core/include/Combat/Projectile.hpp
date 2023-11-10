@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 #include <Entities/GameObject.hpp>
 #include <Entities/UnitContext.hpp>
 
@@ -9,6 +11,9 @@ class Projectile : public GameObject {
  public:
   using GameObject::GameObject;
 
+  std::size_t getDamage() const noexcept;
+
+ public:
   OwnerType owner;
 
  private:

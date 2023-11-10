@@ -55,4 +55,15 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
 
 OwnerType Unit::GetOwnerType() const noexcept { return owner_; }
 
+void Unit::selfDamage(int value) {
+  auto combat = manager_.findComponent<component::CombatComponent>();
+  combat->health -= value;
+  if (combat->health <= 0) destroy();
+}
+
+void Unit::selfHeal(int value) {
+  auto combat = manager_.findComponent<component::CombatComponent>();
+  combat->health += value;
+}
+
 }  // namespace ink

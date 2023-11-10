@@ -9,7 +9,8 @@ namespace ink::component {
 
 class UnitCombat final : public CombatComponent {
  public:
-  explicit UnitCombat(const TextureHolder& texture_holder, OwnerType owner);
+  explicit UnitCombat(const TextureHolder& texture_holder, OwnerType owner,
+                      int health);
 
   void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                 EyesDirection eyes_direction) override;

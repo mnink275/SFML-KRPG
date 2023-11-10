@@ -5,6 +5,11 @@
 
 namespace ink::combat {
 
+std::size_t Projectile::getDamage() const noexcept {
+  // TODO: redirect to CombatComponent???
+  return 5;
+}
+
 void Projectile::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>&) {
   auto physics = manager_.findComponent<component::PhysicsComponent>();
   auto transforms = physics->getTransform(dt);

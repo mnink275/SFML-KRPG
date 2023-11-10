@@ -2,7 +2,7 @@
 
 namespace ink::component {
 
-CombatComponent::CombatComponent()
-    : Component(kCategory), is_attacking(false) {}
+CombatComponent::CombatComponent(int health)
+    : Component(kCategory), is_attacking(false), health(health) {}
 
 }  // namespace ink::component

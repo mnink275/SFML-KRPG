@@ -14,13 +14,14 @@ class CombatComponent : public Component {
   static constexpr auto kName = "Combat";
 
  public:
-  CombatComponent();
+  CombatComponent(int health);
   virtual ~CombatComponent() = default;
 
   virtual void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                         EyesDirection eyes_direction) = 0;
 
   bool is_attacking;
+  int health;
 };
 
 }  // namespace ink::component
