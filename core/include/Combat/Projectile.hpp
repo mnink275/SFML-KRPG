@@ -9,15 +9,16 @@ namespace ink::combat {
 
 class Projectile final : public GameObject {
  public:
-  using GameObject::GameObject;
+  Projectile(ComponentManager manager, NodeCategory category, OwnerType owner);
 
   std::size_t getDamage() const noexcept;
-
- public:
-  OwnerType owner;
+  OwnerType getOwner() const noexcept;
 
  private:
   void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) override;
+
+ private:
+  OwnerType owner_;
 };
 
 }  // namespace ink::combat

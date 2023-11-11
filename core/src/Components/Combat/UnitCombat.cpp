@@ -28,9 +28,8 @@ void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
             std::make_unique<component::SimpleGraphics>(
                 texture_holder.get(Textures::kBullet), true),
             std::make_unique<component::ProjectileCollision>()},
-        NodeCategory::kBullet);
+        NodeCategory::kBullet, owner);
     bullet->setPosition(owner_position);
-    bullet->owner = owner;
 
     node.attachChild(std::move(bullet));
   }

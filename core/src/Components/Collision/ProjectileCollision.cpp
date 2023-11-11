@@ -15,7 +15,7 @@ void ProjectileCollision::handleCollisionWith(SceneNode* owner_node,
   switch (category) {
     case NodeCategory::kUnit: {
       const auto* unit = static_cast<const Unit*>(node);
-      if (bullet->owner != unit->GetOwnerType()) bullet->destroy();
+      if (bullet->getOwner() != unit->GetOwnerType()) bullet->destroy();
       break;
     }
     case NodeCategory::kWall: {

@@ -16,7 +16,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
   switch (category) {
     case NodeCategory::kBullet: {
       const auto* bullet = static_cast<const combat::Projectile*>(node);
-      if (unit->GetOwnerType() != bullet->owner) {
+      if (unit->GetOwnerType() != bullet->getOwner()) {
         unit->selfDamage(bullet->getDamage());
       }
       break;
