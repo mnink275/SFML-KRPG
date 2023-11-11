@@ -19,7 +19,6 @@ class InputComponent : public Component {
 
  public:
   InputComponent();
-  virtual ~InputComponent() = default;
 
   virtual void handleInput(CommandQueue<NodeCommand>& command_queue,
                            const sf::Keyboard::Key key,

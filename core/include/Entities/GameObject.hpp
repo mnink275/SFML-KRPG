@@ -12,11 +12,8 @@ namespace ink {
 
 class GameObject : public SceneNode {
  public:
-  using SceneNode::SceneNode;
   GameObject(ComponentManager manager,
              NodeCategory category = NodeCategory::kNone);
-
-  virtual ~GameObject() = default;
 
   void handleCollisionWith(NodeCategory category,
                            const SceneNode* node) override final;

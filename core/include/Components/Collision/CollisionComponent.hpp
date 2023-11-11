@@ -11,7 +11,6 @@ class CollisionComponent : public Component {
 
  public:
   CollisionComponent();
-  virtual ~CollisionComponent() = default;
 
   virtual void handleCollisionWith(SceneNode* owner_node, NodeCategory category,
                                    const SceneNode* node) = 0;

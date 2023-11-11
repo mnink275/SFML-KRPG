@@ -7,11 +7,9 @@
 
 namespace ink::component {
 
-class BulletPhysics : public PhysicsComponent {
+class BulletPhysics final : public PhysicsComponent {
  public:
   BulletPhysics(EyesDirection eyes_direction);
-
-  virtual ~BulletPhysics() = default;
 
   sf::Vector2f getTransform(sf::Time dt) override;
 

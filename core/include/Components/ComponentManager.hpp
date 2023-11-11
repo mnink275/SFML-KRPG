@@ -25,6 +25,7 @@ class ComponentManager final {
 
   ComponentManager(const ComponentManager&) = delete;
   ComponentManager& operator=(const ComponentManager&) = delete;
+
   ComponentManager(ComponentManager&&) = default;
   ComponentManager& operator=(ComponentManager&&) = default;
 

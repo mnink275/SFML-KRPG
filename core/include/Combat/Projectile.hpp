@@ -7,7 +7,7 @@
 
 namespace ink::combat {
 
-class Projectile : public GameObject {
+class Projectile final : public GameObject {
  public:
   using GameObject::GameObject;
 

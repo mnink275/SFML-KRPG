@@ -14,8 +14,6 @@ class SimpleGraphics final : public GraphicsComponent {
   SimpleGraphics(const sf::Texture& texture, const sf::IntRect& rect,
                  bool is_centered);
 
-  ~SimpleGraphics() override = default;
-
   void draw(sf::RenderTarget& target,
             const sf::RenderStates states) const override;
 

@@ -8,7 +8,6 @@ namespace ink {
 
 class Door final : public GameObject {
  public:
-  using GameObject::GameObject;
   Door(ComponentManager manager, ConnectionType door_type, sf::Vector2f coords,
        sf::Vector2f transition_coords);
 

@@ -12,7 +12,6 @@ namespace ink::component {
 class AIKeyboardInput final : public InputComponent {
  public:
   AIKeyboardInput();
-  ~AIKeyboardInput() override = default;
 
   void handleInput(CommandQueue<NodeCommand>& command_queue,
                    const sf::Keyboard::Key key, const bool is_pressed) override;

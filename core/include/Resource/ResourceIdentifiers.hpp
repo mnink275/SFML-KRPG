@@ -10,7 +10,7 @@ class Font;
 namespace ink {
 
 // WARNING: do not change the order!
-enum Textures {
+enum class Textures {
   // rooms backgrounds
   kDesert = 0,
   kStone = 1,
@@ -29,7 +29,7 @@ enum Textures {
 
 inline constexpr auto kRoomCount = static_cast<std::size_t>(Textures::kCount);
 
-enum Fonts {
+enum class Fonts {
   kArial = 0,
   kExpressway = 1,
   kSansation = 2,

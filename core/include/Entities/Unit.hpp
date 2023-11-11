@@ -10,11 +10,8 @@ namespace ink {
 
 class Unit final : public GameObject {
  public:
-  using GameObject::GameObject;
   Unit(ComponentManager manager, const FontHolder& fonts, NodeCategory category,
        OwnerType owner);
-
-  ~Unit() override = default;
 
   void handleInput(CommandQueue<NodeCommand>& commands,
                    const sf::Keyboard::Key key, const bool is_pressed);

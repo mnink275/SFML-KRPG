@@ -13,6 +13,12 @@ class Component {
   explicit Component(ComponentCategory category);
   virtual ~Component() = default;
 
+  Component(const Component&) = delete;
+  Component& operator=(const Component&) = delete;
+
+  Component(Component&&) = delete;
+  Component& operator=(Component&&) = delete;
+
   virtual void onCommand(const ComponentCommand& command, sf::Time dt);
   virtual void setCommandQueue(
       CommandQueue<ComponentCommand>* command_queue) noexcept;

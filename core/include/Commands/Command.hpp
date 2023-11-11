@@ -18,7 +18,7 @@ class SceneNode;
 namespace ink {
 
 template <class Base, class CategoryType>
-struct Command {
+struct Command final {
   using Action = std::function<void(Base&, sf::Time)>;
   using Receiver = CategoryType;
 

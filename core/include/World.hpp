@@ -17,6 +17,8 @@ class World final {
   explicit World(sf::RenderWindow& window, TextureHolder& textures,
                  FontHolder& fonts);
 
+  ~World() = default;
+
   World(const World&) = delete;
   World& operator=(const World&) = delete;
 

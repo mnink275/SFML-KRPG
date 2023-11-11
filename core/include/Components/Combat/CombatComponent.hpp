@@ -16,7 +16,6 @@ class CombatComponent : public Component {
 
  public:
   CombatComponent(int health);
-  virtual ~CombatComponent() = default;
 
   void updateTimeSineLastAttack(sf::Time dt) noexcept;
   virtual void onAttack(SceneNode& node, const sf::Vector2f& owner_position,

@@ -16,7 +16,6 @@ class GraphicsComponent : public Component {
 
  public:
   GraphicsComponent(EyesDirection eyes_direction = EyesDirection::kNone);
-  virtual ~GraphicsComponent() = default;
 
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;

@@ -9,9 +9,8 @@
 namespace ink {
 
 template <typename Resource, typename Identifier>
-class ResourceHolder {
+class ResourceHolder final {
  public:
-  // Basic load method.
   void load(Identifier id, const std::string& filename) {
     auto resource = std::make_unique<Resource>();
     if (!resource->loadFromFile(filename))
@@ -22,7 +21,7 @@ class ResourceHolder {
     assert(inserted.second);
   }
 
-  // load method for sf::Shader.
+  // load for sf::Shader.
   template <typename Parameter>
   void load(Identifier id, const std::string& filename,
             const Parameter& second_param) {

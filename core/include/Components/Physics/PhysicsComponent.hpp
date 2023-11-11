@@ -14,7 +14,6 @@ class PhysicsComponent : public Component {
 
  public:
   PhysicsComponent();
-  virtual ~PhysicsComponent() = default;
 
   virtual sf::Vector2f getTransform(sf::Time dt) = 0;
 
