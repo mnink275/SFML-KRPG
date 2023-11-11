@@ -9,6 +9,12 @@ namespace ink::component {
 
 class UnitCombat final : public CombatComponent {
  public:
+  enum class Weapon {
+    kGun,
+    kSword,
+  };
+
+ public:
   UnitCombat(const TextureHolder& texture_holder, OwnerType owner, int health,
              float attack_speed_by_second);
 
@@ -18,6 +24,7 @@ class UnitCombat final : public CombatComponent {
   const TextureHolder& texture_holder;
   const OwnerType owner;
   const sf::Time attack_speed;
+  Weapon weapon;
 };
 
 }  // namespace ink::component

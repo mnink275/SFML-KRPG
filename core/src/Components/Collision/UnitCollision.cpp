@@ -2,6 +2,7 @@
 
 #include <cassert>
 
+#include <Combat/Melee.hpp>
 #include <Combat/Projectile.hpp>
 #include <Entities/GameObject.hpp>
 #include <Entities/Unit.hpp>
@@ -18,6 +19,13 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
       const auto* bullet = static_cast<const combat::Projectile*>(node);
       if (unit->GetOwnerType() != bullet->getOwner()) {
         unit->selfDamage(bullet->getDamage());
+      }
+      break;
+    }
+    case NodeCategory::kMelee: {
+      const auto* melee = static_cast<const combat::Melee*>(node);
+      if (unit->GetOwnerType() != melee->getOwner()) {
+        unit->selfDamage(melee->getDamage(unit));
       }
       break;
     }

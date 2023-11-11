@@ -11,7 +11,9 @@ Projectile::Projectile(ComponentManager manager, NodeCategory category,
 
 std::size_t Projectile::getDamage() const noexcept {
   // TODO: redirect to CombatComponent???
-  return 5;
+
+  static const std::size_t kDamage = 5;
+  return kDamage;
 }
 
 OwnerType Projectile::getOwner() const noexcept { return owner_; }

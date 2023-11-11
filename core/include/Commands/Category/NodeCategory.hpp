@@ -12,6 +12,7 @@ enum class NodeCategory : CategoryUnderlying {
   kWall = 1 << 3,
   kDoor = 1 << 4,
   kRoomManager = 1 << 5,
+  kMelee = 1 << 6,
 };
 
 }  // namespace ink

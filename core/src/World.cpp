@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
+#include <Combat/Melee.hpp>
 #include <Combat/Projectile.hpp>
 #include <Commands/Category/Category.hpp>
 #include <Components/Collision/UnitCollision.hpp>
@@ -98,6 +99,13 @@ void World::handleCollisions() {
       assert(dynamic_cast<Unit*>(pair.first));
       assert(dynamic_cast<combat::Projectile*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kBullet, pair.second);
+      pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
+    } else if (matchesCategories(pair, NodeCategory::kUnit,
+                                 NodeCategory::kMelee)) {
+      assert(dynamic_cast<Unit*>(pair.first));
+      assert(dynamic_cast<combat::Melee*>(pair.second));
+      // strict order
+      pair.first->handleCollisionWith(NodeCategory::kMelee, pair.second);
       pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
     } else if (matchesCategories(pair, NodeCategory::kBullet,
                                  NodeCategory::kWall)) {
