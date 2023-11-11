@@ -29,14 +29,18 @@ World::World(sf::RenderWindow& window, TextureHolder& textures,
       spawn_position_(world_view_.getSize().x / 2.f,
                       world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
-      room_manager_(scene_graph_, world_bounds_, textures_) {
+      room_manager_(nullptr) {
+  // TODO: make something better
+  auto room_manager = std::make_unique<RoomManager>(
+      scene_graph_, world_bounds_, textures_, NodeCategory::kRoomManager);
+  room_manager_ = room_manager.get();
+  scene_graph_.attachChild(std::move(room_manager));
+
   buildScene();
   world_view_.setCenter(spawn_position_);
 }
 
 void World::update(const sf::Time dt) {
-  checkDoorInteraction();
-
   while (!command_queue_.isEmpty()) {
     scene_graph_.onCommand(command_queue_.pop(), dt);
   }
@@ -44,13 +48,6 @@ void World::update(const sf::Time dt) {
   scene_graph_.update(dt, command_queue_);
   handleCollisions();
   scene_graph_.cleanGarbage();
-}
-
-void World::checkDoorInteraction() {
-  if (interact_with_) {
-    interact_with_ = false;
-    room_manager_.checkDoorInteraction();
-  }
 }
 
 bool World::matchesCategories(SceneNode::NodePair& colliders,
@@ -84,11 +81,9 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
     case sf::Keyboard::Key::D:
     case sf::Keyboard::Key::W:
     case sf::Keyboard::Key::S:
+    case sf::Keyboard::Key::E:
     case sf::Keyboard::Key::Space:
       player_->handleInput(command_queue_, key, is_pressed);
-      break;
-    case sf::Keyboard::Key::E:
-      interact_with_ = is_pressed;
       break;
     default:
       std::cout << "The key isn't implemented!\n";
@@ -114,13 +109,18 @@ void World::handleCollisions() {
       assert(dynamic_cast<Unit*>(pair.first));
       assert(dynamic_cast<GameObject*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kWall, pair.second);
+    } else if (matchesCategories(pair, NodeCategory::kUnit,
+                                 NodeCategory::kDoor)) {
+      assert(dynamic_cast<Unit*>(pair.first));
+      assert(dynamic_cast<GameObject*>(pair.second));
+      pair.first->handleCollisionWith(NodeCategory::kDoor, pair.second);
     }
   }
 }
 
 void World::buildScene() {
   // create and connect the rooms
-  room_manager_.createInitialRoom();
+  room_manager_->createInitialRoom();
 
   // add a player
   auto player = std::make_unique<Unit>(
@@ -135,7 +135,7 @@ void World::buildScene() {
       fonts_, NodeCategory::kUnit, OwnerType::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
-  room_manager_.attachUnit(std::move(player));
+  room_manager_->attachUnit(std::move(player));
 
   // add an enemy
   auto enemy = std::make_unique<Unit>(
@@ -149,7 +149,7 @@ void World::buildScene() {
                        std::make_unique<component::UnitCollision>()},
       fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
-  room_manager_.attachUnit(std::move(enemy));
+  room_manager_->attachUnit(std::move(enemy));
 }
 
 }  // namespace ink

@@ -6,10 +6,11 @@
 namespace ink {
 
 Door::Door(ComponentManager manager, ConnectionType door_type,
-           sf::Vector2f coords, sf::Vector2f transition_coords)
-    : GameObject(std::move(manager)),
+           sf::Vector2f coords, sf::Vector2f transition_coords,
+           NodeCategory category)
+    : GameObject(std::move(manager), category),
       door_type_(door_type),
-      other_size_position_(transition_coords) {
+      other_side_position_(transition_coords) {
   setPosition(coords);
 }
 
@@ -23,7 +24,7 @@ bool Door::nearOf(sf::Vector2f player_position) const {
 }
 
 sf::Vector2f Door::getDoorOtherSidePosition() const {
-  return other_size_position_;
+  return other_side_position_;
 };
 
 void Door::activate() { is_active_ = true; }

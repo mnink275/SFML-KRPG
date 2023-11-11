@@ -46,10 +46,9 @@ class World final {
 
   sf::FloatRect world_bounds_;
   sf::Vector2f spawn_position_;
-  bool interact_with_{false};
 
   Unit* player_;
-  RoomManager room_manager_;
+  RoomManager* room_manager_;
   CommandQueue<NodeCommand> command_queue_;
 };
 

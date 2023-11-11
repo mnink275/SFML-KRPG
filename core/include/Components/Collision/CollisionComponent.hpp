@@ -14,6 +14,9 @@ class CollisionComponent : public Component {
 
   virtual void handleCollisionWith(SceneNode* owner_node, NodeCategory category,
                                    const SceneNode* node) = 0;
+
+ public:
+  bool interact_with;
 };
 
 }  // namespace ink::component

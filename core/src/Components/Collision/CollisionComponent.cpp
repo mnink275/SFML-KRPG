@@ -4,6 +4,7 @@
 
 namespace ink::component {
 
-CollisionComponent::CollisionComponent() : Component(kCategory) {}
+CollisionComponent::CollisionComponent()
+    : Component(kCategory), interact_with(false) {}
 
 }  // namespace ink::component

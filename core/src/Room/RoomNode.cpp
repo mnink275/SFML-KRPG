@@ -36,6 +36,7 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
 
 void RoomNode::doorsInitialize() {
   // TODO: simplify
+
   // door position constants
   float width = room_bounds_.x;
   float height = room_bounds_.y;
@@ -66,9 +67,11 @@ void RoomNode::doorsInitialize() {
             texture_.get(Textures::kDoor), sf::IntRect{door_sizes[dir_id]},
             true),
         direction_type, door_positions[dir_id],
-        door_positions[static_cast<std::size_t>(transition_type)]);
+        door_positions[static_cast<std::size_t>(transition_type)],
+        NodeCategory::kDoor);
     doors_storage_[dir_id] = door.get();
     doors_storage_[dir_id]->setPosition(door_positions[dir_id]);
+
     attachChild(std::move(door));
   }
 }

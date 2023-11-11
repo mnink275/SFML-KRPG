@@ -42,6 +42,11 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
       unit->setPosition(player_pos);
       break;
     }
+    case NodeCategory::kDoor: {
+      unit->enableDoorInteraction(interact_with);
+      interact_with = false;
+      break;
+    }
     default:
       break;
   }

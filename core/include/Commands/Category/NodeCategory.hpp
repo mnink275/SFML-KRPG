@@ -10,6 +10,8 @@ enum class NodeCategory : CategoryUnderlying {
   kUnit = 1 << 1,
   kBullet = 1 << 2,
   kWall = 1 << 3,
+  kDoor = 1 << 4,
+  kRoomManager = 1 << 5,
 };
 
 }  // namespace ink

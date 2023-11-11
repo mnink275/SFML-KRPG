@@ -14,8 +14,9 @@
 namespace ink {
 
 RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
-                         TextureHolder& textures)
-    : scene_graph_(scene_graph),
+                         TextureHolder& textures, NodeCategory category)
+    : SceneNode(category),
+      scene_graph_(scene_graph),
       curr_room_id_(0),
       rooms_count_(0),
       world_bounds_(world_bounds),

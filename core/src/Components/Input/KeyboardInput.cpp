@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <Components/Collision/CollisionComponent.hpp>
 #include <Components/Combat/CombatComponent.hpp>
 #include <Components/Graphics/GraphicsComponent.hpp>
 #include <Components/Physics/PhysicsComponent.hpp>
@@ -38,9 +39,20 @@ struct BodyRotationCommand final {
   EyesDirection eyes_direction;
 };
 
+struct EnableInteractionCommand final {
+  EnableInteractionCommand(bool interact_with) : interact_with(interact_with) {}
+
+  void operator()(component::CollisionComponent& collision, sf::Time) const {
+    collision.interact_with = interact_with;
+  }
+
+  bool interact_with;
+};
+
 }  // namespace
 
 KeyboardInput::KeyboardInput() {
+  // TODO: get rid of repetition: ComponentCategory + PhysicsComponent
   createCommand(sf::Keyboard::A, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
   createCommand(
@@ -65,15 +77,22 @@ KeyboardInput::KeyboardInput() {
 
 void KeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
                                 const sf::Keyboard::Key key,
-                                const bool /*is_pressed*/) {
+                                const bool is_pressed) {
   if (isRealtimeAction(key)) return;
 
   switch (key) {
-    // case sf::Keyboard::Key::E:
-    //   interact_with_ = is_pressed;
-    //   break;
-    default:
+    case sf::Keyboard::Key::E: {
+      // TODO: move to component fields
+      ComponentCommand command;
+      command.category = ComponentCategory::kCollision;
+      command.action =
+          SendTo<CollisionComponent>(EnableInteractionCommand{is_pressed});
+      sendCommand(command);
+      break;
+    }
+    default: {
       std::cout << "The key isn't implemented!\n";
+    }
   }
 }
 

@@ -10,13 +10,13 @@
 
 namespace ink {
 
-class RoomManager final {
+class RoomManager : public SceneNode {
  private:
   using Ptr = SceneNode::Ptr;
 
  public:
   RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
-              TextureHolder& textures);
+              TextureHolder& textures, NodeCategory category);
 
   ~RoomManager() = default;
 
