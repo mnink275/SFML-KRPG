@@ -25,9 +25,6 @@ class GraphicsComponent : public Component {
 
  public:
   EyesDirection eyes_direction;
-
- protected:
-  void doSpriteCentering(sf::Sprite& sprite);
 };
 
 }  // namespace ink::component

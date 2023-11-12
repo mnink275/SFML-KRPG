@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <Components/Graphics/Utils.hpp>
+
 namespace ink::component {
 
 TwoSpriteGraphics::TwoSpriteGraphics(const sf::Texture& left_movement,
@@ -19,8 +21,8 @@ TwoSpriteGraphics::TwoSpriteGraphics(const sf::Texture& left_movement,
       left_movement_sprite_(left_movement, rect),
       right_movement_sprite_(right_movement, rect) {
   if (is_centered) {
-    doSpriteCentering(left_movement_sprite_);
-    doSpriteCentering(right_movement_sprite_);
+    utils::doSpriteCentering(left_movement_sprite_);
+    utils::doSpriteCentering(right_movement_sprite_);
   }
   assert(left_movement.getSize() == right_movement.getSize());
 }

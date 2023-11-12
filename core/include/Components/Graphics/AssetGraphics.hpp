@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include <Components/Graphics/Animation.hpp>
 #include <Components/Graphics/GraphicsComponent.hpp>
 
 namespace ink::component {
@@ -21,13 +22,7 @@ class AssetGraphics final : public GraphicsComponent {
 
  public:
   bool is_idle;
-
- private:
-  // TODO: move logic to Animation class
-  sf::Time timer_;
-  const sf::Time kSpriteChangeInterval;
-  std::vector<sf::Sprite> animation_;
-  std::size_t curr_sprite_;
+  Animation idle_animation_;
 };
 
 }  // namespace ink::component

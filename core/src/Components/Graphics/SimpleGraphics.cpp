@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
+#include <Components/Graphics/SimpleGraphics.hpp>
+#include <Components/Graphics/Utils.hpp>
+
 namespace ink::component {
 
 SimpleGraphics::SimpleGraphics(const sf::Texture& texture, bool is_centered)
@@ -14,7 +17,7 @@ SimpleGraphics::SimpleGraphics(const sf::Texture& texture,
 SimpleGraphics::SimpleGraphics(const sf::Texture& texture,
                                const sf::IntRect& rect, bool is_centered)
     : sprite_(texture, rect) {
-  if (is_centered) doSpriteCentering(sprite_);
+  if (is_centered) utils::doSpriteCentering(sprite_);
 }
 
 void SimpleGraphics::draw(sf::RenderTarget& target,
