@@ -4,7 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <Components/Component.hpp>
-#include <Entities/EyesDirection.hpp>
+#include <Entities/Types/EyesDirection.hpp>
 #include <SceneNode.hpp>
 
 namespace ink::component {

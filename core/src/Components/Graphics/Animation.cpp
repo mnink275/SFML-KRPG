@@ -6,8 +6,14 @@
 
 namespace ink {
 
-Animation::Animation(const sf::Texture& texture, const sf::Vector2u& sizes,
+Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
                      bool is_centered, const sf::Time sprite_change_interval)
+    : Animation(texture, sizes, is_centered, sprite_change_interval,
+                sf::Vector2f{1.0f, 1.0f}) {}
+
+Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
+                     bool is_centered, const sf::Time sprite_change_interval,
+                     sf::Vector2f scale)
     : timer_(sf::Time::Zero),
       kSpriteChangeInterval(sprite_change_interval),
       animation_(),
@@ -22,10 +28,11 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u& sizes,
     rect.left += sizes.x;
   }
 
-  if (is_centered) {
-    std::for_each(animation_.begin(), animation_.end(),
-                  [](sf::Sprite& sprite) { utils::doSpriteCentering(sprite); });
-  }
+  std::for_each(animation_.begin(), animation_.end(),
+                [is_centered, scale](sf::Sprite& sprite) {
+                  sprite.setScale(scale);
+                  if (is_centered) utils::doSpriteCentering(sprite);
+                });
 }
 
 const sf::Sprite& Animation::getCurrentSprite() const {
@@ -40,5 +47,7 @@ void Animation::update(sf::Time dt) {
     if (curr_sprite_ == animation_.size()) curr_sprite_ = 0;
   }
 }
+
+void Animation::start() noexcept { curr_sprite_ = 0; }
 
 }  // namespace ink

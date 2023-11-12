@@ -10,11 +10,16 @@ namespace ink {
 
 class Animation final {
  public:
-  Animation(const sf::Texture& texture, const sf::Vector2u& sizes,
+  // TODO: change `scale` with something more meaningful for understanding
+  Animation(const sf::Texture& texture, const sf::Vector2u sizes,
             bool is_centered, const sf::Time sprite_change_interval);
+  Animation(const sf::Texture& texture, const sf::Vector2u sizes,
+            bool is_centered, const sf::Time sprite_change_interval,
+            sf::Vector2f scale);
 
   const sf::Sprite& getCurrentSprite() const;
   void update(sf::Time dt);
+  void start() noexcept;
 
  private:
   sf::Time timer_;

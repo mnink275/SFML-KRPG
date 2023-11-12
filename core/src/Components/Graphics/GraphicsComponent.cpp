@@ -4,8 +4,16 @@
 
 namespace ink::component {
 
-GraphicsComponent::GraphicsComponent(EyesDirection eyes_direction)
-    : Component(kCategory), eyes_direction(eyes_direction) {}
+GraphicsComponent::GraphicsComponent()
+    : Component(kCategory),
+      object_state(ObjectState::kIdle),
+      eyes_direction(EyesDirection::kRight) {}
+
+GraphicsComponent::GraphicsComponent(ObjectState object_state,
+                                     EyesDirection eyes_direction)
+    : Component(kCategory),
+      object_state(object_state),
+      eyes_direction(eyes_direction) {}
 
 void GraphicsComponent::update(sf::Time /*dt*/) {}
 

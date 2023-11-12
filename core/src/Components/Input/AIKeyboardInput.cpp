@@ -25,8 +25,18 @@ struct FireCommand final {
   }
 };
 
-struct BodyRotationCommand final {
-  BodyRotationCommand(EyesDirection eyes_direction)
+struct StateChangeCommand final {
+  StateChangeCommand(ObjectState object_state) : object_state(object_state) {}
+
+  void operator()(component::GraphicsComponent& graphics, sf::Time) const {
+    graphics.object_state = object_state;
+  }
+
+  ObjectState object_state;
+};
+
+struct EyesDirectionChangeCommand final {
+  EyesDirectionChangeCommand(EyesDirection eyes_direction)
       : eyes_direction(eyes_direction) {}
 
   void operator()(component::GraphicsComponent& graphics, sf::Time) const {
@@ -43,19 +53,31 @@ AIKeyboardInput::AIKeyboardInput() {
                 SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
   createCommand(
       sf::Keyboard::A, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(BodyRotationCommand{EyesDirection::kLeft}));
+      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
+  createCommand(sf::Keyboard::A, ComponentCategory::kGraphics,
+                SendTo<GraphicsComponent>(
+                    EyesDirectionChangeCommand{EyesDirection::kLeft}));
 
   createCommand(sf::Keyboard::D, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}}));
   createCommand(
       sf::Keyboard::D, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(BodyRotationCommand{EyesDirection::kRight}));
+      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
+  createCommand(sf::Keyboard::D, ComponentCategory::kGraphics,
+                SendTo<GraphicsComponent>(
+                    EyesDirectionChangeCommand{EyesDirection::kRight}));
 
   createCommand(sf::Keyboard::W, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}}));
+  createCommand(
+      sf::Keyboard::W, ComponentCategory::kGraphics,
+      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
 
   createCommand(sf::Keyboard::S, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}}));
+  createCommand(
+      sf::Keyboard::S, ComponentCategory::kGraphics,
+      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
 
   createCommand(sf::Keyboard::Space, ComponentCategory::kCombat,
                 SendTo<CombatComponent>(FireCommand{}));

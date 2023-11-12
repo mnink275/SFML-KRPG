@@ -17,7 +17,7 @@ TwoSpriteGraphics::TwoSpriteGraphics(const sf::Texture& left_movement,
 TwoSpriteGraphics::TwoSpriteGraphics(const sf::Texture& left_movement,
                                      const sf::Texture& right_movement,
                                      const sf::IntRect& rect, bool is_centered)
-    : GraphicsComponent(EyesDirection::kLeft),
+    : GraphicsComponent(),
       left_movement_sprite_(left_movement, rect),
       right_movement_sprite_(right_movement, rect) {
   if (is_centered) {
@@ -37,7 +37,8 @@ void TwoSpriteGraphics::draw(sf::RenderTarget& target,
       target.draw(right_movement_sprite_, states);
       break;
     default:
-      std::cout << "Warning in PlayerGraphics: eye direction is kNone\n";
+      std::cout << "Warning in UnitGraphics: unhandled `eyes_direction` ";
+      std::cout << "with id: " << static_cast<int>(object_state) << '\n';
       break;
   }
 }

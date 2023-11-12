@@ -135,9 +135,8 @@ void World::buildScene() {
   // add a player
   auto player = std::make_unique<Unit>(
       ComponentManager{std::make_unique<component::SimplePhysics>(),
-                       std::make_unique<component::TwoSpriteGraphics>(
-                           textures_.get(Textures::kPeepoLeft),
-                           textures_.get(Textures::kPeepoRight), true),
+                       std::make_unique<component::AssetGraphics>(
+                           textures_, sf::Vector2u{96, 96}, true),
                        std::make_unique<component::KeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
                            textures_, OwnerType::kPlayer, 20, 1.0f),
@@ -165,8 +164,7 @@ void World::buildScene() {
   auto character = std::make_unique<Unit>(
       ComponentManager{std::make_unique<component::SimplePhysics>(),
                        std::make_unique<component::AssetGraphics>(
-                           textures_.get(Textures::kCharacterIdle),
-                           sf::Vector2u{96, 96}, true),
+                           textures_, sf::Vector2u{96, 96}, true),
                        std::make_unique<component::EmptyInput>(),
                        std::make_unique<component::UnitCombat>(
                            textures_, OwnerType::kEnemy, 20, 1.0f),

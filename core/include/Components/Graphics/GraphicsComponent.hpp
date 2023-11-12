@@ -5,7 +5,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <Components/Component.hpp>
-#include <Entities/EyesDirection.hpp>
+#include <Entities/Types/EyesDirection.hpp>
+#include <Entities/Types/ObjectState.hpp>
 
 namespace ink::component {
 
@@ -15,7 +16,8 @@ class GraphicsComponent : public Component {
   static constexpr auto kName = "Graphics";
 
  public:
-  GraphicsComponent(EyesDirection eyes_direction = EyesDirection::kNone);
+  GraphicsComponent();
+  GraphicsComponent(ObjectState object_state, EyesDirection eyes_direction);
 
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;
@@ -24,6 +26,7 @@ class GraphicsComponent : public Component {
   virtual sf::FloatRect getGlobalBounds() const = 0;
 
  public:
+  ObjectState object_state;
   EyesDirection eyes_direction;
 };
 

@@ -17,6 +17,9 @@ class KeyboardInput final : public InputComponent {
 
  private:
   bool isRealtimeAction(sf::Keyboard::Key key) const noexcept;
+
+ private:
+  ComponentCommand do_idle_;
 };
 
 }  // namespace ink::component
