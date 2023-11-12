@@ -2,7 +2,7 @@
 
 namespace ink::combat {
 
-Melee::Melee(ComponentManager manager, NodeCategory category, OwnerType owner)
+Melee::Melee(ComponentManager manager, NodeCategory category, Owner owner)
     : GameObject(std::move(manager), category),
       timer_(sf::Time::Zero),
       kLifeTime(sf::seconds(0.1f)),
@@ -17,7 +17,7 @@ std::size_t Melee::getDamage(const SceneNode* node) const {
   return kDamage;
 }
 
-OwnerType Melee::getOwner() const noexcept { return owner_; }
+Owner Melee::getOwner() const noexcept { return owner_; }
 
 void Melee::addDamaged(const SceneNode* node) { already_damaged_.insert(node); }
 

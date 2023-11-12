@@ -139,9 +139,9 @@ void World::buildScene() {
                            textures_, sf::Vector2u{96, 96}, true),
                        std::make_unique<component::KeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, OwnerType::kPlayer, 20, 1.0f),
+                           textures_, Owner::kPlayer, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
-      fonts_, NodeCategory::kUnit, OwnerType::kPlayer);
+      fonts_, NodeCategory::kUnit, Owner::kPlayer);
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_->attachUnit(std::move(player));
@@ -154,9 +154,9 @@ void World::buildScene() {
                            textures_.get(Textures::kPeepoRight), true),
                        std::make_unique<component::AIKeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, OwnerType::kEnemy, 20, 1.0f),
+                           textures_, Owner::kEnemy, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
-      fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
+      fonts_, NodeCategory::kUnit, Owner::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_->attachUnit(std::move(enemy));
 
@@ -167,9 +167,9 @@ void World::buildScene() {
                            textures_, sf::Vector2u{96, 96}, true),
                        std::make_unique<component::EmptyInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, OwnerType::kEnemy, 20, 1.0f),
+                           textures_, Owner::kEnemy, 20, 1.0f),
                        std::make_unique<component::UnitCollision>()},
-      fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
+      fonts_, NodeCategory::kUnit, Owner::kEnemy);
   character->setPosition(spawn_position_ * 0.7f);
   room_manager_->attachUnit(std::move(character));
 }

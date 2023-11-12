@@ -13,7 +13,7 @@
 
 namespace ink::component {
 
-UnitCombat::UnitCombat(const TextureHolder& texture_holder, OwnerType owner,
+UnitCombat::UnitCombat(const TextureHolder& texture_holder, Owner owner,
                        int health, float attack_speed)
     : CombatComponent(health),
       texture_holder(texture_holder),

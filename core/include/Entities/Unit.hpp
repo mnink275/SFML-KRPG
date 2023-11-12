@@ -3,7 +3,7 @@
 #include <Commands/Command.hpp>
 #include <Commands/CommandQueue.hpp>
 #include <Entities/GameObject.hpp>
-#include <Entities/UnitContext.hpp>
+#include <Entities/Types/UnitContext.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 
 namespace ink {
@@ -11,11 +11,11 @@ namespace ink {
 class Unit final : public GameObject {
  public:
   Unit(ComponentManager manager, const FontHolder& fonts, NodeCategory category,
-       OwnerType owner);
+       Owner owner);
 
   void handleInput(CommandQueue<NodeCommand>& commands,
                    const sf::Keyboard::Key key, const bool is_pressed);
-  OwnerType GetOwnerType() const noexcept;
+  Owner GetOwnerType() const noexcept;
 
   void selfDamage(int value);
   void selfHeal(int value);
@@ -32,7 +32,7 @@ class Unit final : public GameObject {
   NodeCommand fire_command_;
   NodeCommand door_interaction_command_;
   CommandQueue<ComponentCommand> command_queue_;
-  OwnerType owner_;
+  Owner owner_;
   bool interacted_with_door_;
 };
 

@@ -21,7 +21,7 @@ struct DoorInteractionCommand final {
 }  // namespace
 
 Unit::Unit(ComponentManager manager, const FontHolder& fonts,
-           NodeCategory category, OwnerType owner)
+           NodeCategory category, Owner owner)
     : GameObject(std::move(manager), category),
       fonts_(fonts),
       owner_(owner),
@@ -45,7 +45,7 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
   input->handleInput(commands, key, is_pressed);
 }
 
-OwnerType Unit::GetOwnerType() const noexcept { return owner_; }
+Owner Unit::GetOwnerType() const noexcept { return owner_; }
 
 void Unit::selfDamage(int value) {
   auto combat = manager_.findComponent<component::CombatComponent>();

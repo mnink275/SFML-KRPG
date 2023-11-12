@@ -2,7 +2,7 @@
 
 namespace ink {
 
-enum class OwnerType {
+enum class Owner {
   kPlayer,
   kEnemy,
 };

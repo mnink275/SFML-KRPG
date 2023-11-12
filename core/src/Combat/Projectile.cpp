@@ -6,7 +6,7 @@
 namespace ink::combat {
 
 Projectile::Projectile(ComponentManager manager, NodeCategory category,
-                       OwnerType owner)
+                       Owner owner)
     : GameObject(std::move(manager), category), owner_(owner) {}
 
 std::size_t Projectile::getDamage() const noexcept {
@@ -16,7 +16,7 @@ std::size_t Projectile::getDamage() const noexcept {
   return kDamage;
 }
 
-OwnerType Projectile::getOwner() const noexcept { return owner_; }
+Owner Projectile::getOwner() const noexcept { return owner_; }
 
 void Projectile::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>&) {
   auto physics = manager_.findComponent<component::PhysicsComponent>();
