@@ -82,6 +82,8 @@ void Unit::drawCurrent(sf::RenderTarget& target,
 
 void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   handleRealtimeInput(dt, commands);
+  auto graphics = manager_.findComponent<component::GraphicsComponent>();
+  graphics->update(dt);
 
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();

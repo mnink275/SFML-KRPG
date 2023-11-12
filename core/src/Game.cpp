@@ -120,6 +120,8 @@ TextureHolder Game::loadTextures() {
   textures.load(Textures::kIce, kResourcePath + "/texture/Ice64x64.png");
   textures.load(Textures::kStoneOnGrass,
                 kResourcePath + "/texture/StoneOnGrass256x256.png");
+  textures.load(Textures::kCharacterIdle,
+                kResourcePath + "/texture/CharacterIdle96x96.png");
 
   return textures;
 }

@@ -25,6 +25,7 @@ enum class Textures {
   kDoor,
   kBullet,
   kWall,
+  kCharacterIdle,
 };
 
 inline constexpr auto kRoomCount = static_cast<std::size_t>(Textures::kCount);

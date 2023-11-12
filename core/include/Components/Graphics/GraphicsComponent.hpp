@@ -19,6 +19,7 @@ class GraphicsComponent : public Component {
 
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;
+  virtual void update(sf::Time dt);
 
   virtual sf::FloatRect getGlobalBounds() const = 0;
 

@@ -11,8 +11,10 @@
 #include <Components/Collision/UnitCollision.hpp>
 #include <Components/Combat/UnitCombat.hpp>
 #include <Components/ComponentManager.hpp>
+#include <Components/Graphics/AssetGraphics.hpp>
 #include <Components/Graphics/TwoSpriteGraphics.hpp>
 #include <Components/Input/AIKeyboardInput.hpp>
+#include <Components/Input/EmptyInput.hpp>
 #include <Components/Input/KeyboardInput.hpp>
 #include <Components/Physics/SimplePhysics.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
@@ -158,6 +160,20 @@ void World::buildScene() {
       fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_->attachUnit(std::move(enemy));
+
+  // add a character
+  auto character = std::make_unique<Unit>(
+      ComponentManager{std::make_unique<component::SimplePhysics>(),
+                       std::make_unique<component::AssetGraphics>(
+                           textures_.get(Textures::kCharacterIdle),
+                           sf::Vector2u{96, 96}, true),
+                       std::make_unique<component::EmptyInput>(),
+                       std::make_unique<component::UnitCombat>(
+                           textures_, OwnerType::kEnemy, 20, 1.0f),
+                       std::make_unique<component::UnitCollision>()},
+      fonts_, NodeCategory::kUnit, OwnerType::kEnemy);
+  character->setPosition(spawn_position_ * 0.7f);
+  room_manager_->attachUnit(std::move(character));
 }
 
 }  // namespace ink
