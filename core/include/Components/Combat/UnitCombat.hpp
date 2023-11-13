@@ -16,7 +16,7 @@ class UnitCombat final : public CombatComponent {
 
  public:
   UnitCombat(const TextureHolder& texture_holder, Owner owner, int health,
-             float attack_speed_by_second);
+             float attack_speed_by_second, Weapon weapon);
 
   void onAttack(SceneNode& node, const sf::Vector2f& owner_position,
                 EyesDirection eyes_direction) override;

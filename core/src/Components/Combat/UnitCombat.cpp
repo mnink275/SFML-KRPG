@@ -14,12 +14,12 @@
 namespace ink::component {
 
 UnitCombat::UnitCombat(const TextureHolder& texture_holder, Owner owner,
-                       int health, float attack_speed)
+                       int health, float attack_speed, Weapon weapon)
     : CombatComponent(health),
       texture_holder(texture_holder),
       owner(owner),
       attack_speed(sf::seconds(attack_speed)),
-      weapon(Weapon::kSword) {
+      weapon(weapon) {
   assert(health > 0);
   assert(attack_speed >= 0.0f);
 }

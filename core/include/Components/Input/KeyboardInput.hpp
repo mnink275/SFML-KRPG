@@ -5,7 +5,7 @@
 
 namespace ink::component {
 
-class KeyboardInput final : public InputComponent {
+class KeyboardInput : public InputComponent {
  public:
   KeyboardInput();
 

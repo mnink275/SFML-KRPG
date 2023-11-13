@@ -5,14 +5,12 @@
 #include <SFML/System/Time.hpp>
 
 #include <Commands/Command.hpp>
-#include <Components/Input/InputComponent.hpp>
+#include <Components/Input/KeyboardInput.hpp>
 
 namespace ink::component {
 
-class AIKeyboardInput final : public InputComponent {
+class AIKeyboardInput final : public KeyboardInput {
  public:
-  AIKeyboardInput();
-
   void handleInput(CommandQueue<NodeCommand>& command_queue,
                    const sf::Keyboard::Key key, const bool is_pressed) override;
 
@@ -28,8 +26,6 @@ class AIKeyboardInput final : public InputComponent {
     kMoveRight,
   };
 
- private:
-  std::unordered_map<sf::Keyboard::Key, bool> is_pressed_map_;
   State state{State::kIdle};
 };
 
