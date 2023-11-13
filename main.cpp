@@ -9,6 +9,6 @@ int main() {
     ink::Game game;
     game.run();
   } catch (std::exception& e) {
-    fmt::print("Exception: ", e.what());
+    fmt::println("Exception: ", e.what());
   }
 }

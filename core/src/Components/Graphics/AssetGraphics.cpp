@@ -19,6 +19,7 @@ AssetGraphics::AssetGraphics(const TextureHolder& textures,
       std::forward_as_tuple(AnimationState::kIdleRight),
       std::forward_as_tuple(textures.get(Textures::kPlayerIdle), sizes,
                             is_centered, kSpriteChangeInterval));
+
   animations_.emplace(
       std::piecewise_construct,
       std::forward_as_tuple(AnimationState::kMovingLeft),
@@ -29,6 +30,18 @@ AssetGraphics::AssetGraphics(const TextureHolder& textures,
       std::piecewise_construct,
       std::forward_as_tuple(AnimationState::kMovingRight),
       std::forward_as_tuple(textures.get(Textures::kPlayerRun), sizes,
+                            is_centered, kSpriteChangeInterval));
+
+  animations_.emplace(
+      std::piecewise_construct,
+      std::forward_as_tuple(AnimationState::kAttackingLeft),
+      std::forward_as_tuple(textures.get(Textures::kPlayerSwordAttack), sizes,
+                            is_centered, kSpriteChangeInterval,
+                            sf::Vector2f{-1.0f, 1.0f}));
+  animations_.emplace(
+      std::piecewise_construct,
+      std::forward_as_tuple(AnimationState::kAttackingRight),
+      std::forward_as_tuple(textures.get(Textures::kPlayerSwordAttack), sizes,
                             is_centered, kSpriteChangeInterval));
 }
 

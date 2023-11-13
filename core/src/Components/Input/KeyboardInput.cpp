@@ -116,7 +116,7 @@ void KeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
       break;
     }
     default: {
-      fmt::print("The key isn't implemented!");
+      fmt::println("The key isn't implemented!");
     }
   }
 }

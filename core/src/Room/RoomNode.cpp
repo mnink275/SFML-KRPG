@@ -127,15 +127,15 @@ RoomNode::InteractionResult RoomNode::CheckDoorInteraction() {
     const auto& door = doors_storage_[i];
     if (door->nearOf(player_coords)) {
       if (door->isActive()) {
-        fmt::print("Interactions with active door");
+        fmt::println("Interactions with active door");
         room_layers_[Player]->setPosition(door->getDoorOtherSidePosition());
         return connected_rooms_[i];
       }
-      fmt::print("Interactions with inactive door");
+      fmt::println("Interactions with inactive door");
       return static_cast<ConnectionType>(i);
     }
   }
-  fmt::print("No interactions with doors");
+  fmt::println("No interactions with doors");
   return std::monostate{};
 }
 

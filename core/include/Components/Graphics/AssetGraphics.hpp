@@ -29,6 +29,8 @@ class AssetGraphics final : public GraphicsComponent {
     kIdleLeft,
     kMovingRight,
     kMovingLeft,
+    kAttackingRight,
+    kAttackingLeft,
   };
 
   // TODO: change to std::array or AnimationHolder class

@@ -4,8 +4,9 @@
 
 namespace ink::utils::impl {
 
-void failedAssertMsg(std::string_view expr, const char* file, unsigned int line,
-                     const char* function, std::string_view msg) noexcept;
+[[noreturn]] void failedAssertMsg(std::string_view expr, const char* file,
+                                  unsigned int line, const char* function,
+                                  std::string_view msg) noexcept;
 
 #ifdef NDEBUG
 inline constexpr auto kEnableAssert = false;

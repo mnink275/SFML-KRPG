@@ -77,7 +77,7 @@ std::size_t RoomManager::createRandomRoom() {
 }
 
 std::size_t RoomManager::createRoom(std::size_t room_type_id) {
-  fmt::print("New room id: {}", room_type_id);
+  fmt::println("New room id: {}", room_type_id);
   const auto texture_type = static_cast<Textures>(room_type_id);
 
   auto room_id = rooms_count_++;

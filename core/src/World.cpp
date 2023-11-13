@@ -91,7 +91,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
       player_->handleInput(command_queue_, key, is_pressed);
       break;
     default:
-      fmt::print("The key wasn't implemented");
+      fmt::println("The key wasn't implemented");
   }
 }
 

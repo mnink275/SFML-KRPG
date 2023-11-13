@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstddef>
-
 #include <fmt/format.h>
+#include <cassert>
+#include <cstddef>
 
 #include <Utils/Assert.hpp>
 #include <Utils/ToString.hpp>
