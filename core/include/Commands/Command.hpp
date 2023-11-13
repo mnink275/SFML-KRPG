@@ -1,14 +1,13 @@
 #pragma once
 
-#include <cassert>
 #include <functional>
 
-#include <SFML/System/Time.hpp>
 #include <fmt/format.h>
+#include <SFML/System/Time.hpp>
 
-#include <Utils/Assert.hpp>
 #include <Commands/Category/ComponentCategory.hpp>
 #include <Commands/Category/NodeCategory.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 class Component;
@@ -44,7 +43,7 @@ typename std::conditional_t<std::is_same_v<SceneNode, GetBase<Derived>>,
                             NodeCommand, ComponentCommand>::Action
 SendTo(Func func) {
   return [func](GetBase<Derived>& node, sf::Time dt) {
-    assert(dynamic_cast<Derived*>(&node) != nullptr);
+    ASSERT(dynamic_cast<Derived*>(&node) != nullptr);
 
     func(static_cast<Derived&>(node), dt);
   };

@@ -1,18 +1,17 @@
 #include <Components/Collision/UnitCollision.hpp>
 
-#include <cassert>
-
 #include <Combat/Melee.hpp>
 #include <Combat/Projectile.hpp>
 #include <Entities/GameObject.hpp>
 #include <Entities/Unit.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 
 void UnitCollision::handleCollisionWith(SceneNode* owner_node,
                                         NodeCategory category,
                                         const SceneNode* node) {
-  assert(dynamic_cast<Unit*>(owner_node));
+  ASSERT(dynamic_cast<Unit*>(owner_node));
   auto* unit = static_cast<Unit*>(owner_node);
   switch (category) {
     case NodeCategory::kBullet: {
@@ -33,7 +32,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
       const auto* wall = static_cast<const GameObject*>(node);
       auto intersection_opt =
           unit->getBoundingRect().findIntersection(wall->getBoundingRect());
-      assert(intersection_opt.has_value());
+      ASSERT(intersection_opt.has_value());
       auto intersection = intersection_opt.value();
 
       auto is_vertical_collision = intersection.width < intersection.height;

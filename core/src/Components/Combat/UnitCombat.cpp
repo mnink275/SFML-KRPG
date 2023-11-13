@@ -10,6 +10,7 @@
 #include <Components/Physics/BulletPhysics.hpp>
 #include <Components/Physics/SimplePhysics.hpp>
 #include <Entities/Unit.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 
@@ -20,8 +21,8 @@ UnitCombat::UnitCombat(const TextureHolder& texture_holder, Owner owner,
       owner(owner),
       attack_speed(sf::seconds(attack_speed)),
       weapon(weapon) {
-  assert(health > 0);
-  assert(attack_speed >= 0.0f);
+  ASSERT(health > 0);
+  ASSERT(attack_speed >= 0.0f);
 }
 
 void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,

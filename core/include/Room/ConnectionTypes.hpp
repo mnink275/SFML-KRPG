@@ -1,7 +1,11 @@
 #pragma once
 
-#include <cassert>
 #include <cstddef>
+
+#include <fmt/format.h>
+
+#include <Utils/Assert.hpp>
+#include <Utils/ToString.hpp>
 
 namespace ink {
 
@@ -18,7 +22,8 @@ inline static ConnectionType getMirrorType(ConnectionType connection) {
     case ConnectionType::Left:
       return ConnectionType::Right;
     default:
-      assert(false);
+      ASSERT_MSG(false, fmt::format("Unhandler ConnectionType with id: {}",
+                                    utils::toString(connection)));
   }
 }
 

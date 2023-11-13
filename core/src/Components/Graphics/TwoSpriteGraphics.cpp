@@ -1,8 +1,9 @@
 #include <Components/Graphics/TwoSpriteGraphics.hpp>
 
-#include <iostream>
+#include <fmt/format.h>
 
 #include <Components/Graphics/Utils.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 
@@ -24,7 +25,7 @@ TwoSpriteGraphics::TwoSpriteGraphics(const sf::Texture& left_movement,
     utils::doSpriteCentering(left_movement_sprite_);
     utils::doSpriteCentering(right_movement_sprite_);
   }
-  assert(left_movement.getSize() == right_movement.getSize());
+  ASSERT(left_movement.getSize() == right_movement.getSize());
 }
 
 void TwoSpriteGraphics::draw(sf::RenderTarget& target,
@@ -37,9 +38,7 @@ void TwoSpriteGraphics::draw(sf::RenderTarget& target,
       target.draw(right_movement_sprite_, states);
       break;
     default:
-      std::cout << "Warning in UnitGraphics: unhandled `eyes_direction` ";
-      std::cout << "with id: " << static_cast<int>(object_state) << '\n';
-      break;
+      ASSERT_MSG(false, "Unhandled `eyes_direction`");
   }
 }
 

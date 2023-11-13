@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <Utils/Assert.hpp>
+
 namespace ink {
 
 SceneNode::SceneNode(NodeCategory category)
@@ -19,7 +21,7 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
   const auto found =
       std::find_if(children_.begin(), children_.end(),
                    [&](const Ptr& p) -> bool { return p.get() == &node; });
-  assert(found != children_.end());
+  ASSERT(found != children_.end());
   Ptr result = std::move(*found);
   result->parent_ = nullptr;
   children_.erase(found);

@@ -8,6 +8,7 @@
 #include <Components/ComponentManager.hpp>
 #include <Components/Graphics/SimpleGraphics.hpp>
 #include <Entities/GameObject.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink {
 
@@ -98,7 +99,7 @@ void RoomNode::buildWalls() {
       {width, wall_thickness_},        // bottom
       {wall_thickness_, height / 2}};  // middle
 
-  assert(positions.size() == sizes.size());
+  ASSERT(positions.size() == sizes.size());
   static const std::size_t kWallsCount = positions.size();
 
   for (std::size_t i = 0; i < kWallsCount; ++i) {

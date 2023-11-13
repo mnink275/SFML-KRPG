@@ -1,6 +1,8 @@
 #include <Components/Physics/BulletPhysics.hpp>
 
-#include <iostream>
+#include <fmt/format.h>
+
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 
@@ -17,8 +19,7 @@ sf::Vector2f BulletPhysics::getTransform(sf::Time dt) {
       velocity = {bullet_speed, 0.f};
       break;
     default:
-      std::cout << "Error in BulletPhysics: bullet must have a direction\n";
-      assert(false);
+      ASSERT_MSG(false, "Bullet must have a direction");
   }
 
   return velocity * dt.asSeconds();

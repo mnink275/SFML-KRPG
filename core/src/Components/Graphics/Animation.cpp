@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <Components/Graphics/Utils.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink {
 
@@ -18,8 +19,8 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
       kSpriteChangeInterval(sprite_change_interval),
       animation_(),
       curr_sprite_(0) {
-  assert(texture.getSize().y == sizes.y);
-  assert(texture.getSize().x % sizes.x == 0);
+  ASSERT(texture.getSize().y == sizes.y);
+  ASSERT(texture.getSize().x % sizes.x == 0);
 
   auto sprites_amount = texture.getSize().x / sizes.x;
   sf::IntRect rect{{0, 0}, sf::Vector2i{sizes}};

@@ -18,6 +18,7 @@
 #include <Components/Input/KeyboardInput.hpp>
 #include <Components/Physics/SimplePhysics.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink {
 
@@ -98,31 +99,31 @@ void World::handleCollisions() {
   scene_graph_.checkSceneCollision(scene_graph_, collisions);
   for (auto pair : collisions) {
     if (matchesCategories(pair, NodeCategory::kUnit, NodeCategory::kBullet)) {
-      assert(dynamic_cast<Unit*>(pair.first));
-      assert(dynamic_cast<combat::Projectile*>(pair.second));
+      ASSERT(dynamic_cast<Unit*>(pair.first));
+      ASSERT(dynamic_cast<combat::Projectile*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kBullet, pair.second);
       pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
     } else if (matchesCategories(pair, NodeCategory::kUnit,
                                  NodeCategory::kMelee)) {
-      assert(dynamic_cast<Unit*>(pair.first));
-      assert(dynamic_cast<combat::Melee*>(pair.second));
+      ASSERT(dynamic_cast<Unit*>(pair.first));
+      ASSERT(dynamic_cast<combat::Melee*>(pair.second));
       // strict order
       pair.first->handleCollisionWith(NodeCategory::kMelee, pair.second);
       pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
     } else if (matchesCategories(pair, NodeCategory::kBullet,
                                  NodeCategory::kWall)) {
-      assert(dynamic_cast<combat::Projectile*>(pair.first));
-      assert(dynamic_cast<GameObject*>(pair.second));
+      ASSERT(dynamic_cast<combat::Projectile*>(pair.first));
+      ASSERT(dynamic_cast<GameObject*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kWall, pair.second);
     } else if (matchesCategories(pair, NodeCategory::kUnit,
                                  NodeCategory::kWall)) {
-      assert(dynamic_cast<Unit*>(pair.first));
-      assert(dynamic_cast<GameObject*>(pair.second));
+      ASSERT(dynamic_cast<Unit*>(pair.first));
+      ASSERT(dynamic_cast<GameObject*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kWall, pair.second);
     } else if (matchesCategories(pair, NodeCategory::kUnit,
                                  NodeCategory::kDoor)) {
-      assert(dynamic_cast<Unit*>(pair.first));
-      assert(dynamic_cast<GameObject*>(pair.second));
+      ASSERT(dynamic_cast<Unit*>(pair.first));
+      ASSERT(dynamic_cast<GameObject*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kDoor, pair.second);
     }
   }
