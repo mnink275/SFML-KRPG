@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <iostream>
 
 #include <Commands/CommandQueue.hpp>
 #include <Entities/Unit.hpp>

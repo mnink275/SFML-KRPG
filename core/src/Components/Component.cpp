@@ -1,6 +1,8 @@
 #include <Components/Component.hpp>
 
-#include <iostream>
+#include <fmt/format.h>
+
+#include <Utils/Assert.hpp>
 
 namespace ink::component {
 
@@ -19,11 +21,8 @@ void Component::setCommandQueue(
 }
 
 void Component::sendCommand(ComponentCommand& command) noexcept {
-  if (command_queue_) {
-    command_queue_->push(command);
-  } else {
-    std::cout << "Warnings: need to set component command queue\n";
-  }
+  ASSERT_MSG(command_queue_, "Need to set component command queue");
+  command_queue_->push(command);
 }
 
 ComponentCategory Component::getCategory() const noexcept { return category_; }

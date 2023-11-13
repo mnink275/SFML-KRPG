@@ -1,9 +1,10 @@
 #include <Room/RoomManager.hpp>
 
-#include <iostream>
 #include <memory>
 #include <random>
 #include <variant>
+
+#include <fmt/format.h>
 
 #include <Commands/Category/NodeCategory.hpp>
 #include <Entities/Unit.hpp>
@@ -76,7 +77,7 @@ std::size_t RoomManager::createRandomRoom() {
 }
 
 std::size_t RoomManager::createRoom(std::size_t room_type_id) {
-  std::cout << "New room id: " << room_type_id << '\n';
+  fmt::print("New room id: {}", room_type_id);
   const auto texture_type = static_cast<Textures>(room_type_id);
 
   auto room_id = rooms_count_++;

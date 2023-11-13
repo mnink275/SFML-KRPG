@@ -1,5 +1,5 @@
 #include <Components/Graphics/AssetGraphics.hpp>
-#include <iostream>
+
 namespace ink::component {
 
 AssetGraphics::AssetGraphics(const TextureHolder& textures,

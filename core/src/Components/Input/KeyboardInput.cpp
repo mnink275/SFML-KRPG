@@ -1,6 +1,6 @@
 #include <Components/Input/KeyboardInput.hpp>
 
-#include <iostream>
+#include <fmt/format.h>
 
 #include <Components/Collision/CollisionComponent.hpp>
 #include <Components/Combat/CombatComponent.hpp>
@@ -116,7 +116,7 @@ void KeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
       break;
     }
     default: {
-      std::cout << "The key isn't implemented!\n";
+      fmt::print("The key isn't implemented!");
     }
   }
 }

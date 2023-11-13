@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 
+#include <fmt/format.h>
 #include <SFML/Graphics/Texture.hpp>
 
 #include <Combat/Melee.hpp>
@@ -90,7 +91,7 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
       player_->handleInput(command_queue_, key, is_pressed);
       break;
     default:
-      std::cout << "The key isn't implemented!\n";
+      fmt::print("The key wasn't implemented");
   }
 }
 

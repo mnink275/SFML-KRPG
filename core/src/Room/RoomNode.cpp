@@ -1,8 +1,8 @@
 #include <Room/RoomNode.hpp>
 
-#include <iostream>
 #include <limits>
 
+#include <fmt/format.h>
 #include <SFML/Graphics/Rect.hpp>
 
 #include <Components/ComponentManager.hpp>
@@ -127,15 +127,15 @@ RoomNode::InteractionResult RoomNode::CheckDoorInteraction() {
     const auto& door = doors_storage_[i];
     if (door->nearOf(player_coords)) {
       if (door->isActive()) {
-        std::cout << "Interactions with active door\n";
+        fmt::print("Interactions with active door");
         room_layers_[Player]->setPosition(door->getDoorOtherSidePosition());
         return connected_rooms_[i];
       }
-      std::cout << "Interactions with inactive door\n";
+      fmt::print("Interactions with inactive door");
       return static_cast<ConnectionType>(i);
     }
   }
-  std::cout << "No interactions with doors\n";
+  fmt::print("No interactions with doors");
   return std::monostate{};
 }
 
