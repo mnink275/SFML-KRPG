@@ -13,7 +13,7 @@ target_include_directories(
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_objs sfml-graphics
+    ${PROJECT_NAME}_objs sfml-graphics fmt
 )
 
 target_compile_definitions(

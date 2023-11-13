@@ -1,13 +1,15 @@
 #pragma once
 
-#include <iostream>
 #include <memory>
 #include <type_traits>
 #include <vector>
 
+#include <fmt/format.h>
+
 #include <Commands/Category/ComponentCategory.hpp>
 #include <Commands/CommandQueue.hpp>
 #include <Components/Component.hpp>
+#include <Utils/Assert.hpp>
 
 namespace ink {
 
@@ -38,11 +40,9 @@ class ComponentManager final {
                              return component->getCategory() == category;
                            });
     // TODO: return "empty" component to do nothing outside
-    if (it == components_.end()) {
-      std::cout << "Calling for a missing " << ComponentType::kName
-                << " component\n";
-      assert(false);
-    }
+    ASSERT_MSG(it != components_.end(),
+               fmt::format("Calling for a missing '{}' component",
+                           ComponentType::kName));
 
     return std::dynamic_pointer_cast<ComponentType>(*it);
   }

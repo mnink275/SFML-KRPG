@@ -1,10 +1,12 @@
 #pragma once
 
-#include <cassert>
 #include <map>
 #include <memory>
 
+#include <fmt/format.h>
 #include <SFML/Graphics.hpp>
+
+#include <Utils/Assert.hpp>
 
 namespace ink {
 
@@ -18,7 +20,8 @@ class ResourceHolder final {
                                filename);
     auto inserted =
         resource_map_.insert(std::make_pair(id, std::move(resource)));
-    assert(inserted.second);
+    ASSERT_MSG(inserted.second, fmt::format("Duplicate resource with id '{}'",
+                                            static_cast<int>(id)));
   }
 
   // load for sf::Shader.
@@ -31,18 +34,23 @@ class ResourceHolder final {
                                filename);
     auto inserted =
         resource_map_.insert(std::make_pair(id, std::move(resource)));
-    assert(inserted.second);
+    ASSERT_MSG(inserted.second, fmt::format("Duplicate resource with id '{}'",
+                                            static_cast<int>(id)));
   }
 
   Resource& get(Identifier id) {
     auto found = resource_map_.find(id);
-    assert(found != resource_map_.end());
+    ASSERT_MSG(found != resource_map_.end(),
+               fmt::format("Resource with id '{}' doesn't exist",
+                           static_cast<int>(id)));
     return *found->second;
   }
 
   const Resource& get(Identifier id) const {
     auto found = resource_map_.find(id);
-    assert(found != resource_map_.end());
+    ASSERT_MSG(found != resource_map_.end(),
+               fmt::format("Resource with id '{}' doesn't exist",
+                           static_cast<int>(id)));
     return *found->second;
   }
 

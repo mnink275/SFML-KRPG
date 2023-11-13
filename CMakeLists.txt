@@ -13,6 +13,7 @@ include(cmake/Sanitizers.cmake)
 include(cmake/VisualStudio.cmake)
 
 add_subdirectory(third_party/SFML)
+add_subdirectory(third_party/fmt)
 add_subdirectory(core)
 
 add_executable(
@@ -20,5 +21,5 @@ add_executable(
 )
 
 target_link_libraries(
-    ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics
+    ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics fmt
 )

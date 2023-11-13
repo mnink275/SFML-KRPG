@@ -4,7 +4,9 @@
 #include <functional>
 
 #include <SFML/System/Time.hpp>
+#include <fmt/format.h>
 
+#include <Utils/Assert.hpp>
 #include <Commands/Category/ComponentCategory.hpp>
 #include <Commands/Category/NodeCategory.hpp>
 

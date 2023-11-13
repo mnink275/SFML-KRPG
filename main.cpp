@@ -1,6 +1,6 @@
 #include <Game.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 #include <SFML/Graphics.hpp>
 
@@ -9,6 +9,6 @@ int main() {
     ink::Game game;
     game.run();
   } catch (std::exception& e) {
-    std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+    fmt::print("Exception: ", e.what());
   }
 }
