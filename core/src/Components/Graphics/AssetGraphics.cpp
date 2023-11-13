@@ -32,17 +32,19 @@ AssetGraphics::AssetGraphics(const TextureHolder& textures,
       std::forward_as_tuple(textures.get(Textures::kPlayerRun), sizes,
                             is_centered, kSpriteChangeInterval));
 
+  // Attacking scale is greater than other due to bad asset sizes
   animations_.emplace(
       std::piecewise_construct,
       std::forward_as_tuple(AnimationState::kAttackingLeft),
       std::forward_as_tuple(textures.get(Textures::kPlayerSwordAttack), sizes,
                             is_centered, kSpriteChangeInterval,
-                            sf::Vector2f{-1.0f, 1.0f}));
+                            sf::Vector2f{-1.2f, 1.2f}));
   animations_.emplace(
       std::piecewise_construct,
       std::forward_as_tuple(AnimationState::kAttackingRight),
       std::forward_as_tuple(textures.get(Textures::kPlayerSwordAttack), sizes,
-                            is_centered, kSpriteChangeInterval));
+                            is_centered, kSpriteChangeInterval,
+                            sf::Vector2f{1.2f, 1.2f}));
 }
 
 void AssetGraphics::draw(sf::RenderTarget& target,
@@ -76,6 +78,12 @@ void AssetGraphics::update(sf::Time dt) {
         current_animation_ = AnimationState::kIdleLeft;
       else
         current_animation_ = AnimationState::kIdleRight;
+      break;
+    case ObjectState::kAttacking:
+      if (eyes_direction == EyesDirection::kLeft)
+        current_animation_ = AnimationState::kAttackingLeft;
+      else
+        current_animation_ = AnimationState::kAttackingRight;
       break;
     default:
       break;

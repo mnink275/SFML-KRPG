@@ -23,7 +23,12 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
   ASSERT(texture.getSize().x % sizes.x == 0);
 
   auto sprites_amount = texture.getSize().x / sizes.x;
-  sf::IntRect rect{{0, 0}, sf::Vector2i{sizes}};
+  // TODO: tmp rect shifts due to bad asset sizes
+  const int shift = 14;
+  sf::Vector2i pos_shift{shift, shift};
+  sf::Vector2i sizes_shift{2 * shift, 2 * shift};
+
+  sf::IntRect rect{pos_shift, sf::Vector2i{sizes} - sizes_shift};
   for (std::size_t i = 0; i < sprites_amount; ++i) {
     animation_.emplace_back(texture, rect);
     rect.left += sizes.x;
