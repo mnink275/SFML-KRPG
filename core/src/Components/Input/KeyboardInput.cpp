@@ -24,7 +24,7 @@ struct MoveCommand final {
 
 struct FireCommand final {
   void operator()(component::CombatComponent& combat, sf::Time) const {
-    combat.is_attacking = true;
+    combat.attack_requested = true;
   }
 };
 
@@ -32,7 +32,7 @@ struct StateChangeCommand final {
   StateChangeCommand(ObjectState object_state) : object_state(object_state) {}
 
   void operator()(component::GraphicsComponent& graphics, sf::Time) const {
-    graphics.object_state = object_state;
+    graphics.setObjectState(object_state);
   }
 
   ObjectState object_state;
@@ -94,9 +94,6 @@ KeyboardInput::KeyboardInput() {
 
   createCommand(sf::Keyboard::Space, ComponentCategory::kCombat,
                 SendTo<CombatComponent>(FireCommand{}));
-  createCommand(
-      sf::Keyboard::Space, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kAttacking}));
 
   do_idle_.category = ComponentCategory::kGraphics;
   do_idle_.action =

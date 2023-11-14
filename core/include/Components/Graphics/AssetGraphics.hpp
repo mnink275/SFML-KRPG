@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <Commands/Command.hpp>
 #include <Components/Graphics/Animation.hpp>
 #include <Components/Graphics/GraphicsComponent.hpp>
 #include <Resource/ResourceHolder.hpp>
@@ -19,23 +20,26 @@ class AssetGraphics final : public GraphicsComponent {
 
   void draw(sf::RenderTarget& target,
             const sf::RenderStates states) const override;
-  void update(sf::Time dt) override;
 
   sf::FloatRect getGlobalBounds() const override;
 
  private:
+  void updateCurrent(sf::Time dt) override;
+
+ private:
+  // perhaps it can be replaced with ObjectState
   enum class AnimationState {
-    kIdleRight,
-    kIdleLeft,
-    kMovingRight,
-    kMovingLeft,
-    kAttackingRight,
-    kAttackingLeft,
+    kNone,
+    kIdle,
+    kMoving,
+    kAttacking,
   };
 
   // TODO: change to std::array or AnimationHolder class
   std::unordered_map<AnimationState, Animation> animations_;
   AnimationState current_animation_;
+  AnimationState prev_animation_;
+  ComponentCommand attack_info_;
 };
 
 }  // namespace ink::component

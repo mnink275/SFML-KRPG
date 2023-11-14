@@ -10,6 +10,13 @@
 
 namespace ink::component {
 
+struct FreezeFor final {
+  FreezeFor() : FreezeFor(sf::Time::Zero) {}
+  FreezeFor(sf::Time freezing_time) : freezing_time(freezing_time) {}
+
+  const sf::Time freezing_time;
+};
+
 class GraphicsComponent : public Component {
  public:
   static constexpr auto kCategory = ComponentCategory::kGraphics;
@@ -21,13 +28,24 @@ class GraphicsComponent : public Component {
 
   virtual void draw(sf::RenderTarget& target,
                     const sf::RenderStates states) const = 0;
-  virtual void update(sf::Time dt);
+  void update(sf::Time dt);
 
   virtual sf::FloatRect getGlobalBounds() const = 0;
+  void setObjectState(ObjectState state,
+                      FreezeFor freeze_for = FreezeFor{}) noexcept;
+  ObjectState getObjectState() const noexcept;
+
+ private:
+  virtual void updateCurrent(sf::Time dt);
 
  public:
-  ObjectState object_state;
   EyesDirection eyes_direction;
+
+ protected:
+  sf::Time freezing_time_;
+
+ private:
+  ObjectState object_state_;
 };
 
 }  // namespace ink::component

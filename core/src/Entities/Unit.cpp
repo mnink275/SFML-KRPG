@@ -81,25 +81,30 @@ void Unit::drawCurrent(sf::RenderTarget& target,
 }
 
 void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
+  // Stage 1: actions handling via sending ComponentCommands
   handleRealtimeInput(dt, commands);
-  auto graphics = manager_.findComponent<component::GraphicsComponent>();
-  graphics->update(dt);
 
+  auto combat = manager_.findComponent<component::CombatComponent>();
+  if (combat->isReadyToAttack()) {
+    combat->onAttackUpdate();
+    commands.push(fire_command_);
+  }
+
+  // Stage 2: ComponentCommands processing
   while (!command_queue_.isEmpty()) {
     auto command = command_queue_.pop();
     manager_.onCommand(command, dt);
   }
 
+  // Stage 3: updates using new information
+  auto graphics = manager_.findComponent<component::GraphicsComponent>();
+  graphics->update(dt);
+
   auto physics = manager_.findComponent<component::PhysicsComponent>();
   auto transforms = physics->getTransform(dt);
   Transformable::move(transforms);
 
-  auto combat = manager_.findComponent<component::CombatComponent>();
-  combat->updateTimeSineLastAttack(dt);
-  if (combat->is_attacking) {
-    combat->is_attacking = false;
-    commands.push(fire_command_);
-  }
+  combat->update(dt);
 
   if (interacted_with_door_) {
     interacted_with_door_ = false;

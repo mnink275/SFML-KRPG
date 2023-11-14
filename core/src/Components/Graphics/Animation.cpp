@@ -14,11 +14,13 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
 
 Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
                      bool is_centered, const sf::Time sprite_change_interval,
-                     sf::Vector2f scale)
+                     const sf::Vector2f scale)
     : timer_(sf::Time::Zero),
-      kSpriteChangeInterval(sprite_change_interval),
+      sprite_change_interval(sprite_change_interval),
       animation_(),
-      curr_sprite_(0) {
+      curr_sprite_(0),
+      scale_(scale),
+      eyes_direction_(EyesDirection::kRight) {
   ASSERT(texture.getSize().y == sizes.y);
   ASSERT(texture.getSize().x % sizes.x == 0);
 
@@ -45,15 +47,41 @@ const sf::Sprite& Animation::getCurrentSprite() const {
   return animation_[curr_sprite_];
 }
 
+sf::Time Animation::getAnimationDuration() const noexcept {
+  return static_cast<float>(animation_.size()) * sprite_change_interval;
+}
+
 void Animation::update(sf::Time dt) {
   timer_ += dt;
-  if (timer_ >= kSpriteChangeInterval) {
-    timer_ -= kSpriteChangeInterval;
+  if (timer_ >= sprite_change_interval) {
+    timer_ -= sprite_change_interval;
     curr_sprite_++;
     if (curr_sprite_ == animation_.size()) curr_sprite_ = 0;
   }
 }
 
-void Animation::start() noexcept { curr_sprite_ = 0; }
+std::size_t Animation::getCurrentSpriteIndex() const noexcept {
+  return curr_sprite_;
+}
+
+void Animation::start(sf::Time duration) noexcept {
+  curr_sprite_ = 0;
+  sprite_change_interval = duration / static_cast<float>(animation_.size() - 1);
+}
+
+void Animation::flitTo(EyesDirection direction) {
+  if (eyes_direction_ == direction) return;
+
+  eyes_direction_ = direction;
+  flipVertically();
+}
+
+void Animation::flipVertically() {
+  const auto sign = eyes_direction_ == EyesDirection::kLeft ? -1 : +1;
+  auto scale = scale_;
+  scale.x *= sign;
+  std::for_each(animation_.begin(), animation_.end(),
+                [scale](sf::Sprite& sprite) { sprite.setScale(scale); });
+}
 
 }  // namespace ink

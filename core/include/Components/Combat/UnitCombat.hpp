@@ -23,7 +23,6 @@ class UnitCombat final : public CombatComponent {
 
   const TextureHolder& texture_holder;
   const Owner owner;
-  const sf::Time attack_speed;
   Weapon weapon;
 };
 

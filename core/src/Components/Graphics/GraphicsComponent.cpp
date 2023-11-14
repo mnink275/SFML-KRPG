@@ -5,16 +5,32 @@
 namespace ink::component {
 
 GraphicsComponent::GraphicsComponent()
-    : Component(kCategory),
-      object_state(ObjectState::kIdle),
-      eyes_direction(EyesDirection::kRight) {}
+    : GraphicsComponent(ObjectState::kIdle, EyesDirection::kRight) {}
 
 GraphicsComponent::GraphicsComponent(ObjectState object_state,
                                      EyesDirection eyes_direction)
     : Component(kCategory),
-      object_state(object_state),
-      eyes_direction(eyes_direction) {}
+      eyes_direction(eyes_direction),
+      freezing_time_(sf::Time::Zero),
+      object_state_(object_state) {}
 
-void GraphicsComponent::update(sf::Time /*dt*/) {}
+void GraphicsComponent::update(sf::Time dt) {
+  freezing_time_ -= dt;
+  updateCurrent(dt);
+}
+
+void GraphicsComponent::updateCurrent(sf::Time /*dt*/) {}
+
+void GraphicsComponent::setObjectState(ObjectState state,
+                                       FreezeFor freeze_for) noexcept {
+  if (freezing_time_ <= sf::Time::Zero) {
+    object_state_ = state;
+    freezing_time_ = freeze_for.freezing_time;
+  }
+}
+
+ObjectState GraphicsComponent::getObjectState() const noexcept {
+  return object_state_;
+}
 
 }  // namespace ink::component
