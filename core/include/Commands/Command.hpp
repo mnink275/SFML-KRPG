@@ -25,10 +25,13 @@ struct Command final {
 
   Command() = default;
   Command(CategoryType category, Action action)
-      : action(action), category(category) {}
+      : action(action), category(category), delay(sf::Time::Zero) {}
+  Command(CategoryType category, Action action, sf::Time delay)
+      : action(action), category(category), delay(delay) {}
 
   Action action;
   CategoryType category;
+  sf::Time delay;
 };
 
 using NodeCommand = Command<SceneNode, NodeCategory>;

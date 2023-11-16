@@ -46,9 +46,9 @@ World::World(sf::RenderWindow& window, TextureHolder& textures,
 }
 
 void World::update(const sf::Time dt) {
-  while (!command_queue_.isEmpty()) {
-    scene_graph_.onCommand(command_queue_.pop(), dt);
-  }
+  using namespace std::placeholders;
+  command_queue_.handle(std::bind(&SceneNode::onCommand, &scene_graph_, _1, _2),
+                        dt);
 
   scene_graph_.update(dt, command_queue_);
   handleCollisions();
@@ -142,7 +142,7 @@ void World::buildScene() {
                            textures_, sf::Vector2u{96, 96}, true),
                        std::make_unique<component::KeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, Owner::kPlayer, 20, 1.0f, Weapon::kSword),
+                           textures_, Owner::kPlayer, 20, 0.8f, Weapon::kSword),
                        std::make_unique<component::UnitCollision>()},
       fonts_, NodeCategory::kUnit, Owner::kPlayer);
   player_ = player.get();

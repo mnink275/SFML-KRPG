@@ -91,10 +91,9 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   }
 
   // Stage 2: ComponentCommands processing
-  while (!command_queue_.isEmpty()) {
-    auto command = command_queue_.pop();
-    manager_.onCommand(command, dt);
-  }
+  using namespace std::placeholders;
+  command_queue_.handle(
+      std::bind(&ComponentManager::onCommand, &manager_, _1, _2), dt);
 
   // Stage 3: updates using new information
   auto graphics = manager_.findComponent<component::GraphicsComponent>();

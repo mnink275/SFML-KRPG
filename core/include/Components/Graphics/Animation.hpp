@@ -25,7 +25,7 @@ class Animation final {
 
   void update(sf::Time dt);
   void start(sf::Time duration) noexcept;
-  void flitTo(EyesDirection direction);
+  void flipTo(EyesDirection direction);
 
  private:
   void flipVertically();

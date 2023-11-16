@@ -7,24 +7,18 @@ namespace ink::component {
 namespace {
 
 struct AttackInfoCommand final {
-  AttackInfoCommand(sf::Time delay, sf::Time duration)
-      : delay(delay), duration(duration) {}
-
   void operator()(component::CombatComponent& unit_combat, sf::Time) const {
     unit_combat.attack_started = true;
   }
-
-  sf::Time delay;
-  sf::Time duration;
 };
+
 }  // namespace
 
 AssetGraphics::AssetGraphics(const TextureHolder& textures,
                              const sf::Vector2u sizes, bool is_centered)
     : GraphicsComponent(),
       animations_(),
-      current_animation_(AnimationState::kIdle),
-      prev_animation_(AnimationState::kNone) {
+      current_animation_(AnimationState::kIdle) {
   attack_info_.category = ComponentCategory::kCombat;
 
   const auto kSpriteChangeInterval = sf::seconds(0.1f);
@@ -53,9 +47,7 @@ void AssetGraphics::draw(sf::RenderTarget& target,
 }
 
 void AssetGraphics::updateCurrent(sf::Time dt) {
-  auto curr_state = getObjectState();
-
-  switch (curr_state) {
+  switch (getObjectState()) {
     case ObjectState::kMoving:
       current_animation_ = AnimationState::kMoving;
       break;
@@ -64,12 +56,12 @@ void AssetGraphics::updateCurrent(sf::Time dt) {
       break;
     case ObjectState::kAttacking:
       current_animation_ = AnimationState::kAttacking;
-      if (prev_animation_ != current_animation_) {
-        animations_.at(current_animation_).start(freezing_time_ + dt);
-      }
-      if (animations_.at(current_animation_).getCurrentSpriteIndex() == 0) {
-        attack_info_.action = SendTo<CombatComponent>(
-            AttackInfoCommand{sf::Time::Zero, sf::Time::Zero});
+      if (state_changed_) {
+        auto& animation = animations_.at(current_animation_);
+        animation.start(freezing_time_ + dt);
+        auto full_duration = animation.getAnimationDuration();
+        attack_info_.action = SendTo<CombatComponent>(AttackInfoCommand{});
+        attack_info_.delay = full_duration * 0.4f;
         sendCommand(attack_info_);
       }
       break;
@@ -77,9 +69,9 @@ void AssetGraphics::updateCurrent(sf::Time dt) {
       break;
   }
 
-  prev_animation_ = current_animation_;
+  if (state_changed_) state_changed_ = false;
 
-  animations_.at(current_animation_).flitTo(eyes_direction);
+  animations_.at(current_animation_).flipTo(eyes_direction);
   animations_.at(current_animation_).update(dt);
 }
 

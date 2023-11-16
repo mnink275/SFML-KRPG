@@ -43,6 +43,7 @@ class GraphicsComponent : public Component {
 
  protected:
   sf::Time freezing_time_;
+  bool state_changed_;
 
  private:
   ObjectState object_state_;

@@ -69,7 +69,7 @@ void Animation::start(sf::Time duration) noexcept {
   sprite_change_interval = duration / static_cast<float>(animation_.size() - 1);
 }
 
-void Animation::flitTo(EyesDirection direction) {
+void Animation::flipTo(EyesDirection direction) {
   if (eyes_direction_ == direction) return;
 
   eyes_direction_ = direction;

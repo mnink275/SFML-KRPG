@@ -38,7 +38,6 @@ class AssetGraphics final : public GraphicsComponent {
   // TODO: change to std::array or AnimationHolder class
   std::unordered_map<AnimationState, Animation> animations_;
   AnimationState current_animation_;
-  AnimationState prev_animation_;
   ComponentCommand attack_info_;
 };
 

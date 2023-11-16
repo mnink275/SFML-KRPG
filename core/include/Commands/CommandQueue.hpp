@@ -1,6 +1,10 @@
 #pragma once
 
+#include <cstddef>
+#include <functional>
 #include <queue>
+
+#include <SFML/System/Time.hpp>
 
 namespace ink {
 
@@ -19,13 +23,29 @@ class CommandQueue final {
 
   void push(const CommandType& command) { queue_.push(command); }
 
+  void handle(std::function<void(const CommandType&, sf::Time)> func,
+              sf::Time dt) {
+    for (std::size_t i = 0; i < getSize(); ++i) {
+      auto command = pop();
+      command.delay -= dt;
+      if (command.delay <= sf::Time::Zero) {
+        func(command, dt);
+      } else {
+        push(command);
+      }
+    }
+  }
+
+  bool isEmpty() const { return queue_.empty(); }
+
+  std::size_t getSize() const noexcept { return queue_.size(); }
+
+ private:
   CommandType pop() {
     auto command = queue_.front();
     queue_.pop();
     return command;
   }
-
-  bool isEmpty() const { return queue_.empty(); }
 
  private:
   std::queue<CommandType> queue_;
