@@ -4,6 +4,7 @@
 
 #include <Commands/CommandQueue.hpp>
 #include <Entities/Unit.hpp>
+#include <PlayerVision.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/RoomManager.hpp>
 
@@ -47,6 +48,8 @@ class World final {
   sf::Vector2f spawn_position_;
 
   Unit* player_;
+  PlayerVision* player_vision_;
+
   RoomManager* room_manager_;
   CommandQueue<NodeCommand> command_queue_;
 };

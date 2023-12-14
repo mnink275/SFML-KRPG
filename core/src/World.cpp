@@ -34,6 +34,7 @@ World::World(sf::RenderWindow& window, TextureHolder& textures,
       spawn_position_(world_view_.getSize().x / 2.f,
                       world_bounds_.height - world_view_.getSize().y / 2.f),
       player_(nullptr),
+      player_vision_(nullptr),
       room_manager_(nullptr) {
   // TODO: make something better
   auto room_manager = std::make_unique<RoomManager>(
@@ -51,6 +52,8 @@ void World::update(const sf::Time dt) {
                         dt);
 
   scene_graph_.update(dt, command_queue_);
+  ASSERT(player_);
+  player_vision_->updateTraces(player_->getPosition());
   handleCollisions();
   scene_graph_.cleanGarbage();
 }
@@ -127,6 +130,11 @@ void World::handleCollisions() {
       ASSERT(dynamic_cast<GameObject*>(pair.second));
       pair.first->handleCollisionWith(NodeCategory::kDoor, pair.second);
     }
+    if (matchesCategories(pair, NodeCategory::kWall, NodeCategory::kVision)) {
+      ASSERT(dynamic_cast<GameObject*>(pair.first));
+      ASSERT(dynamic_cast<PlayerVision*>(pair.second));
+      pair.second->handleCollisionWith(NodeCategory::kWall, pair.first);
+    }
   }
 }
 
@@ -148,6 +156,11 @@ void World::buildScene() {
   player_ = player.get();
   player_->setPosition(spawn_position_);
   room_manager_->attachUnit(std::move(player));
+
+  auto player_vision = std::make_unique<PlayerVision>(
+      2 * std::max(world_bounds_.height, world_bounds_.width), world_bounds_);
+  player_vision_ = player_vision.get();
+  player_->attachChild(std::move(player_vision));
 
   // add an enemy
   auto enemy = std::make_unique<Unit>(
