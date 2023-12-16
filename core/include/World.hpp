@@ -4,7 +4,7 @@
 
 #include <Commands/CommandQueue.hpp>
 #include <Entities/Unit.hpp>
-#include <PlayerVision.hpp>
+#include <Raycasting/PlayerVision.hpp>
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/RoomManager.hpp>
 

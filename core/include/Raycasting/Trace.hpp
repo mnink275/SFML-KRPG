@@ -7,7 +7,6 @@
 
 namespace ink {
 
-// TODO: rename `Trace` to `Line`
 class Trace {
  public:
   explicit Trace(sf::VertexArray trace_line);
@@ -45,9 +44,9 @@ class Trace {
                                                           const Trace& right);
 
  private:
-  TraceType trace_type;
-  float slope;
-  float height;
+  TraceType trace_type_;
+  float slope_;
+  float height_;
   std::size_t id_;
 };
 

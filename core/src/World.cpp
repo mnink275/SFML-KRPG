@@ -141,28 +141,6 @@ void World::buildScene() {
   room_manager_->createInitialRoom();
 
   using Weapon = component::UnitCombat::Weapon;
-  // add a player
-  auto player = std::make_unique<Unit>(
-      ComponentManager{std::make_unique<component::SimplePhysics>(),
-                       std::make_unique<component::AssetGraphics>(
-                           textures_, sf::Vector2u{96, 96}, true),
-                       std::make_unique<component::KeyboardInput>(),
-                       std::make_unique<component::UnitCombat>(
-                           textures_, Owner::kPlayer, 20, 0.8f, Weapon::kSword),
-                       std::make_unique<component::UnitCollision>()},
-      fonts_, NodeCategory::kUnit, Owner::kPlayer);
-  player_ = player.get();
-  player_->setPosition(spawn_position_);
-  room_manager_->attachUnit(std::move(player));
-
-  ASSERT(player_);
-  const auto traces_len =
-      2 * std::max(world_bounds_.height, world_bounds_.width);
-  auto player_vision =
-      std::make_unique<PlayerVision>(traces_len, world_bounds_, *player_,
-                                     room_manager_->getCurrentRoomWalls());
-  player_vision_ = player_vision.get();
-  player_->attachChild(std::move(player_vision));
 
   // add an enemy
   auto enemy = std::make_unique<Unit>(
@@ -190,6 +168,29 @@ void World::buildScene() {
       fonts_, NodeCategory::kUnit, Owner::kEnemy);
   character->setPosition(spawn_position_ * 0.7f);
   room_manager_->attachUnit(std::move(character));
+
+  // add a player
+  auto player = std::make_unique<Unit>(
+      ComponentManager{std::make_unique<component::SimplePhysics>(),
+                       std::make_unique<component::AssetGraphics>(
+                           textures_, sf::Vector2u{96, 96}, true),
+                       std::make_unique<component::KeyboardInput>(),
+                       std::make_unique<component::UnitCombat>(
+                           textures_, Owner::kPlayer, 20, 0.8f, Weapon::kSword),
+                       std::make_unique<component::UnitCollision>()},
+      fonts_, NodeCategory::kUnit, Owner::kPlayer);
+  player_ = player.get();
+  player_->setPosition(spawn_position_);
+  room_manager_->attachUnit(std::move(player));
+
+  ASSERT(player_);
+  const auto traces_len =
+      2 * std::max(world_bounds_.height, world_bounds_.width);
+  auto player_vision = std::make_unique<PlayerVision>(
+      traces_len, world_bounds_, player_->getPosition(),
+      room_manager_->getCurrentRoomWalls());
+  player_vision_ = player_vision.get();
+  player_->attachChild(std::move(player_vision));
 }
 
 }  // namespace ink

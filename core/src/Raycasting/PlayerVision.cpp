@@ -1,17 +1,17 @@
-#include <PlayerVision.hpp>
+#include <Raycasting/PlayerVision.hpp>
+
+#include <array>
 
 #include <fmt/format.h>
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include <array>
-
 namespace ink {
 
 PlayerVision::PlayerVision(const float trace_len, sf::FloatRect bounds,
-                           const Unit& player,
+                           const sf::Vector2f& player_pos,
                            const std::vector<sf::FloatRect>& walls)
     : SceneNode(NodeCategory::kVision),
-      player_(player),
+      player_pos_(player_pos),
       trace_len_(trace_len),
       next_trace_id_(0),
       bounds_(bounds),
@@ -46,24 +46,7 @@ void PlayerVision::handleCollisionWith(NodeCategory category,
     }
   }
 
-  // nearest instersection points
-  for (auto&& trace : traces_) {
-    const auto& inter_points = intersection_points_[trace.getId()];
-    if (inter_points.empty()) continue;
-
-    auto nearest_point = inter_points[0];
-    for (auto&& point : inter_points) {
-      static constexpr auto distance = [](sf::Vector2f p1, sf::Vector2f p2) {
-        return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y - p2.y, 2));
-      };
-      if (distance(trace.line[0].position, point) <
-          distance(trace.line[0].position, nearest_point)) {
-        nearest_point = point;
-      }
-    }
-
-    trace.intersection_point = nearest_point;
-  }
+  findNearestIntersectionPoints();
 }
 
 sf::FloatRect PlayerVision::getBoundingRect() const { return bounds_; }
@@ -94,7 +77,7 @@ void PlayerVision::drawCurrent(sf::RenderTarget& target,
     convex.setPoint(1, *left_trace.intersection_point);
     convex.setPoint(2, left_trace.line[1].position);
     convex.setPoint(3, right_trace.line[1].position);
-    convex.setFillColor(sf::Color::Black);
+    convex.setFillColor(sf::Color{0, 0, 0, 230});
 
     target.draw(convex);
   }
@@ -113,6 +96,9 @@ void PlayerVision::updateCurrent(sf::Time /*dt*/,
 }
 
 void PlayerVision::generateTraces() {
+  static constexpr auto kWallsVertexes = 4;
+  static constexpr auto kAdditionalTraces = 2;
+  traces_.reserve(walls_.size() * kWallsVertexes * (1 + kAdditionalTraces));
   for (auto&& rect : walls_) {
     auto rect_points = std::array<sf::Vector2f, 4>{
         sf::Vector2f{rect.left, rect.top},
@@ -137,10 +123,30 @@ void PlayerVision::generateTraces() {
   std::sort(traces_.begin(), traces_.end(), comp);
 }
 
+void PlayerVision::findNearestIntersectionPoints() {
+  for (auto&& trace : traces_) {
+    const auto& inter_points = intersection_points_[trace.getId()];
+    if (inter_points.empty()) continue;
+
+    auto nearest_point = inter_points[0];
+    for (auto&& point : inter_points) {
+      static constexpr auto distance = [](sf::Vector2f p1, sf::Vector2f p2) {
+        return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y - p2.y, 2));
+      };
+      if (distance(trace.line[0].position, point) <
+          distance(trace.line[0].position, nearest_point)) {
+        nearest_point = point;
+      }
+    }
+
+    trace.intersection_point = nearest_point;
+  }
+}
+
 void PlayerVision::generateTracesToWall(
     std::array<sf::Vector2f, 4> rect_points) {
   static sf::VertexArray line(sf::PrimitiveType::Lines, 2);
-  const auto start_pos = player_.getPosition();
+  const auto start_pos = player_pos_;
   line[0].position = start_pos;
 
   static constexpr auto kAngleEps = sf::degrees(0.5f);  // variation angle

@@ -1,4 +1,4 @@
-#include <Trace.hpp>
+#include <Raycasting/Trace.hpp>
 
 #include <cmath>
 #include <functional>
@@ -66,9 +66,9 @@ Trace::Trace(sf::VertexArray trace_line) : Trace(std::move(trace_line), 0) {}
 Trace::Trace(sf::VertexArray trace_line, std::size_t id)
     : line(std::move(trace_line)),
       intersection_point(std::nullopt),
-      trace_type(std::invoke(trace_type_initer, line)),
-      slope(std::invoke(slope_initer, line, trace_type)),
-      height(std::invoke(height_initer, line, trace_type, slope)),
+      trace_type_(std::invoke(trace_type_initer, line)),
+      slope_(std::invoke(slope_initer, line, trace_type_)),
+      height_(std::invoke(height_initer, line, trace_type_, slope_)),
       id_(id) {
   ASSERT_MSG(line.getVertexCount() == 2,
              fmt::format("Lines count is: {}", line.getVertexCount()));
@@ -95,7 +95,7 @@ void Trace::shiftTo(const sf::Vector2f& new_pos) {
   line[0].position += new_pos;
   line[1].position += new_pos;
 
-  height = std::invoke(height_initer, line, trace_type, slope);
+  height_ = std::invoke(height_initer, line, trace_type_, slope_);
 }
 
 std::size_t Trace::getId() const noexcept { return id_; }
@@ -117,8 +117,8 @@ bool Trace::belongsToLine(sf::Vector2f point,
 
 std::optional<sf::Vector2f> Trace::findIntersectionImpl(const Trace& left,
                                                         const Trace& right) {
-  auto left_type = left.trace_type;
-  auto right_type = right.trace_type;
+  auto left_type = left.trace_type_;
+  auto right_type = right.trace_type_;
 
   if (static_cast<int>(left_type) > static_cast<int>(right_type))
     return findIntersectionImpl(right, left);
@@ -133,8 +133,8 @@ std::optional<sf::Vector2f> Trace::findIntersectionImpl(const Trace& left,
     return std::nullopt;
   }
   if (left_type == TraceType::kCommon && right_type == TraceType::kCommon) {
-    x = -1 * (right.height - left.height) / (right.slope - left.slope);
-    y = left.slope * x + left.height;
+    x = -1 * (right.height_ - left.height_) / (right.slope_ - left.slope_);
+    y = left.slope_ * x + left.height_;
 
     return sf::Vector2f{x, y};
   }
@@ -147,11 +147,11 @@ std::optional<sf::Vector2f> Trace::findIntersectionImpl(const Trace& left,
   } else if (left_type == TraceType::kHorizontal &&
              right_type == TraceType::kCommon) {
     y = left.line[0].position.y;
-    x = (y - right.height) / right.slope;
+    x = (y - right.height_) / right.slope_;
   } else if (left_type == TraceType::kVertical &&
              right_type == TraceType::kCommon) {
     x = left.line[0].position.x;
-    y = right.slope * x + right.height;
+    y = right.slope_ * x + right.height_;
   }
 
   return sf::Vector2f{x, y};
