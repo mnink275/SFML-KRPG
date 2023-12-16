@@ -14,14 +14,32 @@
 
 namespace ink {
 
+namespace {
+
+constexpr auto walls_initer = [](const sf::FloatRect& bounds,
+                                 const float wall_thickness) {
+  const auto width = bounds.width;
+  const auto height = bounds.height;
+  return std::vector<sf::FloatRect>{
+      {{0.0f, 0.0f}, {wall_thickness, height}},                      // left
+      {{0.0f, 0.0f}, {width, wall_thickness}},                       // top
+      {{width - wall_thickness, 0.0f}, {wall_thickness, height}},    // right
+      {{0.0f, height - wall_thickness}, {width, wall_thickness}},    // bottom
+      {{3 * width / 4, height / 2}, {wall_thickness, height / 2}}};  // middle
+};
+
+}  // namespace
+
 RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
                          TextureHolder& textures, NodeCategory category)
     : SceneNode(category),
       scene_graph_(scene_graph),
       curr_room_id_(0),
       rooms_count_(0),
-      world_bounds_(world_bounds),
-      textures_(textures) {}
+      world_bounds_(std::move(world_bounds)),
+      textures_(textures),
+      wall_thickness_(10.f),
+      walls_(std::invoke(walls_initer, world_bounds_, wall_thickness_)) {}
 
 void RoomManager::attachUnit(std::unique_ptr<Unit> unit) {
   // connect entities to the Graph
@@ -64,6 +82,11 @@ void RoomManager::checkDoorInteraction() {
   }
 }
 
+const std::vector<sf::FloatRect>& RoomManager::getCurrentRoomWalls()
+    const noexcept {
+  return walls_;
+}
+
 std::size_t RoomManager::createRandomRoom() {
   static const std::size_t fixed_seed = 500;
   static std::mt19937 gen(fixed_seed);
@@ -81,9 +104,9 @@ std::size_t RoomManager::createRoom(std::size_t room_type_id) {
   const auto texture_type = static_cast<Textures>(room_type_id);
 
   auto room_id = rooms_count_++;
-  auto room = std::make_unique<RoomNode>(NodeCategory::kRoom, textures_,
-                                         textures_.get(texture_type),
-                                         world_bounds_, room_id);
+  auto room = std::make_unique<RoomNode>(
+      NodeCategory::kRoom, textures_, textures_.get(texture_type),
+      world_bounds_, room_id, walls_, wall_thickness_);
   room_nodes_.push_back(room.get());
   room_storage_.push_back(std::move(room));
 

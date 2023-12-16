@@ -21,7 +21,8 @@ class RoomNode final : public SceneNode {
  public:
   // TODO: make TextureHolder& and Texture& const refs
   RoomNode(NodeCategory category, TextureHolder& texture_holder,
-           sf::Texture& texture, sf::FloatRect bounds, std::size_t room_id);
+           sf::Texture& texture, sf::FloatRect bounds, std::size_t room_id,
+           std::vector<sf::FloatRect> walls, const float wall_thickness);
 
   void setPlayer(Ptr player);
   Ptr popPlayer();
@@ -33,7 +34,7 @@ class RoomNode final : public SceneNode {
   enum Layer { Background, Player, LayerCount };
 
   void doorsInitialize();
-  void buildWalls();
+  void buildWalls(std::vector<sf::FloatRect> walls);
 
   TextureHolder& texture_;
   sf::Vector2f room_bounds_;
@@ -42,7 +43,7 @@ class RoomNode final : public SceneNode {
   std::array<Door*, ConnectionsCount> doors_storage_;
   std::array<std::size_t, ConnectionsCount> connected_rooms_;
   std::size_t room_id_;
-  const float wall_thickness_ = 10.0f;
+  const float wall_thickness_;
 };
 
 }  // namespace ink

@@ -15,6 +15,7 @@ class Unit final : public GameObject {
 
   void handleInput(CommandQueue<NodeCommand>& commands,
                    const sf::Keyboard::Key key, const bool is_pressed);
+  // TODO: snakeCase
   Owner GetOwnerType() const noexcept;
 
   void selfDamage(int value);

@@ -14,11 +14,13 @@ namespace ink {
 
 RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
                    sf::Texture& texture, sf::FloatRect bounds,
-                   std::size_t room_id)
+                   std::size_t room_id, std::vector<sf::FloatRect> walls,
+                   const float wall_thickness)
     : SceneNode(category),
       texture_(texture_holder),
       room_bounds_(bounds.width, bounds.height),
-      room_id_(room_id) {
+      room_id_(room_id),
+      wall_thickness_(wall_thickness) {
   // prepare the tiled background
   sf::IntRect background_texture_rect(bounds);
   texture.setRepeated(true);
@@ -31,7 +33,7 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
   room_layers_[Background] = background_sprite.get();
   attachChild(std::move(background_sprite));
 
-  buildWalls();
+  buildWalls(std::move(walls));
   doorsInitialize();
 }
 
@@ -77,37 +79,17 @@ void RoomNode::doorsInitialize() {
   }
 }
 
-void RoomNode::buildWalls() {
+void RoomNode::buildWalls(std::vector<sf::FloatRect> walls) {
   texture_.get(Textures::kWall).setRepeated(true);
 
   auto walls_holder = std::make_unique<SceneNode>();
-  float width = room_bounds_.x;
-  float height = room_bounds_.y;
-
-  // `positions` contains left-top corner of the walls
-  // walls "grow" from the left-top corner to the bottom-right
-  static const std::vector<sf::Vector2f> positions = {
-      {0.0f, 0.0f},                      // left
-      {0.0f, 0.0f},                      // top
-      {width - wall_thickness_, 0.0f},   // right
-      {0.0f, height - wall_thickness_},  // bottom
-      {3 * width / 4, height / 2}};      // middle
-  static const std::vector<sf::Vector2f> sizes = {
-      {wall_thickness_, height},       // left
-      {width, wall_thickness_},        // top
-      {wall_thickness_, height},       // right
-      {width, wall_thickness_},        // bottom
-      {wall_thickness_, height / 2}};  // middle
-
-  ASSERT(positions.size() == sizes.size());
-  static const std::size_t kWallsCount = positions.size();
-
-  for (std::size_t i = 0; i < kWallsCount; ++i) {
+  for (auto&& rect : walls) {
     auto wall = std::make_unique<GameObject>(
         ComponentManager{std::make_unique<component::SimpleGraphics>(
-            texture_.get(Textures::kWall), sf::Vector2i{sizes[i]}, false)},
+            texture_.get(Textures::kWall), sf::Vector2i{rect.getSize()},
+            false)},
         NodeCategory::kWall);
-    wall->setPosition(positions[i]);
+    wall->setPosition(rect.getPosition());
     walls_holder->attachChild(std::move(wall));
   }
 

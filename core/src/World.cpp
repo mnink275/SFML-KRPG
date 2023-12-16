@@ -52,8 +52,6 @@ void World::update(const sf::Time dt) {
                         dt);
 
   scene_graph_.update(dt, command_queue_);
-  ASSERT(player_);
-  player_vision_->updateTraces(player_->getPosition());
   handleCollisions();
   scene_graph_.cleanGarbage();
 }
@@ -157,8 +155,12 @@ void World::buildScene() {
   player_->setPosition(spawn_position_);
   room_manager_->attachUnit(std::move(player));
 
-  auto player_vision = std::make_unique<PlayerVision>(
-      2 * std::max(world_bounds_.height, world_bounds_.width), world_bounds_);
+  ASSERT(player_);
+  const auto traces_len =
+      2 * std::max(world_bounds_.height, world_bounds_.width);
+  auto player_vision =
+      std::make_unique<PlayerVision>(traces_len, world_bounds_, *player_,
+                                     room_manager_->getCurrentRoomWalls());
   player_vision_ = player_vision.get();
   player_->attachChild(std::move(player_vision));
 

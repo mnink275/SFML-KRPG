@@ -30,6 +30,7 @@ class RoomManager : public SceneNode {
   void createInitialRoom();
   void changeRoomTo(std::size_t next_room_id);
   void checkDoorInteraction();
+  const std::vector<sf::FloatRect>& getCurrentRoomWalls() const noexcept;
 
  private:
   std::size_t createRandomRoom();
@@ -46,6 +47,10 @@ class RoomManager : public SceneNode {
   std::size_t rooms_count_;
   sf::FloatRect world_bounds_;
   TextureHolder& textures_;
+
+  const float wall_thickness_;
+  // The walls position and sizes are represented as a sf::FloatRect
+  const std::vector<sf::FloatRect> walls_;
 };
 
 }  // namespace ink

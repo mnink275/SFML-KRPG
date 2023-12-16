@@ -7,6 +7,7 @@
 
 namespace ink {
 
+// TODO: rename `Trace` to `Line`
 class Trace {
  public:
   explicit Trace(sf::VertexArray trace_line);
@@ -14,11 +15,11 @@ class Trace {
 
   ~Trace() = default;
 
-  Trace(const Trace&) = default;
+  Trace(const Trace&) = delete;
   Trace& operator=(const Trace&) = delete;
 
   Trace(Trace&&) = default;
-  Trace& operator=(Trace&&) = delete;
+  Trace& operator=(Trace&&) = default;
 
   std::optional<sf::Vector2f> findIntersection(const Trace& other_trace) const;
   void shiftTo(const sf::Vector2f& new_pos);
@@ -44,10 +45,10 @@ class Trace {
                                                           const Trace& right);
 
  private:
-  const TraceType trace_type;
-  const float slope;
+  TraceType trace_type;
+  float slope;
   float height;
-  const std::size_t id_;
+  std::size_t id_;
 };
 
 }  // namespace ink
