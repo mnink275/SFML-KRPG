@@ -106,11 +106,14 @@ bool Trace::belongsToLine(sf::Vector2f point,
   auto [x1, y1] = line[0].position;
   auto [x2, y2] = line[1].position;
 
+  // The `eps` is needed to intercept the lines going to the vertexes
+  // Not to be confused with kEps!
+  static constexpr auto eps = 0.01f;
   if (x1 > x2) std::swap(x1, x2);
-  if (std::clamp(point.x, x1, x2) != point.x) return false;
+  if (std::clamp(point.x, x1 - eps, x2 + eps) != point.x) return false;
 
   if (y1 > y2) std::swap(y1, y2);
-  if (std::clamp(point.y, y1, y2) != point.y) return false;
+  if (std::clamp(point.y, y1 - eps, y2 + eps) != point.y) return false;
 
   return true;
 }

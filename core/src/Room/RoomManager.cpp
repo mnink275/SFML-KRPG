@@ -11,6 +11,7 @@
 #include <Resource/ResourceIdentifiers.hpp>
 #include <Room/ConnectionTypes.hpp>
 #include <SceneNode.hpp>
+#include <Utils/Filestream.hpp>
 
 namespace ink {
 
@@ -18,14 +19,44 @@ namespace {
 
 constexpr auto walls_initer = [](const sf::FloatRect& bounds,
                                  const float wall_thickness) {
+  // basic room bounds
   const auto width = bounds.width;
   const auto height = bounds.height;
-  return std::vector<sf::FloatRect>{
-      {{0.0f, 0.0f}, {wall_thickness, height}},                      // left
-      {{0.0f, 0.0f}, {width, wall_thickness}},                       // top
-      {{width - wall_thickness, 0.0f}, {wall_thickness, height}},    // right
-      {{0.0f, height - wall_thickness}, {width, wall_thickness}},    // bottom
-      {{3 * width / 4, height / 2}, {wall_thickness, height / 2}}};  // middle
+  auto walls = std::vector<sf::FloatRect>{
+      // left
+      {{0.0f, 0.0f}, {wall_thickness, height}},
+      // top
+      {{wall_thickness, 0.0f}, {width - 2 * wall_thickness, wall_thickness}},
+      // right
+      {{width - wall_thickness, 0.0f}, {wall_thickness, height}},
+      // bottom
+      {{wall_thickness, height - wall_thickness},
+       {width - 2 * wall_thickness, wall_thickness}}};
+
+  // additional walls
+  static const std::string kPath = "./data/first_room_walls.txt";
+  const auto data = ink::utils::readFileContent(kPath);
+  std::size_t left = 0;
+  std::size_t right = 0;
+  std::size_t idx = 0;
+  std::array<float, 4> buffer{};
+  while (left < data.size()) {
+    right = data.find_first_of(" \n", left);
+    if (right == std::string::npos) {
+      throw std::runtime_error(fmt::format(
+          "There is no empty line at the end of the file: '{}'", kPath));
+    }
+    buffer[idx++] = std::stof(data.substr(left, right - left));
+    if (data[right] == '\n') {
+      ASSERT(idx >= 4);
+      idx = 0;
+      walls.emplace_back(sf::Vector2f{buffer[0], buffer[1]},
+                         sf::Vector2f{buffer[2], buffer[3]});
+    }
+    left = right + 1;
+  }
+
+  return walls;
 };
 
 }  // namespace

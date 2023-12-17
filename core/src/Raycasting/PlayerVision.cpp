@@ -110,15 +110,17 @@ void PlayerVision::generateTraces() {
   }
 
   static auto comp = [](const Trace& left_trace, const Trace& right_trace) {
+    static constexpr auto init_direction = sf::Vector2f{0.f, 1.f};
+
     const auto left_line = left_trace.line;
     const auto right_line = right_trace.line;
 
-    const auto left_direction =
-        (left_line[1].position - left_line[0].position).normalized();
+    const auto left_direction = (left_line[1].position - left_line[0].position);
     const auto right_direction =
-        (right_line[1].position - right_line[0].position).normalized();
+        (right_line[1].position - right_line[0].position);
 
-    return left_direction.angleTo(right_direction) > sf::degrees(0.f);
+    return left_direction.angleTo(init_direction) >
+           right_direction.angleTo(init_direction);
   };
   std::sort(traces_.begin(), traces_.end(), comp);
 }
