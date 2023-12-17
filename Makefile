@@ -28,6 +28,11 @@ build-debug build-release: build-%: cmake-%
 run: build-debug
 	./build_debug/KRPG
 
+# Run editor after build-debug
+.PHONY: run-editor
+run-editor: build-debug
+	./build_debug/KRPG_editor
+
 # Cleanup data
 .PHONY: dist-clean
 dist-clean:
@@ -37,6 +42,7 @@ dist-clean:
 .PHONY: format
 format:
 	@find core -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
+	@find editor -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
 
 # # Test
 # .PHONY: test-debug test-release

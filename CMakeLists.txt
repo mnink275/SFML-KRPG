@@ -15,6 +15,7 @@ include(cmake/VisualStudio.cmake)
 add_subdirectory(third_party/SFML)
 add_subdirectory(third_party/fmt)
 add_subdirectory(core)
+add_subdirectory(editor)
 
 add_executable(
     ${PROJECT_NAME} main.cpp
@@ -22,4 +23,12 @@ add_executable(
 
 target_link_libraries(
     ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics fmt
+)
+
+add_executable(
+    ${PROJECT_NAME}_editor editor.cpp
+)
+
+target_link_libraries(
+    ${PROJECT_NAME}_editor ${PROJECT_NAME}_editor_objs sfml-graphics fmt
 )
