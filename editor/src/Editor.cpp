@@ -1,12 +1,26 @@
 #include <Editor.hpp>
 
 #include <algorithm>
+#include <fstream>
 
 #include <fmt/format.h>
 
 namespace ink {
 
-Game::Game()
+namespace {
+
+void writeFileContent(const std::string& path, const std::string& content) {
+  std::ofstream of_stream(path, std::ios::trunc);
+  if (!of_stream.is_open()) {
+    throw std::runtime_error(
+        fmt::format("Error opening the file for writing: '{}'", path));
+  }
+  of_stream << content;
+}
+
+}  // namespace
+
+Editor::Editor()
     : kTimePerFrame(sf::seconds(1.f / 60.f)),
       window_(sf::VideoMode({1280, 720}), "KRPG-Editor", sf::Style::Close),
       walls_(),
@@ -14,7 +28,7 @@ Game::Game()
   window_.setPosition({0, 0});
 }
 
-void Game::run() {
+void Editor::run() {
   sf::Clock clock;
   sf::Time time_since_last_update = sf::Time::Zero;
   while (window_.isOpen()) {
@@ -29,7 +43,7 @@ void Game::run() {
   }
 }
 
-void Game::processEvents() {
+void Editor::processEvents() {
   sf::Event event{};
   while (window_.pollEvent(event)) {
     switch (event.type) {
@@ -55,9 +69,9 @@ void Game::processEvents() {
   }
 }
 
-void Game::update(const sf::Time /*dt*/) {}
+void Editor::update(const sf::Time /*dt*/) {}
 
-void Game::render() {
+void Editor::render() {
   window_.clear(sf::Color{169, 169, 169});
 
   for (auto&& wall : walls_) {
@@ -68,7 +82,7 @@ void Game::render() {
   window_.display();
 }
 
-void Game::handleMouseInput(const sf::Event::MouseButtonEvent event,
+void Editor::handleMouseInput(const sf::Event::MouseButtonEvent event,
                               bool is_pressed) {
   if (!is_pressed) {
     fmt::println("Wall deactivated");
@@ -88,8 +102,20 @@ void Game::handleMouseInput(const sf::Event::MouseButtonEvent event,
   }
 }
 
-void Game::handleKeyPressed(const sf::Keyboard::Key key) {
-  if (key != sf::Keyboard::C) return;
+void Editor::handleKeyPressed(const sf::Keyboard::Key key) {
+  switch (key) {
+    case sf::Keyboard::C:
+      createNewWall();
+      break;
+    case sf::Keyboard::S:
+      serialize();
+      break;
+    default:
+      break;
+  }
+}
+
+void Editor::createNewWall() {
   auto position = sf::Vector2f{window_.getSize() / 2u};
   auto size = sf::Vector2f{10.f, 200.f};
   walls_.emplace_back(position, size);
@@ -97,6 +123,25 @@ void Game::handleKeyPressed(const sf::Keyboard::Key key) {
   fmt::println("Wall created");
   fmt::println("Position: ({}, {}), Size: ({}, {})", position.x, position.y,
                size.x, size.y);
+}
+
+void Editor::serialize() const {
+  static const std::string kPath = "./data/editor_walls.txt";
+
+  // TODO: optimize memory allocations
+  std::string data;
+  for (auto&& wall : walls_) {
+    // template:
+    // left top width height\n
+    const auto rect = wall.getBoundingRect();
+    auto row = fmt::format("{} {} {} {}\n", rect.left, rect.top, rect.width,
+                           rect.height);
+    data.append(std::move(row));
+  }
+
+  writeFileContent(kPath, data);
+
+  fmt::println("Editor state has been saved");
 }
 
 }  // namespace ink

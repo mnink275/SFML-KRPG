@@ -9,17 +9,17 @@
 
 namespace ink {
 
-class Game final {
+class Editor final {
  public:
-  Game();
+  Editor();
 
-  Game(const Game&) = delete;
-  Game& operator=(const Game&) = delete;
+  Editor(const Editor&) = delete;
+  Editor& operator=(const Editor&) = delete;
 
-  Game(Game&&) = delete;
-  Game& operator=(Game&&) = delete;
+  Editor(Editor&&) = delete;
+  Editor& operator=(Editor&&) = delete;
 
-  ~Game() = default;
+  ~Editor() = default;
 
   void run();
 
@@ -31,6 +31,9 @@ class Game final {
   void handleMouseInput(const sf::Event::MouseButtonEvent event,
                         bool is_pressed);
   void handleKeyPressed(const sf::Keyboard::Key key);
+
+  void createNewWall();
+  void serialize() const;
 
  private:
   const sf::Time kTimePerFrame;

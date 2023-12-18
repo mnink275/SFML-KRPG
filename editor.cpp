@@ -4,7 +4,7 @@
 
 int main() {
   try {
-    ink::Game editor;
+    ink::Editor editor;
     editor.run();
   } catch (const std::exception& e) {
     fmt::println("Exception: {}", e.what());

@@ -34,7 +34,7 @@ constexpr auto walls_initer = [](const sf::FloatRect& bounds,
        {width - 2 * wall_thickness, wall_thickness}}};
 
   // additional walls
-  static const std::string kPath = "./data/first_room_walls.txt";
+  static const std::string kPath = "./data/editor_walls.txt";
   const auto data = ink::utils::readFileContent(kPath);
   std::size_t left = 0;
   std::size_t right = 0;
