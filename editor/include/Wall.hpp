@@ -22,6 +22,7 @@ class Wall final {
   sf::FloatRect getBoundingRect() const noexcept;
   void draw(sf::RenderTarget& target) const;
   void setShift(sf::Vector2f mouse_position);
+  void rotate(sf::Angle angle);
 
  private:
   sf::RectangleShape shape_;

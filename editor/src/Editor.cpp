@@ -24,7 +24,8 @@ Editor::Editor()
     : kTimePerFrame(sf::seconds(1.f / 60.f)),
       window_(sf::VideoMode({1280, 720}), "KRPG-Editor", sf::Style::Close),
       walls_(),
-      active_wall_it_(walls_.end()) {
+      active_wall_it_(walls_.end()),
+      last_mouse_pos_() {
   window_.setPosition({0, 0});
 }
 
@@ -48,6 +49,8 @@ void Editor::processEvents() {
   while (window_.pollEvent(event)) {
     switch (event.type) {
       case sf::Event::MouseMoved:
+        last_mouse_pos_ =
+            sf::Vector2f{sf::Vector2i{event.mouseMove.x, event.mouseMove.y}};
         if (active_wall_it_ == walls_.end()) break;
         active_wall_it_->handleInput(event.mouseMove);
         break;
@@ -91,14 +94,19 @@ void Editor::handleMouseInput(const sf::Event::MouseButtonEvent event,
   }
 
   const auto mouse_pos = sf::Vector2f{sf::Vector2i{event.x, event.y}};
-  active_wall_it_ = std::find_if(walls_.begin(), walls_.end(),
-                                 [&mouse_pos](const Wall& wall) {
-                                   auto rect = wall.getBoundingRect();
-                                   return rect.contains(mouse_pos);
-                                 });
-  if (active_wall_it_ != walls_.end()) {
-    fmt::println("Wall activated");
-    active_wall_it_->setShift(mouse_pos);
+  active_wall_it_ = tryFindActiveWall(mouse_pos);
+  if (active_wall_it_ == walls_.end()) return;
+  fmt::println("Wall activated");
+
+  switch (event.button) {
+    case sf::Mouse::Left:
+      active_wall_it_->setShift(mouse_pos);
+      break;
+    case sf::Mouse::Right:
+      active_wall_it_->rotate(sf::degrees(90.f));
+      break;
+    default:
+      break;
   }
 }
 
@@ -116,13 +124,21 @@ void Editor::handleKeyPressed(const sf::Keyboard::Key key) {
 }
 
 void Editor::createNewWall() {
-  auto position = sf::Vector2f{window_.getSize() / 2u};
-  auto size = sf::Vector2f{10.f, 200.f};
+  const auto position = last_mouse_pos_;
+  const auto size = sf::Vector2f{10.f, 200.f};
   walls_.emplace_back(position, size);
 
   fmt::println("Wall created");
   fmt::println("Position: ({}, {}), Size: ({}, {})", position.x, position.y,
                size.x, size.y);
+}
+
+Editor::WallIter Editor::tryFindActiveWall(const sf::Vector2f mouse_pos) {
+  return std::find_if(walls_.begin(), walls_.end(),
+                      [&mouse_pos](const Wall& wall) {
+                        auto rect = wall.getBoundingRect();
+                        return rect.contains(mouse_pos);
+                      });
 }
 
 void Editor::serialize() const {
@@ -132,7 +148,7 @@ void Editor::serialize() const {
   std::string data;
   for (auto&& wall : walls_) {
     // template:
-    // left top width height\n
+    // {left} {top} {width} {height}\n
     const auto rect = wall.getBoundingRect();
     auto row = fmt::format("{} {} {} {}\n", rect.left, rect.top, rect.width,
                            rect.height);

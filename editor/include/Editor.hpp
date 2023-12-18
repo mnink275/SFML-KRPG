@@ -10,6 +10,9 @@
 namespace ink {
 
 class Editor final {
+ private:
+  using WallIter = std::list<Wall>::iterator;
+
  public:
   Editor();
 
@@ -33,6 +36,8 @@ class Editor final {
   void handleKeyPressed(const sf::Keyboard::Key key);
 
   void createNewWall();
+  WallIter tryFindActiveWall(const sf::Vector2f mouse_pos);
+
   void serialize() const;
 
  private:
@@ -40,8 +45,9 @@ class Editor final {
   sf::RenderWindow window_;
 
   std::list<Wall> walls_;
-  using Iterator = std::list<Wall>::iterator;
-  Iterator active_wall_it_;
+  WallIter active_wall_it_;
+
+  sf::Vector2f last_mouse_pos_;
 };
 
 }  // namespace ink

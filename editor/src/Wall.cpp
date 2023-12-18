@@ -6,8 +6,9 @@ namespace ink {
 
 Wall::Wall(const sf::Vector2f position, const sf::Vector2f size)
     : shape_(size), shift_() {
-  shape_.setPosition(position);
   shape_.setFillColor(sf::Color::Green);
+  shape_.setOrigin(shape_.getGeometricCenter());
+  shape_.setPosition(position);
 }
 
 void Wall::handleInput(const sf::Event::MouseMoveEvent event) {
@@ -26,5 +27,7 @@ void Wall::draw(sf::RenderTarget& target) const { target.draw(shape_); }
 void Wall::setShift(sf::Vector2f mouse_position) {
   shift_ = mouse_position - shape_.getPosition();
 }
+
+void Wall::rotate(sf::Angle angle) { shape_.rotate(angle); }
 
 }  // namespace ink

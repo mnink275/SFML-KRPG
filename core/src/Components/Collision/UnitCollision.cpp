@@ -32,7 +32,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
       const auto* wall = static_cast<const GameObject*>(node);
       auto intersection_opt =
           unit->getBoundingRect().findIntersection(wall->getBoundingRect());
-      ASSERT(intersection_opt.has_value());
+      if (!intersection_opt.has_value()) break;
       auto intersection = intersection_opt.value();
 
       auto is_vertical_collision = intersection.width < intersection.height;
