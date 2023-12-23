@@ -24,7 +24,7 @@ class Melee final : public GameObject {
 
  private:
   sf::Time timer_;
-  const sf::Time kLifeTime;
+  sf::Time life_time_;
   std::set<const SceneNode*> already_damaged_;
   Owner owner_;
 };

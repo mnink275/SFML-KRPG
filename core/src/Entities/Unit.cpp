@@ -13,7 +13,7 @@ namespace ink {
 namespace {
 
 struct DoorInteractionCommand final {
-  void operator()(RoomManager& room_manager, sf::Time) const {
+  void operator()(RoomManager& room_manager, sf::Time /*dt*/) const {
     room_manager.checkDoorInteraction();
   }
 };
@@ -47,13 +47,16 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
 
 Owner Unit::GetOwnerType() const noexcept { return owner_; }
 
-void Unit::selfDamage(int value) {
+void Unit::selfDamage(std::size_t value) {
   auto combat = manager_.findComponent<component::CombatComponent>();
-  combat->health -= value;
-  if (combat->health <= 0) destroy();
+  if (combat->health <= value) {
+    destroy();
+  } else {
+    combat->health -= value;
+  }
 }
 
-void Unit::selfHeal(int value) {
+void Unit::selfHeal(std::size_t value) {
   auto combat = manager_.findComponent<component::CombatComponent>();
   combat->health += value;
 }
@@ -75,8 +78,9 @@ void Unit::drawCurrent(sf::RenderTarget& target,
 
   // TODO: move to InfoComponent
   auto combat = manager_.findComponent<component::CombatComponent>();
+  const std::size_t text_size = 25;
   sf::Text health_amount{fonts_.get(Fonts::kExpressway),
-                         "HP: " + std::to_string(combat->health), 25};
+                         "HP: " + std::to_string(combat->health), text_size};
   target.draw(health_amount, states);
 }
 
@@ -93,7 +97,10 @@ void Unit::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands) {
   // Stage 2: ComponentCommands processing
   using namespace std::placeholders;
   command_queue_.handle(
-      std::bind(&ComponentManager::onCommand, &manager_, _1, _2), dt);
+      [this](const auto& command, sf::Time time) {
+        manager_.onCommand(command, time);
+      },
+      dt);
 
   // Stage 3: updates using new information
   auto graphics = manager_.findComponent<component::GraphicsComponent>();

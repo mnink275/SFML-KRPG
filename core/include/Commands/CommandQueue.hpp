@@ -36,13 +36,13 @@ class CommandQueue final {
     }
   }
 
-  bool isEmpty() const { return queue_.empty(); }
+  [[nodiscard]] bool isEmpty() const { return queue_.empty(); }
 
-  std::size_t getSize() const noexcept { return queue_.size(); }
+  [[nodiscard]] std::size_t getSize() const noexcept { return queue_.size(); }
 
  private:
   CommandType pop() {
-    auto command = queue_.front();
+    auto command = std::move(queue_.front());
     queue_.pop();
     return command;
   }

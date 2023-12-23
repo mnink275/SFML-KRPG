@@ -19,7 +19,7 @@ class PlayerVision : public SceneNode {
                const sf::Vector2f& player_pos,
                const std::vector<sf::FloatRect>& walls);
 
-  ~PlayerVision() = default;
+  ~PlayerVision() override = default;
 
   PlayerVision(const PlayerVision&) = delete;
   PlayerVision& operator=(const PlayerVision&) = delete;

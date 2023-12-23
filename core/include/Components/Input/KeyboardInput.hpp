@@ -16,7 +16,7 @@ class KeyboardInput : public InputComponent {
                            CommandQueue<NodeCommand>& commands) override;
 
  private:
-  bool isRealtimeAction(sf::Keyboard::Key key) const noexcept;
+  static bool isRealtimeAction(sf::Keyboard::Key key) noexcept;
 
  private:
   ComponentCommand do_idle_;

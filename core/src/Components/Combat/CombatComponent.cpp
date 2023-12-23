@@ -8,10 +8,11 @@ namespace ink::component {
 namespace {
 
 struct SetAttackStateCommand final {
-  SetAttackStateCommand(sf::Time freezing_time)
+  explicit SetAttackStateCommand(sf::Time freezing_time)
       : freezing_time(freezing_time) {}
 
-  void operator()(component::GraphicsComponent& graphics, sf::Time) const {
+  void operator()(component::GraphicsComponent& graphics,
+                  sf::Time /*dt*/) const {
     graphics.setObjectState(ObjectState::kAttacking, FreezeFor{freezing_time});
   }
 
@@ -20,7 +21,8 @@ struct SetAttackStateCommand final {
 
 }  // namespace
 
-CombatComponent::CombatComponent(int health, sf::Time attack_speed)
+CombatComponent::CombatComponent(const std::size_t health,
+                                 sf::Time attack_speed)
     : Component(kCategory),
       time_since_last_attack(sf::Time::Zero),
       // duration is a attack_speed, no delay between attack animation

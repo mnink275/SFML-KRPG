@@ -67,7 +67,7 @@ RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
       scene_graph_(scene_graph),
       curr_room_id_(0),
       rooms_count_(0),
-      world_bounds_(std::move(world_bounds)),
+      world_bounds_(world_bounds),
       textures_(textures),
       wall_thickness_(10.f),
       walls_(std::invoke(walls_initer, world_bounds_, wall_thickness_)) {}

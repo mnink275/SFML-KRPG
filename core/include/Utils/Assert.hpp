@@ -16,6 +16,7 @@ inline constexpr auto kEnableAssert = true;
 
 }  // namespace ink::utils::impl
 
+// NOLINTNEXTLINE (cppcoreguidelines-macro-usage)
 #define ASSERT_MSG(expr, msg)                                                \
   if (ink::utils::impl::kEnableAssert) {                                     \
     if (!(expr)) {                                                           \
@@ -24,4 +25,5 @@ inline constexpr auto kEnableAssert = true;
     }                                                                        \
   }
 
+// NOLINTNEXTLINE (cppcoreguidelines-macro-usage)
 #define ASSERT(expr) ASSERT_MSG(expr, {})

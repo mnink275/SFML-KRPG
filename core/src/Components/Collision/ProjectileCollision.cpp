@@ -9,11 +9,12 @@ namespace ink::component {
 void ProjectileCollision::handleCollisionWith(SceneNode* owner_node,
                                               NodeCategory category,
                                               const SceneNode* node) {
-  ASSERT(dynamic_cast<combat::Projectile*>(owner_node));
-  auto* bullet = static_cast<combat::Projectile*>(owner_node);
+  auto* bullet = dynamic_cast<combat::Projectile*>(owner_node);
+  ASSERT(bullet);
   switch (category) {
     case NodeCategory::kUnit: {
-      const auto* unit = static_cast<const Unit*>(node);
+      const auto* unit = dynamic_cast<const Unit*>(node);
+      ASSERT(unit);
       if (bullet->getOwner() != unit->GetOwnerType()) bullet->destroy();
       break;
     }

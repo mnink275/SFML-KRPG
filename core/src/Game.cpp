@@ -4,17 +4,25 @@
 
 namespace ink {
 
+namespace {
+
+constexpr auto kFramePerSecond = 60.f;
+
+constexpr auto kWindowSizes = sf::Vector2u{1280u, 720u};
+
+}  // namespace
+
 Game::Game()
-    : kTimePerFrame(sf::seconds(1.f / 60.f)),
+    : kTimePerFrame(sf::seconds(1.f / kFramePerSecond)),
       kResourcePath(RESOURCE_FOLDER),
       textures_(loadTextures()),
       fonts_(loadFonts()),
-      window_(sf::VideoMode({1280, 720}), "KRPG", sf::Style::Close),
+      window_(sf::VideoMode(kWindowSizes), "KRPG", sf::Style::Close),
       world_(window_, textures_, fonts_),
       statistics_text_(fonts_.get(Fonts::kExpressway)),
       statistics_update_time_(),
       statistics_num_frames_(0) {
-  statistics_text_.setPosition({5.f, 5.f});
+  statistics_text_.setPosition({5.0f, 5.0f});
   statistics_text_.setFillColor(sf::Color::Red);
   statistics_text_.setCharacterSize(15);
 
@@ -106,6 +114,9 @@ TextureHolder Game::loadTextures() {
                 kResourcePath + "/texture/PlayerRun96x96.png");
   textures.load(Textures::kPlayerSwordAttack,
                 kResourcePath + "/texture/PlayerSwordAttack96x96.png");
+
+  // debug
+  textures.load(Textures::kSwordHitArea, kResourcePath + "/texture/Door.png");
 
   return textures;
 }

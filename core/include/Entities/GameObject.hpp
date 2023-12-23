@@ -12,11 +12,10 @@ namespace ink {
 
 class GameObject : public SceneNode {
  public:
-  GameObject(ComponentManager manager,
-             NodeCategory category = NodeCategory::kNone);
+  explicit GameObject(ComponentManager manager,
+                      NodeCategory category = NodeCategory::kNone);
 
-  void handleCollisionWith(NodeCategory category,
-                           const SceneNode* node) override final;
+  void handleCollisionWith(NodeCategory category, const SceneNode* node) final;
   sf::FloatRect getBoundingRect() const override;
 
  protected:

@@ -18,8 +18,8 @@ class Unit final : public GameObject {
   // TODO: snakeCase
   Owner GetOwnerType() const noexcept;
 
-  void selfDamage(int value);
-  void selfHeal(int value);
+  void selfDamage(std::size_t value);
+  void selfHeal(std::size_t value);
   void enableDoorInteraction(bool interact_with) noexcept;
 
  private:

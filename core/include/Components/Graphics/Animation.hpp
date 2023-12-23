@@ -19,9 +19,9 @@ class Animation final {
             bool is_centered, const sf::Time sprite_change_interval,
             const sf::Vector2f scale);
 
-  const sf::Sprite& getCurrentSprite() const;
-  sf::Time getAnimationDuration() const noexcept;
-  std::size_t getCurrentSpriteIndex() const noexcept;
+  [[nodiscard]] const sf::Sprite& getCurrentSprite() const;
+  [[nodiscard]] sf::Time getAnimationDuration() const noexcept;
+  [[nodiscard]] std::size_t getCurrentSpriteIndex() const noexcept;
 
   void update(sf::Time dt);
   void start(sf::Time duration) noexcept;

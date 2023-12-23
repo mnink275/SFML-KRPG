@@ -12,8 +12,8 @@ void AIKeyboardInput::handleInput(CommandQueue<NodeCommand>& /*command_queue*/,
 
 void AIKeyboardInput::handleRealtimeInput(
     sf::Time dt, CommandQueue<NodeCommand>& /*commands*/) {
-  static auto kIdleInterval = sf::seconds(2.f);
-  static auto kMoveInterval = sf::seconds(1.f);
+  static constexpr auto kIdleInterval = sf::seconds(2.f);
+  static constexpr auto kMoveInterval = sf::seconds(1.f);
   static auto timer = sf::Time::Zero;
   timer += dt;
   bool is_state_changed = false;

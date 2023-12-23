@@ -20,9 +20,10 @@ class Trace {
   Trace(Trace&&) = default;
   Trace& operator=(Trace&&) = default;
 
-  std::optional<sf::Vector2f> findIntersection(const Trace& other_trace) const;
+  [[nodiscard]] std::optional<sf::Vector2f> findIntersection(
+      const Trace& other_trace) const;
   void shiftTo(const sf::Vector2f& new_pos);
-  std::size_t getId() const noexcept;
+  [[nodiscard]] std::size_t getId() const noexcept;
 
  public:
   static constexpr auto kEps = 1.f;
@@ -37,9 +38,6 @@ class Trace {
   std::optional<sf::Vector2f> intersection_point;
 
  private:
-  bool belongsToLine(sf::Vector2f point,
-                     const sf::VertexArray& line) const noexcept;
-
   static std::optional<sf::Vector2f> findIntersectionImpl(const Trace& left,
                                                           const Trace& right);
 

@@ -9,13 +9,13 @@ namespace ink {
 
 void ComponentManager::setCommandQueue(
     CommandQueue<ComponentCommand>* command_queue) noexcept {
-  for (auto component : components_) {
+  for (const auto& component : components_) {
     component->setCommandQueue(command_queue);
   }
 }
 
 void ComponentManager::onCommand(const ComponentCommand& command, sf::Time dt) {
-  for (auto component : components_) {
+  for (const auto& component : components_) {
     component->onCommand(command, dt);
   }
 }

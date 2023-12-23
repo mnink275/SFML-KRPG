@@ -19,15 +19,20 @@ enum class Textures {
   kStoneOnGrass = 4,
   kCount,
 
-  // other
+  // common
   kPeepoLeft,
   kPeepoRight,
   kDoor,
   kBullet,
   kWall,
+
+  // assets
   kPlayerIdle,
   kPlayerRun,
   kPlayerSwordAttack,
+
+  // debug
+  kSwordHitArea,
 };
 
 inline constexpr auto kRoomCount = static_cast<std::size_t>(Textures::kCount);

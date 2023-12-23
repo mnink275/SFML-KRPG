@@ -10,9 +10,10 @@ Component::Component(ComponentCategory category)
     : category_(category), command_queue_(nullptr) {}
 
 void Component::onCommand(const ComponentCommand& command, sf::Time dt) {
-  if (static_cast<CategoryUnderlying>(command.category) &
-      static_cast<CategoryUnderlying>(category_))
+  if ((static_cast<CategoryUnderlying>(command.category) &
+       static_cast<CategoryUnderlying>(category_)) != 0u) {
     command.action(*this, dt);
+  }
 }
 
 void Component::setCommandQueue(

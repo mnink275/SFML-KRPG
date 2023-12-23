@@ -18,7 +18,7 @@ class RoomManager : public SceneNode {
   RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
               TextureHolder& textures, NodeCategory category);
 
-  ~RoomManager() = default;
+  ~RoomManager() override = default;
 
   RoomManager(const RoomManager&) = delete;
   RoomManager& operator=(const RoomManager&) = delete;
@@ -26,7 +26,7 @@ class RoomManager : public SceneNode {
   RoomManager(RoomManager&&) = delete;
   RoomManager& operator=(RoomManager&&) = delete;
 
-  void attachUnit(std::unique_ptr<Unit> player);
+  void attachUnit(std::unique_ptr<Unit> unit);
   void createInitialRoom();
   void changeRoomTo(std::size_t next_room_id);
   void checkDoorInteraction();

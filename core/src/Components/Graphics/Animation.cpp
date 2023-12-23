@@ -17,7 +17,6 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
                      const sf::Vector2f scale)
     : timer_(sf::Time::Zero),
       sprite_change_interval(sprite_change_interval),
-      animation_(),
       curr_sprite_(0),
       scale_(scale),
       eyes_direction_(EyesDirection::kRight) {
@@ -33,7 +32,8 @@ Animation::Animation(const sf::Texture& texture, const sf::Vector2u sizes,
   sf::IntRect rect{pos_shift, sf::Vector2i{sizes} - sizes_shift};
   for (std::size_t i = 0; i < sprites_amount; ++i) {
     animation_.emplace_back(texture, rect);
-    rect.left += sizes.x;
+    ASSERT(sizes.x <= std::numeric_limits<int>::max());
+    rect.left += static_cast<int>(sizes.x);
   }
 
   std::for_each(animation_.begin(), animation_.end(),
@@ -77,7 +77,7 @@ void Animation::flipTo(EyesDirection direction) {
 }
 
 void Animation::flipVertically() {
-  const auto sign = eyes_direction_ == EyesDirection::kLeft ? -1 : +1;
+  const auto sign = eyes_direction_ == EyesDirection::kLeft ? -1.f : +1.f;
   auto scale = scale_;
   scale.x *= sign;
   std::for_each(animation_.begin(), animation_.end(),

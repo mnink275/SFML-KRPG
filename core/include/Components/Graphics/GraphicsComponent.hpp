@@ -12,9 +12,9 @@ namespace ink::component {
 
 struct FreezeFor final {
   FreezeFor() : FreezeFor(sf::Time::Zero) {}
-  FreezeFor(sf::Time freezing_time) : freezing_time(freezing_time) {}
+  explicit FreezeFor(sf::Time freezing_time) : freezing_time(freezing_time) {}
 
-  const sf::Time freezing_time;
+  sf::Time freezing_time;
 };
 
 class GraphicsComponent : public Component {
@@ -30,10 +30,10 @@ class GraphicsComponent : public Component {
                     const sf::RenderStates states) const = 0;
   void update(sf::Time dt);
 
-  virtual sf::FloatRect getGlobalBounds() const = 0;
+  [[nodiscard]] virtual sf::FloatRect getGlobalBounds() const = 0;
   void setObjectState(ObjectState state,
                       FreezeFor freeze_for = FreezeFor{}) noexcept;
-  ObjectState getObjectState() const noexcept;
+  [[nodiscard]] ObjectState getObjectState() const noexcept;
 
  private:
   virtual void updateCurrent(sf::Time dt);

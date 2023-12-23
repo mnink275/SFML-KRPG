@@ -31,8 +31,8 @@ World::World(sf::RenderWindow& window, TextureHolder& textures,
       fonts_(fonts),
       world_bounds_({0.f, 0.f},
                     {world_view_.getSize().x, world_view_.getSize().y}),
-      spawn_position_(world_view_.getSize().x / 2.f,
-                      world_bounds_.height - world_view_.getSize().y / 2.f),
+      spawn_position_(world_view_.getSize().x / 2,
+                      world_bounds_.height - world_view_.getSize().y / 2),
       player_(nullptr),
       player_vision_(nullptr),
       room_manager_(nullptr) {
@@ -48,8 +48,11 @@ World::World(sf::RenderWindow& window, TextureHolder& textures,
 
 void World::update(const sf::Time dt) {
   using namespace std::placeholders;
-  command_queue_.handle(std::bind(&SceneNode::onCommand, &scene_graph_, _1, _2),
-                        dt);
+  command_queue_.handle(
+      [this](const auto& command, sf::Time time) {
+        scene_graph_.onCommand(command, time);
+      },
+      dt);
 
   scene_graph_.update(dt, command_queue_);
   handleCollisions();
@@ -58,21 +61,24 @@ void World::update(const sf::Time dt) {
 
 bool World::matchesCategories(SceneNode::NodePair& colliders,
                               NodeCategory requested1,
-                              NodeCategory requested2) const noexcept {
+                              NodeCategory requested2) noexcept {
   auto requested1_id = static_cast<CategoryUnderlying>(requested1);
   auto requested2_id = static_cast<CategoryUnderlying>(requested2);
   auto collider1_id =
       static_cast<CategoryUnderlying>(colliders.first->getCategory());
   auto collider2_id =
       static_cast<CategoryUnderlying>(colliders.second->getCategory());
-  if (requested1_id & collider1_id && requested2_id & collider2_id) {
+  if (((requested1_id & collider1_id) != 0u) &&
+      ((requested2_id & collider2_id) != 0u)) {
     return true;
-  } else if (requested1_id & collider2_id && requested2_id & collider1_id) {
+  }
+  if (((requested1_id & collider2_id) != 0u) &&
+      ((requested2_id & collider1_id) != 0u)) {
     std::swap(colliders.first, colliders.second);
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 void World::draw() const {
@@ -96,6 +102,8 @@ void World::handlePlayerInput(const sf::Keyboard::Key key,
   }
 }
 
+// TODO: make function more readable
+// NOLINTNEXTLINE (readability-function-cognitive-complexity)
 void World::handleCollisions() {
   std::set<SceneNode::NodePair> collisions;
   scene_graph_.checkSceneCollision(scene_graph_, collisions);
@@ -109,7 +117,7 @@ void World::handleCollisions() {
                                  NodeCategory::kMelee)) {
       ASSERT(dynamic_cast<Unit*>(pair.first));
       ASSERT(dynamic_cast<combat::Melee*>(pair.second));
-      // strict order
+      // Attention: strict order
       pair.first->handleCollisionWith(NodeCategory::kMelee, pair.second);
       pair.second->handleCollisionWith(NodeCategory::kUnit, pair.first);
     } else if (matchesCategories(pair, NodeCategory::kBullet,
@@ -141,30 +149,36 @@ void World::buildScene() {
   room_manager_->createInitialRoom();
 
   using Weapon = component::UnitCombat::Weapon;
+  const std::size_t health = 20;
+  const auto attack_speed = 1.0f;
+  const bool centred = true;
 
   // add an enemy
   auto enemy = std::make_unique<Unit>(
-      ComponentManager{std::make_unique<component::SimplePhysics>(),
-                       std::make_unique<component::TwoSpriteGraphics>(
-                           textures_.get(Textures::kPeepoLeft),
-                           textures_.get(Textures::kPeepoRight), true),
-                       std::make_unique<component::AIKeyboardInput>(),
-                       std::make_unique<component::UnitCombat>(
-                           textures_, Owner::kEnemy, 20, 1.0f, Weapon::kGun),
-                       std::make_unique<component::UnitCollision>()},
+      ComponentManager{
+          std::make_unique<component::SimplePhysics>(),
+          std::make_unique<component::TwoSpriteGraphics>(
+              textures_.get(Textures::kPeepoLeft),
+              textures_.get(Textures::kPeepoRight), centred),
+          std::make_unique<component::AIKeyboardInput>(),
+          std::make_unique<component::UnitCombat>(
+              textures_, Owner::kEnemy, health, attack_speed, Weapon::kGun),
+          std::make_unique<component::UnitCollision>()},
       fonts_, NodeCategory::kUnit, Owner::kEnemy);
   enemy->setPosition(spawn_position_ * 0.5f);
   room_manager_->attachUnit(std::move(enemy));
 
+  const auto asset_size = sf::Vector2u{96, 96};
   // add a character
   auto character = std::make_unique<Unit>(
-      ComponentManager{std::make_unique<component::SimplePhysics>(),
-                       std::make_unique<component::AssetGraphics>(
-                           textures_, sf::Vector2u{96, 96}, true),
-                       std::make_unique<component::EmptyInput>(),
-                       std::make_unique<component::UnitCombat>(
-                           textures_, Owner::kEnemy, 20, 1.0f, Weapon::kSword),
-                       std::make_unique<component::UnitCollision>()},
+      ComponentManager{
+          std::make_unique<component::SimplePhysics>(),
+          std::make_unique<component::AssetGraphics>(textures_, asset_size,
+                                                     centred),
+          std::make_unique<component::EmptyInput>(),
+          std::make_unique<component::UnitCombat>(
+              textures_, Owner::kEnemy, health, attack_speed, Weapon::kSword),
+          std::make_unique<component::UnitCollision>()},
       fonts_, NodeCategory::kUnit, Owner::kEnemy);
   character->setPosition(spawn_position_ * 0.7f);
   room_manager_->attachUnit(std::move(character));
@@ -173,10 +187,11 @@ void World::buildScene() {
   auto player = std::make_unique<Unit>(
       ComponentManager{std::make_unique<component::SimplePhysics>(),
                        std::make_unique<component::AssetGraphics>(
-                           textures_, sf::Vector2u{96, 96}, true),
+                           textures_, asset_size, centred),
                        std::make_unique<component::KeyboardInput>(),
                        std::make_unique<component::UnitCombat>(
-                           textures_, Owner::kPlayer, 20, 0.8f, Weapon::kSword),
+                           textures_, Owner::kPlayer, health,
+                           attack_speed - 0.2f, Weapon::kSword),
                        std::make_unique<component::UnitCollision>()},
       fonts_, NodeCategory::kUnit, Owner::kPlayer);
   player_ = player.get();

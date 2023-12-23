@@ -34,8 +34,8 @@ void SceneNode::update(const sf::Time dt, CommandQueue<NodeCommand>& commands) {
 }
 
 void SceneNode::onCommand(const NodeCommand& command, sf::Time dt) {
-  if (static_cast<CategoryUnderlying>(command.category) &
-      static_cast<CategoryUnderlying>(category_))
+  if ((static_cast<CategoryUnderlying>(command.category) &
+       static_cast<CategoryUnderlying>(category_)) != 0u)
     command.action(*this, dt);
 
   for (auto&& child : children_) {
@@ -53,6 +53,12 @@ void SceneNode::checkSceneCollision(SceneNode& scene_root,
 
 void SceneNode::checkNodeCollision(SceneNode& node,
                                    std::set<SceneNode::NodePair>& collisions) {
+  const auto isCollide = [](const SceneNode& lhs, const SceneNode& rhs) {
+    return lhs.getBoundingRect()
+        .findIntersection(rhs.getBoundingRect())
+        .has_value();
+  };
+
   if (this != &node && isCollide(*this, node)) {
     collisions.insert(std::minmax(this, &node));
   }
@@ -61,13 +67,14 @@ void SceneNode::checkNodeCollision(SceneNode& node,
   }
 }
 
-void SceneNode::handleCollisionWith(NodeCategory, const SceneNode*) {}
+void SceneNode::handleCollisionWith(NodeCategory /*category*/,
+                                    const SceneNode* /*node*/) {}
 
 sf::FloatRect SceneNode::getBoundingRect() const { return sf::FloatRect{}; }
 
 sf::Transform SceneNode::getWorldTransform() const {
   sf::Transform transform = sf::Transform::Identity;
-  for (auto node = this; node != nullptr; node = node->parent_) {
+  for (const auto* node = this; node != nullptr; node = node->parent_) {
     transform *= node->getTransform();
   }
 
@@ -104,7 +111,8 @@ void SceneNode::draw(sf::RenderTarget& target,
 void SceneNode::drawCurrent(sf::RenderTarget& /*target*/,
                             const sf::RenderStates /*states*/) const {}
 
-void SceneNode::updateCurrent(sf::Time, CommandQueue<NodeCommand>&) {}
+void SceneNode::updateCurrent(sf::Time /*dt*/,
+                              CommandQueue<NodeCommand>& /*commands*/) {}
 
 void SceneNode::updateChildren(const sf::Time dt,
                                CommandQueue<NodeCommand>& commands) const {
@@ -115,12 +123,6 @@ void SceneNode::updateChildren(const sf::Time dt,
 
 sf::Vector2f SceneNode::getWorldPosition() const {
   return getWorldTransform() * sf::Vector2f();
-}
-
-bool SceneNode::isCollide(const SceneNode& lhs, const SceneNode& rhs) const {
-  return lhs.getBoundingRect()
-      .findIntersection(rhs.getBoundingRect())
-      .has_value();
 }
 
 }  // namespace ink

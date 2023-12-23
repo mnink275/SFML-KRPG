@@ -14,8 +14,9 @@
 
 namespace ink::component {
 
-UnitCombat::UnitCombat(const TextureHolder& texture_holder, Owner owner,
-                       int health, float attack_speed, Weapon weapon)
+UnitCombat::UnitCombat(const TextureHolder& texture_holder, const Owner owner,
+                       const std::size_t health, float attack_speed,
+                       Weapon weapon)
     : CombatComponent(health, sf::seconds(attack_speed)),
       texture_holder(texture_holder),
       owner(owner),
@@ -43,18 +44,22 @@ void UnitCombat::onAttack(SceneNode& node, const sf::Vector2f& owner_position,
     case Weapon::kSword: {
       // TODO: mapping sword animation to hit area sizes
       // (e.g. SwordSizes[Textures::CommonSword] -> sf::Vector2i{30, 70})
+      static constexpr auto kHitAreaSizes = sf::Vector2i{30, 70};
       auto sword = std::make_unique<combat::Melee>(
           ComponentManager{std::make_unique<component::SimplePhysics>(),
                            std::make_unique<component::SimpleGraphics>(
-                               texture_holder.get(Textures::kDoor),
-                               sf::Vector2i{30, 70}, true),
+                               texture_holder.get(Textures::kSwordHitArea),
+                               kHitAreaSizes, true),
                            std::make_unique<component::MeleeCollision>()},
           NodeCategory::kMelee, owner);
       // TODO: need access to player sprite sizes
+      static constexpr auto kShiftFromOwner = 30.0f;
       if (eyes_direction == EyesDirection::kLeft) {
-        sword->setPosition(owner_position + sf::Vector2f{-30.0f, 0.0f});
+        sword->setPosition(owner_position +
+                           sf::Vector2f{-kShiftFromOwner, 0.0f});
       } else {
-        sword->setPosition(owner_position + sf::Vector2f{30.0f, 0.0f});
+        sword->setPosition(owner_position +
+                           sf::Vector2f{kShiftFromOwner, 0.0f});
       }
 
       node.attachChild(std::move(sword));

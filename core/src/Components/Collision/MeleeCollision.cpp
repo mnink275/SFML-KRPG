@@ -9,11 +9,12 @@ namespace ink::component {
 void MeleeCollision::handleCollisionWith(SceneNode* owner_node,
                                          NodeCategory category,
                                          const SceneNode* node) {
-  ASSERT(dynamic_cast<combat::Melee*>(owner_node));
-  auto* melee = static_cast<combat::Melee*>(owner_node);
+  auto* melee = dynamic_cast<combat::Melee*>(owner_node);
+  ASSERT(melee);
   switch (category) {
     case NodeCategory::kUnit: {
-      const auto* unit = static_cast<const Unit*>(node);
+      const auto* unit = dynamic_cast<const Unit*>(node);
+      ASSERT(unit);
       if (melee->getOwner() != unit->GetOwnerType()) {
         melee->addDamaged(node);
       }

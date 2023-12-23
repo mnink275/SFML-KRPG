@@ -79,6 +79,24 @@ std::optional<sf::Vector2f> Trace::findIntersection(
   auto point = findIntersectionImpl(*this, other_trace);
   if (!point.has_value()) return std::nullopt;
 
+  const auto belongsToLine = [](sf::Vector2f point,
+                                const sf::VertexArray& line) {
+    ASSERT(line.getVertexCount() == 2);
+    auto [x1, y1] = line[0].position;
+    auto [x2, y2] = line[1].position;
+
+    // The `eps` is needed to intercept the lines going to the vertexes
+    // Not to be confused with Trace::kEps!
+    static constexpr auto eps = 0.01f;
+    if (x1 > x2) std::swap(x1, x2);
+    if (std::clamp(point.x, x1 - eps, x2 + eps) != point.x) return false;
+
+    if (y1 > y2) std::swap(y1, y2);
+    if (std::clamp(point.y, y1 - eps, y2 + eps) != point.y) return false;
+
+    return true;
+  };
+
   if (!belongsToLine(*point, line) ||
       !belongsToLine(*point, other_trace.line)) {
     return std::nullopt;
@@ -99,24 +117,6 @@ void Trace::shiftTo(const sf::Vector2f& new_pos) {
 }
 
 std::size_t Trace::getId() const noexcept { return id_; }
-
-bool Trace::belongsToLine(sf::Vector2f point,
-                          const sf::VertexArray& line) const noexcept {
-  ASSERT(line.getVertexCount() == 2);
-  auto [x1, y1] = line[0].position;
-  auto [x2, y2] = line[1].position;
-
-  // The `eps` is needed to intercept the lines going to the vertexes
-  // Not to be confused with kEps!
-  static constexpr auto eps = 0.01f;
-  if (x1 > x2) std::swap(x1, x2);
-  if (std::clamp(point.x, x1 - eps, x2 + eps) != point.x) return false;
-
-  if (y1 > y2) std::swap(y1, y2);
-  if (std::clamp(point.y, y1 - eps, y2 + eps) != point.y) return false;
-
-  return true;
-}
 
 std::optional<sf::Vector2f> Trace::findIntersectionImpl(const Trace& left,
                                                         const Trace& right) {

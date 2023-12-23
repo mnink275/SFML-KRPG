@@ -19,6 +19,8 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
     : SceneNode(category),
       texture_(texture_holder),
       room_bounds_(bounds.width, bounds.height),
+      doors_storage_(),
+      connected_rooms_(),
       room_id_(room_id),
       wall_thickness_(wall_thickness) {
   // prepare the tiled background
@@ -66,9 +68,9 @@ void RoomNode::doorsInitialize() {
     const auto transition_type = transition[dir_id];
 
     auto door = std::make_unique<Door>(
-        std::make_unique<component::SimpleGraphics>(
+        ComponentManager{std::make_unique<component::SimpleGraphics>(
             texture_.get(Textures::kDoor), sf::IntRect{door_sizes[dir_id]},
-            true),
+            true)},
         direction_type, door_positions[dir_id],
         door_positions[static_cast<std::size_t>(transition_type)],
         NodeCategory::kDoor);
@@ -79,7 +81,7 @@ void RoomNode::doorsInitialize() {
   }
 }
 
-void RoomNode::buildWalls(std::vector<sf::FloatRect> walls) {
+void RoomNode::buildWalls(std::vector<sf::FloatRect>&& walls) {
   texture_.get(Textures::kWall).setRepeated(true);
 
   auto walls_holder = std::make_unique<SceneNode>();

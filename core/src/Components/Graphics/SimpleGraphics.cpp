@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-#include <Components/Graphics/SimpleGraphics.hpp>
 #include <Components/Graphics/Utils.hpp>
 
 namespace ink::component {

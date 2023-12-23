@@ -7,7 +7,8 @@ namespace ink::component {
 namespace {
 
 struct AttackInfoCommand final {
-  void operator()(component::CombatComponent& unit_combat, sf::Time) const {
+  void operator()(component::CombatComponent& unit_combat,
+                  sf::Time /*dt*/) const {
     unit_combat.attack_started = true;
   }
 };
@@ -16,9 +17,7 @@ struct AttackInfoCommand final {
 
 AssetGraphics::AssetGraphics(const TextureHolder& textures,
                              const sf::Vector2u sizes, bool is_centered)
-    : GraphicsComponent(),
-      animations_(),
-      current_animation_(AnimationState::kIdle) {
+    : current_animation_(AnimationState::kIdle) {
   attack_info_.category = ComponentCategory::kCombat;
 
   const auto kSpriteChangeInterval = sf::seconds(0.1f);
@@ -33,12 +32,14 @@ AssetGraphics::AssetGraphics(const TextureHolder& textures,
                             is_centered, kSpriteChangeInterval));
 
   // Attacking scale is greater than other due to bad asset sizes
+  static constexpr auto kAttackAnimationScale = 1.2f;
   animations_.emplace(
       std::piecewise_construct,
       std::forward_as_tuple(AnimationState::kAttacking),
-      std::forward_as_tuple(textures.get(Textures::kPlayerSwordAttack), sizes,
-                            is_centered, kSpriteChangeInterval,
-                            sf::Vector2f{1.2f, 1.2f}));
+      std::forward_as_tuple(
+          textures.get(Textures::kPlayerSwordAttack), sizes, is_centered,
+          kSpriteChangeInterval,
+          sf::Vector2f{kAttackAnimationScale, kAttackAnimationScale}));
 }
 
 void AssetGraphics::draw(sf::RenderTarget& target,
@@ -59,9 +60,12 @@ void AssetGraphics::updateCurrent(sf::Time dt) {
       if (state_changed_) {
         auto& animation = animations_.at(current_animation_);
         animation.start(freezing_time_ + dt);
-        auto full_duration = animation.getAnimationDuration();
+
         attack_info_.action = SendTo<CombatComponent>(AttackInfoCommand{});
-        attack_info_.delay = full_duration * 0.4f;
+        auto full_duration = animation.getAnimationDuration();
+        static constexpr auto kAttackDelayAfterAnimationStarts = 0.4f;
+        attack_info_.delay = full_duration * kAttackDelayAfterAnimationStarts;
+
         sendCommand(attack_info_);
       }
       break;

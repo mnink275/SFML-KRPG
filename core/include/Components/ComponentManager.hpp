@@ -19,7 +19,7 @@ class ComponentManager final {
 
  public:
   template <class... Args>
-  ComponentManager(Args&&... args) {
+  explicit ComponentManager(Args&&... args) {
     (addComponent(std::forward<Args&&>(args)), ...);
   }
 
@@ -36,7 +36,7 @@ class ComponentManager final {
   std::shared_ptr<ComponentType> findComponent() const {
     auto category = ComponentType::kCategory;
     auto it = std::find_if(components_.begin(), components_.end(),
-                           [category](SharedPtr component) {
+                           [category](const SharedPtr& component) {
                              return component->getCategory() == category;
                            });
     // TODO: return "empty" component to do nothing outside

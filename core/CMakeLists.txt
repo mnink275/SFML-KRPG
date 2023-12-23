@@ -11,13 +11,12 @@ add_library(
 target_include_directories(
     ${PROJECT_NAME}_objs PUBLIC ${PROJECT_SOURCE_DIR}/core/include
 )
-
 target_link_libraries(
     ${PROJECT_NAME}_objs sfml-graphics fmt
 )
-
-target_compile_definitions(
-    ${PROJECT_NAME}_objs PRIVATE RESOURCE_FOLDER="${RESOURCE_FOLDER}"
+set_source_files_properties(
+  ${CMAKE_CURRENT_LIST_DIR}/src/Game.cpp
+  PROPERTIES COMPILE_DEFINITIONS RESOURCE_FOLDER="${PROJECT_SOURCE_DIR}/resource"
 )
 
 # IDEs should put the headers in a nice place

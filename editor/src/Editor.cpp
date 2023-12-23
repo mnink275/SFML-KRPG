@@ -18,14 +18,18 @@ void writeFileContent(const std::string& path, const std::string& content) {
   of_stream << content;
 }
 
+constexpr auto kFramePerSecond = 60.f;
+
+constexpr auto kWidth = 1280u;
+constexpr auto kHeight = 720u;
+
 }  // namespace
 
 Editor::Editor()
-    : kTimePerFrame(sf::seconds(1.f / 60.f)),
-      window_(sf::VideoMode({1280, 720}), "KRPG-Editor", sf::Style::Close),
-      walls_(),
-      active_wall_it_(walls_.end()),
-      last_mouse_pos_() {
+    : kTimePerFrame(sf::seconds(1.f / kFramePerSecond)),
+      window_(sf::VideoMode({kWidth, kHeight}), "KRPG-Editor",
+              sf::Style::Close),
+      active_wall_it_(walls_.end()) {
   window_.setPosition({0, 0});
 }
 
@@ -75,7 +79,8 @@ void Editor::processEvents() {
 void Editor::update(const sf::Time /*dt*/) {}
 
 void Editor::render() {
-  window_.clear(sf::Color{169, 169, 169});
+  static constexpr auto kBackgroundColor = sf::Color{169, 169, 169};
+  window_.clear(kBackgroundColor);
 
   for (auto&& wall : walls_) {
     wall.draw(window_);
@@ -103,6 +108,7 @@ void Editor::handleMouseInput(const sf::Event::MouseButtonEvent event,
       active_wall_it_->setShift(mouse_pos);
       break;
     case sf::Mouse::Right:
+      // NOLINTNEXTLINE (readability-magic-numbers)
       active_wall_it_->rotate(sf::degrees(90.f));
       break;
     default:
@@ -142,9 +148,6 @@ Editor::WallIter Editor::tryFindActiveWall(const sf::Vector2f mouse_pos) {
 }
 
 void Editor::serialize() const {
-  static const std::string kPath = "./data/editor_walls.txt";
-
-  // TODO: optimize memory allocations
   std::string data;
   for (auto&& wall : walls_) {
     // template:
@@ -152,10 +155,11 @@ void Editor::serialize() const {
     const auto rect = wall.getBoundingRect();
     auto row = fmt::format("{} {} {} {}\n", rect.left, rect.top, rect.width,
                            rect.height);
-    data.append(std::move(row));
+    data.append(row);
   }
 
-  writeFileContent(kPath, data);
+  static constexpr std::string_view kPath = "./data/editor_walls.txt";
+  writeFileContent(std::string{kPath}, data);
 
   fmt::println("Editor state has been saved");
 }

@@ -12,9 +12,9 @@ namespace ink::component {
 namespace {
 
 struct MoveCommand final {
-  MoveCommand(sf::Vector2f multipliers) : multipliers(multipliers) {}
+  explicit MoveCommand(sf::Vector2f multipliers) : multipliers(multipliers) {}
 
-  void operator()(component::PhysicsComponent& physics, sf::Time) const {
+  void operator()(component::PhysicsComponent& physics, sf::Time /*dt*/) const {
     static constexpr float kPlayerVelocityShift = 400.f;
     physics.velocity += multipliers * kPlayerVelocityShift;
   }
@@ -23,15 +23,17 @@ struct MoveCommand final {
 };
 
 struct FireCommand final {
-  void operator()(component::CombatComponent& combat, sf::Time) const {
+  void operator()(component::CombatComponent& combat, sf::Time /*dt*/) const {
     combat.attack_requested = true;
   }
 };
 
 struct StateChangeCommand final {
-  StateChangeCommand(ObjectState object_state) : object_state(object_state) {}
+  explicit StateChangeCommand(ObjectState object_state)
+      : object_state(object_state) {}
 
-  void operator()(component::GraphicsComponent& graphics, sf::Time) const {
+  void operator()(component::GraphicsComponent& graphics,
+                  sf::Time /*dt*/) const {
     graphics.setObjectState(object_state);
   }
 
@@ -39,10 +41,11 @@ struct StateChangeCommand final {
 };
 
 struct EyesDirectionChangeCommand final {
-  EyesDirectionChangeCommand(EyesDirection eyes_direction)
+  explicit EyesDirectionChangeCommand(EyesDirection eyes_direction)
       : eyes_direction(eyes_direction) {}
 
-  void operator()(component::GraphicsComponent& graphics, sf::Time) const {
+  void operator()(component::GraphicsComponent& graphics,
+                  sf::Time /*dt*/) const {
     graphics.eyes_direction = eyes_direction;
   }
 
@@ -50,9 +53,11 @@ struct EyesDirectionChangeCommand final {
 };
 
 struct EnableInteractionCommand final {
-  EnableInteractionCommand(bool interact_with) : interact_with(interact_with) {}
+  explicit EnableInteractionCommand(bool interact_with)
+      : interact_with(interact_with) {}
 
-  void operator()(component::CollisionComponent& collision, sf::Time) const {
+  void operator()(component::CollisionComponent& collision,
+                  sf::Time /*dt*/) const {
     collision.interact_with = interact_with;
   }
 
@@ -132,7 +137,7 @@ void KeyboardInput::handleRealtimeInput(
   }
 }
 
-bool KeyboardInput::isRealtimeAction(sf::Keyboard::Key key) const noexcept {
+bool KeyboardInput::isRealtimeAction(sf::Keyboard::Key key) noexcept {
   switch (key) {
     case sf::Keyboard::Key::A:
     case sf::Keyboard::Key::D:

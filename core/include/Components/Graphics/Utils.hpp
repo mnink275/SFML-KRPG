@@ -6,7 +6,7 @@ namespace ink::utils {
 
 inline static void doSpriteCentering(sf::Sprite& sprite) {
   const sf::FloatRect bounds = sprite.getLocalBounds();
-  sprite.setOrigin({bounds.width / 2.f, bounds.height / 2.f});
+  sprite.setOrigin({bounds.width / 2, bounds.height / 2});
 }
 
 }  // namespace ink::utils

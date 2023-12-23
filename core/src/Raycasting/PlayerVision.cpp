@@ -22,7 +22,8 @@ PlayerVision::PlayerVision(const float trace_len, sf::FloatRect bounds,
 void PlayerVision::handleCollisionWith(NodeCategory category,
                                        const SceneNode* node) {
   ASSERT(category == NodeCategory::kWall);
-  const auto* wall = static_cast<const GameObject*>(node);
+  const auto* wall = dynamic_cast<const GameObject*>(node);
+  ASSERT(wall);
   auto rect = wall->getBoundingRect();
 
   const auto rect_points = std::array<sf::Vector2f, 4>{
@@ -59,7 +60,8 @@ void PlayerVision::drawCurrent(sf::RenderTarget& target,
     target.draw(trace.line);
   }
   for (auto&& trace : traces_) {
-    sf::CircleShape circle{2.0f};
+    const auto radius = 2.0f;
+    sf::CircleShape circle{radius};
     circle.setFillColor(sf::Color::Red);
     ASSERT(trace.intersection_point.has_value());
     circle.setPosition(*trace.intersection_point);
@@ -73,11 +75,14 @@ void PlayerVision::drawCurrent(sf::RenderTarget& target,
     const auto& left_trace = traces_[i];
     const auto& right_trace = traces_[(i + 1) % traces_.size()];
 
+    ASSERT(left_trace.intersection_point.has_value());
+    ASSERT(right_trace.intersection_point.has_value());
     convex.setPoint(0, *right_trace.intersection_point);
     convex.setPoint(1, *left_trace.intersection_point);
     convex.setPoint(2, left_trace.line[1].position);
     convex.setPoint(3, right_trace.line[1].position);
-    convex.setFillColor(sf::Color{0, 0, 0, 230});
+    static constexpr auto kAlmostBlackShadowColor = sf::Color{0, 0, 0, 230};
+    convex.setFillColor(kAlmostBlackShadowColor);
 
     target.draw(convex);
   }
@@ -106,7 +111,7 @@ void PlayerVision::generateTraces() {
         sf::Vector2f{rect.left + rect.width, rect.top + rect.height},
         sf::Vector2f{rect.left, rect.top + rect.height}};
 
-    generateTracesToWall(std::move(rect_points));
+    generateTracesToWall(rect_points);
   }
 
   static auto comp = [](const Trace& left_trace, const Trace& right_trace) {

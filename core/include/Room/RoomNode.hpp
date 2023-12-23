@@ -34,7 +34,7 @@ class RoomNode final : public SceneNode {
   enum Layer { Background, Player, LayerCount };
 
   void doorsInitialize();
-  void buildWalls(std::vector<sf::FloatRect> walls);
+  void buildWalls(std::vector<sf::FloatRect>&& walls);
 
   TextureHolder& texture_;
   sf::Vector2f room_bounds_;

@@ -15,8 +15,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
   using Ptr = std::unique_ptr<SceneNode>;
   using NodePair = std::pair<SceneNode*, SceneNode*>;
 
-  SceneNode(NodeCategory category = NodeCategory::kNone);
-  virtual ~SceneNode() = default;
+  explicit SceneNode(NodeCategory category = NodeCategory::kNone);
+  ~SceneNode() override = default;
 
   SceneNode(const SceneNode&) = delete;
   SceneNode& operator=(const SceneNode&) = delete;
@@ -46,13 +46,12 @@ class SceneNode : public sf::Transformable, public sf::Drawable {
 
  private:
   void draw(sf::RenderTarget& target,
-            const sf::RenderStates& states) const override final;
+            const sf::RenderStates& states) const final;
   virtual void drawCurrent(sf::RenderTarget& target,
                            const sf::RenderStates states) const;
   virtual void updateCurrent(sf::Time dt, CommandQueue<NodeCommand>& commands);
   void updateChildren(sf::Time dt, CommandQueue<NodeCommand>& commands) const;
   sf::Vector2f getWorldPosition() const;
-  bool isCollide(const SceneNode& lhs, const SceneNode& rhs) const;
 
   std::vector<Ptr> children_;
   SceneNode* parent_;

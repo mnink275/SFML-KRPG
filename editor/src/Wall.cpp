@@ -1,11 +1,13 @@
 #include <Wall.hpp>
 
+#include <cassert>
+
 #include <fmt/format.h>
 
 namespace ink {
 
 Wall::Wall(const sf::Vector2f position, const sf::Vector2f size)
-    : shape_(size), shift_() {
+    : shape_(size) {
   shape_.setFillColor(sf::Color::Green);
   shape_.setOrigin(shape_.getGeometricCenter());
   shape_.setPosition(position);
@@ -13,8 +15,11 @@ Wall::Wall(const sf::Vector2f position, const sf::Vector2f size)
 
 void Wall::handleInput(const sf::Event::MouseMoveEvent event) {
   fmt::println("Mouse moved: ({}, {})", event.x, event.y);
-  const auto x = event.x - shift_.x;
-  const auto y = event.y - shift_.y;
+  static constexpr auto kMaxMonitorSize = 10'000;
+  // TODO: use ASSERT from `utils` namespace
+  assert(event.x < kMaxMonitorSize && event.y < kMaxMonitorSize);
+  const auto x = static_cast<float>(event.x) - shift_.x;
+  const auto y = static_cast<float>(event.y) - shift_.y;
   shape_.setPosition({x, y});
 }
 

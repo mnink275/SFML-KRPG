@@ -9,6 +9,8 @@ Projectile::Projectile(ComponentManager manager, NodeCategory category,
                        Owner owner)
     : GameObject(std::move(manager), category), owner_(owner) {}
 
+// TODO: make `getDamage()` virtulal
+// NOLINTNEXTLINE (readability-convert-member-functions-to-static)
 std::size_t Projectile::getDamage() const noexcept {
   // TODO: redirect to CombatComponent???
 
@@ -18,7 +20,8 @@ std::size_t Projectile::getDamage() const noexcept {
 
 Owner Projectile::getOwner() const noexcept { return owner_; }
 
-void Projectile::updateCurrent(sf::Time dt, CommandQueue<NodeCommand>&) {
+void Projectile::updateCurrent(sf::Time dt,
+                               CommandQueue<NodeCommand>& /*commands*/) {
   auto physics = manager_.findComponent<component::PhysicsComponent>();
   auto transforms = physics->getTransform(dt);
   Transformable::move(transforms);
