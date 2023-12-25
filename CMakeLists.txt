@@ -14,6 +14,7 @@ include(cmake/VisualStudio.cmake)
 
 add_subdirectory(third_party/SFML)
 add_subdirectory(third_party/fmt)
+add_subdirectory(utility)
 add_subdirectory(core)
 add_subdirectory(editor)
 

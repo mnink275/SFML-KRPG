@@ -17,11 +17,11 @@ add_library(
     ${PROJECT_NAME}_objs OBJECT ${SOURCES} ${HEADERS}
 )
 target_include_directories(
-    ${PROJECT_NAME}_objs PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
+    ${PROJECT_NAME}_objs PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include $<TARGET_PROPERTY:${CMAKE_PROJECT_NAME}_utility,INCLUDE_DIRECTORIES>
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_objs sfml-graphics fmt
+    ${PROJECT_NAME}_objs sfml-graphics fmt ${CMAKE_PROJECT_NAME}_utility
 )
 
 add_executable(

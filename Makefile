@@ -1,6 +1,3 @@
-NPROCS ?= $(shell nproc)
-CLANG_FORMAT ?= clang-format
-
 # Debug cmake configuration
 build_debug/Makefile:
 	@mkdir -p build_debug
@@ -21,7 +18,7 @@ cmake-debug cmake-release: cmake-%: build_%/Makefile
 # Build using cmake
 .PHONY: build-debug build-release
 build-debug build-release: build-%: cmake-%
-	@cmake --build build_debug -j $(NPROCS)
+	@cmake --build build_debug -j $(shell nproc)
 
 # Run after build-debug
 .PHONY: run
@@ -31,7 +28,7 @@ run: build-debug
 # Run editor after build-debug
 .PHONY: run-editor
 run-editor: build-debug
-	./build_debug/KRPG_editor
+	./build_debug/editor/KRPG_editor
 
 # Cleanup data
 .PHONY: dist-clean
@@ -41,12 +38,5 @@ dist-clean:
 # Format the sources
 .PHONY: format
 format:
-	@find core -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
-	@find editor -name '*pp' -type f | xargs $(CLANG_FORMAT) -i
-
-# # Test
-# .PHONY: test-debug test-release
-# test-debug test-release: test-%: build-%
-# 	@cmake --build build_$* -j $(NPROCS) --target ink_unittest
-# 	@cmake --build build_$* -j $(NPROCS) --target ink_benchmark
-# 	@cd build_$* && ((test -t 1 && GTEST_COLOR=1 PYTEST_ADDOPTS="--color=yes" ctest -V) || ctest -V)
+	@find core -name '*pp' -type f | xargs clang-format -i
+	@find editor -name '*pp' -type f | xargs clang-format -i
