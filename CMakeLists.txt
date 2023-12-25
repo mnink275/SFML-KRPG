@@ -23,10 +23,3 @@ add_executable(
 target_link_libraries(
     ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics fmt
 )
-
-add_executable(
-    ${PROJECT_NAME}_editor editor.cpp
-)
-target_link_libraries(
-    ${PROJECT_NAME}_editor ${PROJECT_NAME}_editor_objs sfml-graphics fmt
-)

@@ -1,3 +1,11 @@
+cmake_minimum_required(VERSION 3.15)
+project(
+    ${CMAKE_PROJECT_NAME}_editor
+    VERSION 1.0
+    DESCRIPTION "Simple game editor"
+    LANGUAGES CXX
+)
+
 file(
     GLOB_RECURSE SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
 )
@@ -6,12 +14,19 @@ file(
 )
 
 add_library(
-    ${PROJECT_NAME}_editor_objs OBJECT ${SOURCES} ${HEADERS}
+    ${PROJECT_NAME}_objs OBJECT ${SOURCES} ${HEADERS}
 )
 target_include_directories(
-    ${PROJECT_NAME}_editor_objs PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
+    ${PROJECT_NAME}_objs PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_editor_objs sfml-graphics fmt
+    ${PROJECT_NAME}_objs sfml-graphics fmt
+)
+
+add_executable(
+    ${PROJECT_NAME} editor.cpp
+)
+target_link_libraries(
+    ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics fmt
 )
