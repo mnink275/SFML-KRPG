@@ -6,7 +6,7 @@ InputComponent::InputComponent() : Component(kCategory) {}
 
 void InputComponent::createCommand(sf::Keyboard::Key key,
                                    ComponentCommand::Receiver receiver_category,
-                                   ComponentCommand::Action action) {
+                                   const ComponentCommand::Action& action) {
   commands_[key].emplace_back(receiver_category, action);
 }
 

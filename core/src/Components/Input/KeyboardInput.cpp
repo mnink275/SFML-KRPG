@@ -67,6 +67,7 @@ struct EnableInteractionCommand final {
 }  // namespace
 
 KeyboardInput::KeyboardInput() {
+  // TODO: monadic-style command creating
   createCommand(sf::Keyboard::A, ComponentCategory::kPhysics,
                 SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
   createCommand(

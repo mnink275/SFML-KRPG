@@ -29,7 +29,7 @@ class InputComponent : public Component {
  protected:
   void createCommand(sf::Keyboard::Key key,
                      ComponentCommand::Receiver receiver_category,
-                     ComponentCommand::Action action);
+                     const ComponentCommand::Action& action);
 
   std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>
       commands_;

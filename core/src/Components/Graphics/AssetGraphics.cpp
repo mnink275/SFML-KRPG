@@ -73,10 +73,11 @@ void AssetGraphics::updateCurrent(sf::Time dt) {
       break;
   }
 
-  if (state_changed_) state_changed_ = false;
+  state_changed_ = false;
 
-  animations_.at(current_animation_).flipTo(eyes_direction);
-  animations_.at(current_animation_).update(dt);
+  auto& animation = animations_.at(current_animation_);
+  animation.flipTo(eyes_direction);
+  animation.update(dt);
 }
 
 sf::FloatRect AssetGraphics::getGlobalBounds() const {
