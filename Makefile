@@ -19,12 +19,12 @@ cmake-debug cmake-release: cmake-%: build_%/Makefile
 # Build using cmake
 .PHONY: build-debug build-release
 build-debug build-release: build-%: cmake-%
-	@cmake --build build_debug -j $(shell nproc) --target=KRPG
+	@cmake --build build_$* -j $(shell nproc) --target=KRPG
 
 # Run after build-debug
-.PHONY: run
-run: build-debug
-	./build_debug/KRPG
+.PHONY: run-debug run-release
+run-debug run-release: run-%: build-%
+	@./build_$*/KRPG
 
 # ==================== Editor ==================== #
 # Debug cmake configuration
@@ -54,8 +54,8 @@ editor: editor-build-debug
 	./build_debug/editor/KRPG_editor
 
 # Cleanup data
-.PHONY: dist-clean
-dist-clean:
+.PHONY: clean
+clean:
 	@rm -rf build_*
 
 # Format the sources
