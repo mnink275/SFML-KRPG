@@ -15,7 +15,7 @@ void MeleeCollision::handleCollisionWith(SceneNode* owner_node,
     case NodeCategory::kUnit: {
       const auto* unit = dynamic_cast<const Unit*>(node);
       ASSERT(unit);
-      if (melee->getOwner() != unit->GetOwnerType()) {
+      if (melee->getOwner() != unit->getOwnerType()) {
         melee->addDamaged(node);
       }
       break;

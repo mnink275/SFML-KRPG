@@ -45,7 +45,7 @@ void Unit::handleInput(CommandQueue<NodeCommand>& commands,
   input->handleInput(commands, key, is_pressed);
 }
 
-Owner Unit::GetOwnerType() const noexcept { return owner_; }
+Owner Unit::getOwnerType() const noexcept { return owner_; }
 
 void Unit::selfDamage(std::size_t value) {
   auto combat = manager_.findComponent<component::CombatComponent>();

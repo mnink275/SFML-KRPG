@@ -74,7 +74,7 @@ RoomManager::RoomManager(SceneNode& scene_graph, sf::FloatRect world_bounds,
 
 void RoomManager::attachUnit(std::unique_ptr<Unit> unit) {
   // connect entities to the Graph
-  if (unit->GetOwnerType() == Owner::kPlayer) {
+  if (unit->getOwnerType() == Owner::kPlayer) {
     room_nodes_[curr_room_id_]->setPlayer(std::move(unit));
   } else {
     room_nodes_[curr_room_id_]->attachChild(std::move(unit));

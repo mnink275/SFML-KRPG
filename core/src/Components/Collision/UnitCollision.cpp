@@ -17,7 +17,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
     case NodeCategory::kBullet: {
       const auto* bullet = dynamic_cast<const combat::Projectile*>(node);
       ASSERT(bullet);
-      if (unit->GetOwnerType() != bullet->getOwner()) {
+      if (unit->getOwnerType() != bullet->getOwner()) {
         unit->selfDamage(bullet->getDamage());
       }
       break;
@@ -25,7 +25,7 @@ void UnitCollision::handleCollisionWith(SceneNode* owner_node,
     case NodeCategory::kMelee: {
       const auto* melee = dynamic_cast<const combat::Melee*>(node);
       ASSERT(melee);
-      if (unit->GetOwnerType() != melee->getOwner()) {
+      if (unit->getOwnerType() != melee->getOwner()) {
         unit->selfDamage(melee->getDamage(unit));
       }
       break;
