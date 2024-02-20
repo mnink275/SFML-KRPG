@@ -25,15 +25,17 @@ class CommandQueue final {
 
   void handle(std::function<void(const CommandType&, sf::Time)> func,
               sf::Time dt) {
-    for (std::size_t i = 0; i < getSize(); ++i) {
+    while (!isEmpty()) {
       auto command = pop();
       command.delay -= dt;
       if (command.delay <= sf::Time::Zero) {
         func(command, dt);
       } else {
-        push(command);
+        delayed_tasks_.push(command);
       }
     }
+
+    std::swap(queue_, delayed_tasks_);
   }
 
   [[nodiscard]] bool isEmpty() const { return queue_.empty(); }
@@ -49,6 +51,7 @@ class CommandQueue final {
 
  private:
   std::queue<CommandType> queue_;
+  std::queue<CommandType> delayed_tasks_;
 };
 
 }  // namespace ink
