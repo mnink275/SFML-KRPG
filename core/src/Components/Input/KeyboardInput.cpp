@@ -67,39 +67,26 @@ struct EnableInteractionCommand final {
 }  // namespace
 
 KeyboardInput::KeyboardInput() {
-  // TODO: monadic-style command creating
-  createCommand(sf::Keyboard::A, ComponentCategory::kPhysics,
-                SendTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}}));
-  createCommand(
-      sf::Keyboard::A, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
-  createCommand(sf::Keyboard::A, ComponentCategory::kGraphics,
-                SendTo<GraphicsComponent>(
-                    EyesDirectionChangeCommand{EyesDirection::kLeft}));
+  ForKey(sf::Keyboard::A)
+    .BindCommandTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}})
+    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving})
+    .BindCommandTo<GraphicsComponent>(EyesDirectionChangeCommand{EyesDirection::kLeft});
 
-  createCommand(sf::Keyboard::D, ComponentCategory::kPhysics,
-                SendTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}}));
-  createCommand(
-      sf::Keyboard::D, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
-  createCommand(sf::Keyboard::D, ComponentCategory::kGraphics,
-                SendTo<GraphicsComponent>(
-                    EyesDirectionChangeCommand{EyesDirection::kRight}));
+  ForKey(sf::Keyboard::D)
+    .BindCommandTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}})
+    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving})
+    .BindCommandTo<GraphicsComponent>(EyesDirectionChangeCommand{EyesDirection::kRight});
 
-  createCommand(sf::Keyboard::W, ComponentCategory::kPhysics,
-                SendTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}}));
-  createCommand(
-      sf::Keyboard::W, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
+  ForKey(sf::Keyboard::W)
+    .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}})
+    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving});
 
-  createCommand(sf::Keyboard::S, ComponentCategory::kPhysics,
-                SendTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}}));
-  createCommand(
-      sf::Keyboard::S, ComponentCategory::kGraphics,
-      SendTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving}));
+  ForKey(sf::Keyboard::S)
+    .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}})
+    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving});
 
-  createCommand(sf::Keyboard::Space, ComponentCategory::kCombat,
-                SendTo<CombatComponent>(FireCommand{}));
+  ForKey(sf::Keyboard::Space)
+    .BindCommandTo<CombatComponent>(FireCommand{});
 
   do_idle_.category = ComponentCategory::kGraphics;
   do_idle_.action =

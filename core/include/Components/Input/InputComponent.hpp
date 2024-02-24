@@ -12,6 +12,12 @@
 
 namespace ink::component {
 
+// TODO: change to IsComponentType
+template <class ComponentType>
+concept HasCategory = requires {
+    ComponentType::kCategory;
+};
+
 class InputComponent : public Component {
  public:
   static constexpr auto kCategory = ComponentCategory::kInput;
@@ -26,13 +32,32 @@ class InputComponent : public Component {
   virtual void handleRealtimeInput(sf::Time dt,
                                    CommandQueue<NodeCommand>& commands) = 0;
 
- protected:
-  void createCommand(sf::Keyboard::Key key,
-                     ComponentCommand::Receiver receiver_category,
-                     const ComponentCommand::Action& action);
+ private:
+  using KeyToCommandsMap = std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>;
+  class MonadicHelper final {
+   public:
+    MonadicHelper(sf::Keyboard::Key key, KeyToCommandsMap& key_commands) noexcept
+        : key_(key), key_commands_(key_commands) {}
 
-  std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>
-      commands_;
+    template <HasCategory TComponent, class Command>
+    MonadicHelper BindCommandTo(Command&& command) const && {
+      key_commands_[key_].emplace_back(
+        TComponent::kCategory,
+        SendTo<TComponent>(std::forward<Command>(command)));
+      return *this;
+    }
+
+   private:
+    sf::Keyboard::Key key_;
+    KeyToCommandsMap& key_commands_;
+  };
+
+ protected:
+  MonadicHelper ForKey(sf::Keyboard::Key key) noexcept {
+    return MonadicHelper{key, commands_};
+  }
+
+  KeyToCommandsMap commands_;
 };
 
 }  // namespace ink::component
