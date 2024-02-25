@@ -12,12 +12,6 @@
 
 namespace ink::component {
 
-// TODO: change to IsComponentType
-template <class ComponentType>
-concept HasCategory = requires {
-    ComponentType::kCategory;
-};
-
 class InputComponent : public Component {
  public:
   static constexpr auto kCategory = ComponentCategory::kInput;
@@ -39,7 +33,7 @@ class InputComponent : public Component {
     MonadicHelper(sf::Keyboard::Key key, KeyToCommandsMap& key_commands) noexcept
         : key_(key), key_commands_(key_commands) {}
 
-    template <HasCategory TComponent, class Command>
+    template <CoreComponent TComponent, class Command>
     MonadicHelper BindCommandTo(Command&& command) const && {
       key_commands_[key_].emplace_back(
         TComponent::kCategory,

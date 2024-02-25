@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #include <SFML/System/Time.hpp>
 
 #include <Commands/Category/ComponentCategory.hpp>
@@ -29,6 +31,13 @@ class Component {
  private:
   ComponentCategory category_;
   CommandQueue<ComponentCommand>* command_queue_;
+};
+
+template <class ComponentType>
+concept CoreComponent = requires {
+    ComponentType::kCategory;
+    ComponentType::kName;
+    std::convertible_to<ComponentType, Component>;
 };
 
 }  // namespace ink::component
