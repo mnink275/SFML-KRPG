@@ -20,7 +20,8 @@ bool Door::nearOf(sf::Vector2f player_position) const {
   const float shift_y = std::abs(player_position.y - coords.y);
   const float radius = std::sqrt(shift_x * shift_x + shift_y * shift_y);
 
-  return radius < 100.0f;
+  static constexpr auto kInteractionDistance = 100.0f;
+  return radius < kInteractionDistance;
 }
 
 sf::Vector2f Door::getDoorOtherSidePosition() const {

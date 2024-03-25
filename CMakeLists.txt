@@ -24,3 +24,10 @@ add_executable(
 target_link_libraries(
     ${PROJECT_NAME} ${PROJECT_NAME}_objs sfml-graphics fmt
 )
+
+if (TESTS_ENABLED)
+    include(CTest)
+    add_subdirectory(test)
+    message(STATUS "Tests enabled!")
+endif()
+
