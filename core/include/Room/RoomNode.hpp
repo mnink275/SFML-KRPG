@@ -20,7 +20,7 @@ class RoomNode final : public SceneNode {
  public:
   // TODO: make TextureHolder& and Texture& const refs
   RoomNode(NodeCategory category, TextureHolder& texture_holder,
-           sf::Texture& texture, sf::FloatRect bounds, std::size_t room_id,
+           sf::Texture& texture, sf::FloatRect bounds,
            std::vector<sf::FloatRect> walls, const float wall_thickness);
 
   void setPlayer(Ptr player);
@@ -41,7 +41,6 @@ class RoomNode final : public SceneNode {
   // order: top = 0, right = 1, bottom = 2, left = 3
   std::array<Door*, ConnectionsCount> doors_storage_;
   std::array<std::size_t, ConnectionsCount> connected_rooms_;
-  std::size_t room_id_;
   const float wall_thickness_;
 };
 

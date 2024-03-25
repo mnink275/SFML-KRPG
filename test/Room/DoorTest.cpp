@@ -14,8 +14,8 @@ TEST(Door, nearOf) {
   const auto door_pos = sf::Vector2f{0.0f, 0.0f};
   const auto opposite_door_pos = sf::Vector2f{};
   auto door = std::make_unique<Door>(
-      ComponentManager{std::make_unique<component::EmptyGraphics>()},
-      door_pos, opposite_door_pos, NodeCategory::kDoor);
+      ComponentManager{std::make_unique<component::EmptyGraphics>()}, door_pos,
+      opposite_door_pos, NodeCategory::kDoor);
 
   EXPECT_TRUE(door->nearOf(door_pos));
 

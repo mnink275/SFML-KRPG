@@ -14,14 +14,12 @@ namespace ink {
 
 RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
                    sf::Texture& texture, sf::FloatRect bounds,
-                   std::size_t room_id, std::vector<sf::FloatRect> walls,
-                   const float wall_thickness)
+                   std::vector<sf::FloatRect> walls, const float wall_thickness)
     : SceneNode(category),
       texture_(texture_holder),
       room_bounds_(bounds.width, bounds.height),
       doors_storage_(),
       connected_rooms_(),
-      room_id_(room_id),
       wall_thickness_(wall_thickness) {
   // prepare the tiled background
   sf::IntRect background_texture_rect(bounds);

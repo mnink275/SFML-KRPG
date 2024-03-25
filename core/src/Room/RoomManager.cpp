@@ -134,13 +134,13 @@ std::size_t RoomManager::createRoom(std::size_t room_type_id) {
   fmt::println("New room id: {}", room_type_id);
   const auto texture_type = static_cast<Textures>(room_type_id);
 
-  auto room_id = rooms_count_++;
   auto room = std::make_unique<RoomNode>(
       NodeCategory::kRoom, textures_, textures_.get(texture_type),
-      world_bounds_, room_id, walls_, wall_thickness_);
+      world_bounds_, walls_, wall_thickness_);
   room_nodes_.push_back(room.get());
   room_storage_.push_back(std::move(room));
 
+  auto room_id = rooms_count_++;
   return room_id;
 }
 
