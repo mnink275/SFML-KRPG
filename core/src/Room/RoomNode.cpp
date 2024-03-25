@@ -36,10 +36,10 @@ RoomNode::RoomNode(NodeCategory category, TextureHolder& texture_holder,
   attachChild(std::move(background_sprite));
 
   buildWalls(std::move(walls));
-  doorsInitialize();
+  doorsInit();
 }
 
-void RoomNode::doorsInitialize() {
+void RoomNode::doorsInit() {
   // TODO: simplify
 
   // door position constants
@@ -64,14 +64,13 @@ void RoomNode::doorsInitialize() {
       ConnectionType::Right};
   // doors factory
   for (std::size_t dir_id = 0; dir_id < ConnectionsCount; ++dir_id) {
-    const auto direction_type = static_cast<ConnectionType>(dir_id);
     const auto transition_type = transition[dir_id];
 
     auto door = std::make_unique<Door>(
         ComponentManager{std::make_unique<component::SimpleGraphics>(
             texture_.get(Textures::kDoor), sf::IntRect{door_sizes[dir_id]},
             true)},
-        direction_type, door_positions[dir_id],
+        door_positions[dir_id],
         door_positions[static_cast<std::size_t>(transition_type)],
         NodeCategory::kDoor);
     doors_storage_[dir_id] = door.get();

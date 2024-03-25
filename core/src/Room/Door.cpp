@@ -5,11 +5,9 @@
 
 namespace ink {
 
-Door::Door(ComponentManager manager, ConnectionType door_type,
-           sf::Vector2f coords, sf::Vector2f transition_coords,
-           NodeCategory category)
+Door::Door(ComponentManager manager, sf::Vector2f coords,
+           sf::Vector2f transition_coords, NodeCategory category)
     : GameObject(std::move(manager), category),
-      door_type_(door_type),
       other_side_position_(transition_coords) {
   setPosition(coords);
 }

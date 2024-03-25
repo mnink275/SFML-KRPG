@@ -14,7 +14,6 @@ namespace ink {
 
 class RoomNode final : public SceneNode {
  public:
-  using DoorPtr = std::unique_ptr<Door>;
   using InteractionResult =
       std::variant<std::monostate, std::size_t, ConnectionType>;
 
@@ -33,7 +32,7 @@ class RoomNode final : public SceneNode {
  private:
   enum Layer { Background, Player, LayerCount };
 
-  void doorsInitialize();
+  void doorsInit();
   void buildWalls(std::vector<sf::FloatRect>&& walls);
 
   TextureHolder& texture_;

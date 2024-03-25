@@ -8,7 +8,7 @@ namespace ink {
 
 class Door final : public GameObject {
  public:
-  Door(ComponentManager manager, ConnectionType door_type, sf::Vector2f coords,
+  Door(ComponentManager manager, sf::Vector2f coords,
        sf::Vector2f transition_coords, NodeCategory category);
 
   bool nearOf(sf::Vector2f player_position) const;
@@ -19,7 +19,6 @@ class Door final : public GameObject {
 
  private:
   bool is_active_{false};
-  ConnectionType door_type_;
   sf::Vector2f other_side_position_;
 };
 
