@@ -68,25 +68,30 @@ struct EnableInteractionCommand final {
 
 KeyboardInput::KeyboardInput() {
   ForKey(sf::Keyboard::A)
-    .BindCommandTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}})
-    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving})
-    .BindCommandTo<GraphicsComponent>(EyesDirectionChangeCommand{EyesDirection::kLeft});
+      .BindCommandTo<PhysicsComponent>(MoveCommand{{-1.f, 0.f}})
+      .BindCommandTo<GraphicsComponent>(
+          StateChangeCommand{ObjectState::kMoving})
+      .BindCommandTo<GraphicsComponent>(
+          EyesDirectionChangeCommand{EyesDirection::kLeft});
 
   ForKey(sf::Keyboard::D)
-    .BindCommandTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}})
-    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving})
-    .BindCommandTo<GraphicsComponent>(EyesDirectionChangeCommand{EyesDirection::kRight});
+      .BindCommandTo<PhysicsComponent>(MoveCommand{{1.f, 0.f}})
+      .BindCommandTo<GraphicsComponent>(
+          StateChangeCommand{ObjectState::kMoving})
+      .BindCommandTo<GraphicsComponent>(
+          EyesDirectionChangeCommand{EyesDirection::kRight});
 
   ForKey(sf::Keyboard::W)
-    .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}})
-    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving});
+      .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, -1.f}})
+      .BindCommandTo<GraphicsComponent>(
+          StateChangeCommand{ObjectState::kMoving});
 
   ForKey(sf::Keyboard::S)
-    .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}})
-    .BindCommandTo<GraphicsComponent>(StateChangeCommand{ObjectState::kMoving});
+      .BindCommandTo<PhysicsComponent>(MoveCommand{{0.f, 1.f}})
+      .BindCommandTo<GraphicsComponent>(
+          StateChangeCommand{ObjectState::kMoving});
 
-  ForKey(sf::Keyboard::Space)
-    .BindCommandTo<CombatComponent>(FireCommand{});
+  ForKey(sf::Keyboard::Space).BindCommandTo<CombatComponent>(FireCommand{});
 
   do_idle_.category = ComponentCategory::kGraphics;
   do_idle_.action =

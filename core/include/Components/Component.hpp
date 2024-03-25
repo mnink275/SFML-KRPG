@@ -35,9 +35,9 @@ class Component {
 
 template <class ComponentType>
 concept CoreComponent = requires {
-    ComponentType::kCategory;
-    ComponentType::kName;
-    std::convertible_to<ComponentType, Component>;
+  ComponentType::kCategory;
+  ComponentType::kName;
+  std::convertible_to<ComponentType, Component>;
 };
 
 }  // namespace ink::component

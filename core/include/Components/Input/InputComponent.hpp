@@ -27,17 +27,19 @@ class InputComponent : public Component {
                                    CommandQueue<NodeCommand>& commands) = 0;
 
  private:
-  using KeyToCommandsMap = std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>;
+  using KeyToCommandsMap =
+      std::unordered_map<sf::Keyboard::Key, std::vector<ComponentCommand>>;
   class MonadicHelper final {
    public:
-    MonadicHelper(sf::Keyboard::Key key, KeyToCommandsMap& key_commands) noexcept
+    MonadicHelper(sf::Keyboard::Key key,
+                  KeyToCommandsMap& key_commands) noexcept
         : key_(key), key_commands_(key_commands) {}
 
     template <CoreComponent TComponent, class Command>
-    MonadicHelper BindCommandTo(Command&& command) const && {
+    MonadicHelper BindCommandTo(Command&& command) const&& {
       key_commands_[key_].emplace_back(
-        TComponent::kCategory,
-        SendTo<TComponent>(std::forward<Command>(command)));
+          TComponent::kCategory,
+          SendTo<TComponent>(std::forward<Command>(command)));
       return *this;
     }
 
