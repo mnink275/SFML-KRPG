@@ -1,4 +1,4 @@
-# Simple RPG game (in progress)
+# Simple RPG game (WIP)
 
 - The [SFML](https://github.com/SFML) library is used for graphics.
 
